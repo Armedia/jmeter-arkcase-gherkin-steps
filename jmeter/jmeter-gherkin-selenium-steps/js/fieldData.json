@@ -16,23 +16,23 @@
                         "locator": "<from-parent-form-css> input[ng-model=\"patientType\"][value=\"existing\"]",
                         "value": "existing"
                     },
-                    "orderInfo.patient.familyName": {
+                    "Last Name": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.familyName\"]"
                     },
-                    "orderInfo.patient.givenName": {
+                    "First Name": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.givenName\"]"
                     },
-                    "orderInfo.patient.middleInitials": {
+                    "M.I.": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.middleInitials\"]"
                     },
-                    "dateOfBirth": {
+                    "FIXME::dateOfBirth": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"dateOfBirth\"]"
                     },
-                    "orderInfo.patient.medicalRecordNumber": {
+                    "MRN": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.medicalRecordNumber\"]"
                     },
@@ -54,11 +54,11 @@
                             }
                         ]
                     },
-                    "orderInfo.patient.addresses[0].streetAddress": {
+                    "Address": {
                         "type": "textarea",
                         "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.patient.addresses[0].streetAddress\"]"
                     },
-                    "orderInfo.patient.addresses[0].city": {
+                    "City": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.addresses[0].city\"]"
                     },
@@ -308,7 +308,7 @@
                             }
                         ]
                     },
-                    "orderInfo.patient.addresses[0].zip": {
+                    "ZIP": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.addresses[0].zip\"]"
                     },
@@ -330,15 +330,15 @@
                             }
                         ]
                     },
-                    "contacts.defaultPhone": {
+                    "Phone Number": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.defaultPhone\"]"
                     },
-                    "contacts.phone": {
+                    "Alt Phone Number": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.phone\"]"
                     },
-                    "contacts.email": {
+                    "Email Address": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
                     },
@@ -364,15 +364,15 @@
                             }
                         ]
                     },
-                    "orderInfo.certificationNumber": {
+                    "Certification Number": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.certificationNumber\"]"
                     },
-                    "expirationDate": {
+                    "FIXME::expirationDate": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"expirationDate\"]"
                     },
-                    "orderInfo.custodialReference": {
+                    "Custodial Reference": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.custodialReference\"]"
                     }
@@ -526,7 +526,7 @@
                             }
                         ]
                     },
-                    "orderInfo.validBarcodeFlag": {
+                    "FIXME::orderInfo.validBarcodeFlag": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.validBarcodeFlag\"]"
                     },
@@ -556,11 +556,11 @@
                             }
                         ]
                     },
-                    "receivedDate": {
+                    "FIXME::receivedDate": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"receivedDate\"]"
                     },
-                    "orderInfo.externalSystemId": {
+                    "External System ID": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.externalSystemId\"]"
                     }
@@ -570,7 +570,7 @@
                 "source": "modules/orders/views/components/order-payment.client.view.html",
                 "locator": "<parent-tab> form[name=\"Deposit Information\"",
                 "fields": {
-                    "orderInfo.paymentAmount": {
+                    "Deposit Amount": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.paymentAmount\"]"
                     },
@@ -604,7 +604,7 @@
                             }
                         ]
                     },
-                    "orderInfo.paymentMethodNumber": {
+                    "Method Number": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.paymentMethodNumber\"]"
                     }
@@ -869,15 +869,15 @@
                         "locator": "<from-parent-form-css> input[ng-model=\"billingType\"][value=\"asRequester\"]",
                         "value": "asRequester"
                     },
-                    "orderInfo.billingInfo.attention": {
+                    "Attention": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billingInfo.attention\"]"
                     },
-                    "contacts.email": {
+                    "Email Address": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
                     },
-                    "contacts.fax": {
+                    "Fax Number": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.fax\"]"
                     }
@@ -906,11 +906,11 @@
                         "type": "checkbox",
                         "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Send Notifications to these addresses?']/input[@type='checkbox']"
                     },
-                    "orderInfo.notificationEmail": {
+                    "Notification Address": {
                         "type": "email",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmail\"]"
                     },
-                    "orderInfo.ccNotificationEmail": {
+                    "CC Address": {
                         "type": "email",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.ccNotificationEmail\"]"
                     }
@@ -945,11 +945,11 @@
                         "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asOtherRequester\"]",
                         "value": "asOtherRequester"
                     },
-                    "orderInfo.shippingInfo.addresses[0].streetAddress": {
+                    "Address": {
                         "type": "textarea",
                         "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.shippingInfo.addresses[0].streetAddress\"]"
                     },
-                    "orderInfo.shippingInfo.addresses[0].city": {
+                    "City": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.addresses[0].city\"]"
                     },
@@ -1199,7 +1199,7 @@
                             }
                         ]
                     },
-                    "orderInfo.shippingInfo.addresses[0].zip": {
+                    "ZIP": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.addresses[0].zip\"]"
                     },
@@ -1225,27 +1225,27 @@
                         "type": "checkbox",
                         "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Certified Mail']/input[@type='checkbox']"
                     },
-                    "orderInfo.shippingInfo.companyName": {
+                    "Company Name": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.companyName\"]"
                     },
-                    "orderInfo.shippingInfo.attention": {
+                    "Attention": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.attention\"]"
                     },
-                    "contacts.phone": {
+                    "Phone Number": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.phone\"]"
                     },
-                    "contacts.email": {
+                    "Email Address": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
                     },
-                    "contacts.confirmationEmail": {
+                    "Confirm Email Address": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.confirmationEmail\"]"
                     },
-                    "contacts.fax": {
+                    "Fax Number": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.fax\"]"
                     },
@@ -1302,11 +1302,11 @@
                             }
                         ]
                     },
-                    "dueDate": {
+                    "FIXME::dueDate": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"dueDate\"]"
                     },
-                    "depositionDate": {
+                    "FIXME::depositionDate": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"depositionDate\"]"
                     },
@@ -1314,7 +1314,7 @@
                         "type": "checkbox",
                         "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Signature Present']/input[@type='checkbox']"
                     },
-                    "signatureDate": {
+                    "FIXME::signatureDate": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"signatureDate\"]"
                     },
@@ -1385,15 +1385,15 @@
                 "source": "modules/orders/views/components/order-legacy.client.view.html",
                 "locator": "<parent-tab> form[name=\"Legacy\"",
                 "fields": {
-                    "orderInfo.creator": {
+                    "Creator/Field Agent": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.creator\"]"
                     },
-                    "orderInfo.requestId": {
+                    "RMS Request ID": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requestId\"]"
                     },
-                    "orderInfo.recordSource": {
+                    "Record Source": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.recordSource\"]"
                     }
@@ -1403,19 +1403,19 @@
                 "source": "modules/orders/views/components/order-project-specifics.client.view.html",
                 "locator": "<parent-tab> form[name=\"Project Specifics\"",
                 "fields": {
-                    "orderInfo.projectId": {
+                    "Project ID": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.projectId\"]"
                     },
-                    "orderInfo.batch.batchNumber": {
+                    "Batch #": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.batch.batchNumber\"]"
                     },
-                    "orderInfo.requesterCaseNumber1": {
+                    "Reference ID 1": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requesterCaseNumber1\"]"
                     },
-                    "orderInfo.requesterCaseNumber2": {
+                    "Reference ID 2": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requesterCaseNumber2\"]"
                     }
@@ -1641,95 +1641,95 @@
                 "source": "modules/orders/views/components/order-emr-import.client.view.html",
                 "locator": "<parent-tab> form[name=\"EMR Import\"",
                 "fields": {
-                    "orderInfo.emrImport.unknownPatient": {
+                    "Unknown Patient": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.unknownPatient\"]"
                     },
-                    "orderInfo.emrImport.releaseType": {
+                    "Release Type": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.releaseType\"]"
                     },
-                    "orderInfo.emrImport.requesterName": {
+                    "Requester Name": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterName\"]"
                     },
-                    "orderInfo.emrImport.requesterAttentionTo": {
+                    "Requester Attention to": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterAttentionTo\"]"
                     },
-                    "orderInfo.emrImport.requesterAddress": {
+                    "Requester Address": {
                         "type": "textarea",
                         "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.emrImport.requesterAddress\"]"
                     },
-                    "orderInfo.emrImport.requesterCity": {
+                    "Requester City": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterCity\"]"
                     },
-                    "orderInfo.emrImport.requesterState": {
+                    "Requester State": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterState\"]"
                     },
-                    "orderInfo.emrImport.requesterZip": {
+                    "Requester Zip": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterZip\"]"
                     },
-                    "orderInfo.emrImport.requesterPhone": {
+                    "Requester Phone": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterPhone\"]"
                     },
-                    "orderInfo.emrImport.requesterFax": {
+                    "Requester Fax": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterFax\"]"
                     },
-                    "orderInfo.emrImport.requesterId": {
+                    "Requester ID": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterId\"]"
                     },
-                    "orderInfo.emrImport.chartType": {
+                    "Chart Type": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.chartType\"]"
                     },
-                    "orderInfo.emrImport.informationRequested": {
+                    "Information Requested": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.informationRequested\"]"
                     },
-                    "orderInfo.emrImport.purpose": {
+                    "Purpose": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.purpose\"]"
                     },
-                    "orderInfo.emrImport.priority": {
+                    "Priority": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.priority\"]"
                     },
-                    "orderInfo.emrImport.dateNeeded": {
+                    "Date Needed": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.dateNeeded\"]"
                     },
-                    "orderInfo.emrImport.requestedFormat": {
+                    "Requested Format": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requestedFormat\"]"
                     },
-                    "orderInfo.emrImport.saveAsImageFilePath": {
+                    "Save as Image File Path": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.saveAsImageFilePath\"]"
                     },
-                    "orderInfo.emrImport.saveAsImageFileName": {
+                    "Save as Image File Name": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.saveAsImageFileName\"]"
                     },
-                    "orderInfo.emrImport.releaseStatus": {
+                    "Release Status": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.releaseStatus\"]"
                     },
-                    "orderInfo.emrImport.processorUserId": {
+                    "Processor User ID": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.processorUserId\"]"
                     },
-                    "orderInfo.emrImport.epicRequesterId": {
+                    "Epic Requester ID": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.epicRequesterId\"]"
                     },
-                    "orderInfo.emrImport.comments": {
+                    "Comments": {
                         "type": "textarea",
                         "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.emrImport.comments\"]"
                     }

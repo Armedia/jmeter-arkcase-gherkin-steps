@@ -48,6 +48,7 @@ $('ng-form[name="createNewOrderForm"] div.tab-pane ng-form').each(function (tabI
 			// $(this).find( ... );
 
 			var label = model;
+
 			var locator = `<from-parent-form-css> ${tag}[ng-model="${model}"]`;
 			var value = "";
 			var options = null;
@@ -75,14 +76,20 @@ $('ng-form[name="createNewOrderForm"] div.tab-pane ng-form').each(function (tabI
 					};
 					options.push(o);
 				});
-                var labelTag = document.xpath("preceding-sibling::label", this);
-                if (labelTag) label = normalize(labelTag[0].textContent);
 				// We avoid select fields with no options
 				if (options.length < 1) return;
+
+                var labelTag = document.xpath("preceding-sibling::label", this);
+                if (labelTag) label = normalize(labelTag[0].textContent);
+			} else {
+				// First, try the preceding sibling...maybe we'll get lucky!
+	            var labelTag = document.xpath("preceding-sibling::label", this);
+	            if (labelTag) label = normalize(labelTag[0].textContent);
 			}
 
 			// Remove the "required" asterisk
 			if (label.endsWith(" *")) label = label.replace(/ \*$/g, "");
+			if (label == model) label = `FIXME::${label}`;
 
 			var field = {
 				"type" : type,
