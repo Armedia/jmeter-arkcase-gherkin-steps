@@ -1,6 +1,6 @@
 /*******************************************************************************
  * #%L
- * Armedia JMeter Gherkin Plugin
+ * Armedia ArkCase
  * %%
  * Copyright (C) 2020 Armedia, LLC
  * %%
