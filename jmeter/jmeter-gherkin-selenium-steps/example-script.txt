@@ -1,0 +1,73 @@
+REQUEST PROMOTION FROM EACH QUEUE WITH ‘COMPLETE TASK’
+
+PROMOTE REQUEST FROM TRANSCRIBE QUEUE TO FULFILL
+
+Login to App as Admin user (admin users can see all queues, example user: iarnold)
+Navigate to QUEUES-> Transcribe
+Sort the columns by Date Created, Descending
+Select the first request (which is with the latest date)
+The selected request opens in new tab and the user is redirected
+Under Create tab, select  Request Specifics
+Select Bill To -> Bill To Client (There are 2 options. In this case select: Bill to Client)
+Select Record Type -> Billing (There are several options , In this case: Billing)
+Select Complete Task
+
+Result: Request should be promoted to status: Fulfill, fulfill state
+
+PROMOTE REQUEST FROM FULFILL QUEUE TO ARCHIVE
+
+Login to App as Admin user
+Navigate to QUEUES-> Fulfill
+Sort the column by Date Created, Descending
+Select the first request (which is with the latest date)
+The selected request opens in new tab is redirected
+Select  Shipping&Billing in the right panel
+Select Request Specifics (there are 3 options: Existing Requester, New requester, As Patient
+In the search box enter TEST-3 and click Search
+Select the filtered result which has the exact ID=TEST-3
+Select Add
+Select Details (next to shipping&billing)
+Select Authorization Specific tab
+For the Request type select Authorization
+For Request Subtype select Continue Care
+Select Complete task
+
+Result : Request should be promoted to status: Archive
+
+
+PROMOTE REQUEST FROM QUALITY CONTROL QUEUE
+
+Login to App as Admin user
+Navigate to QUEUES-> Quality Control
+Sort the columns by Date Created, Descending
+Select the first request (which is with the latest date)
+The selected request opens in new tab
+Select Create tab
+Select Request Specifics
+Select Bill to Client
+Select Complete Task
+
+Result: Request should be promoted to status: Archive
+
+PROMOTE REQUEST FROM REVIEW QUEUE
+
+Login to App as Admin user
+Navigate to QUEUES-> Review
+Sort the columns by Request Entered Review Date, Descending
+Select the first request (which is with the latest date that entered Review queue)
+The selected request opens in new tab
+Select Complete Task
+
+Result: Request should be promoted to status: Archive
+
+PROMOTE REQUEST FROM DISTRIBUTION QUEUE
+
+Login to App as Admin user
+Navigate to QUEUES-> Distribution
+Sort the columns by Request Entered Distribution Date, Descending
+Select the first request (which is with the latest date that entered Review queue)
+The selected request opens in new tab
+Select Complete Task
+
+Result: Request should be promoted to status: Archive
+
