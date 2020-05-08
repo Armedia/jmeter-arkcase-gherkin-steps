@@ -24,9 +24,9 @@
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  *******************************************************************************/
-package com.arkcase.sim.gherkin.jbehave.steps.components;
+package com.arkcase.sim.gherkin.steps.components;
 
-import com.arkcase.sim.gherkin.jbehave.steps.selenium.BasicWebDriverSteps;
+import com.arkcase.sim.gherkin.steps.selenium.BasicWebDriverSteps;
 
 public class ComponentSteps extends BasicWebDriverSteps {
 }

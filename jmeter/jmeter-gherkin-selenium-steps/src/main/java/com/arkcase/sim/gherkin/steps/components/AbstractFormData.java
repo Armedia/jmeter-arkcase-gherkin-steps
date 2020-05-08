@@ -24,7 +24,7 @@
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  *******************************************************************************/
-package com.arkcase.sim.gherkin.jbehave.steps.components;
+package com.arkcase.sim.gherkin.steps.components;
 
 import java.util.Collections;
 import java.util.HashSet;

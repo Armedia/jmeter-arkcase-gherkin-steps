@@ -24,7 +24,7 @@
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  *******************************************************************************/
-package com.arkcase.sim.gherkin.jbehave.steps.components;
+package com.arkcase.sim.gherkin.steps.components;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jbehave.core.annotations.Alias;
@@ -34,9 +34,9 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.arkcase.commons.jmeter.gherkin.jmeter.GherkinContext;
 import com.arkcase.sim.components.html.TextBoxHelper;
 import com.arkcase.sim.tools.ExpectedConditionTools;
+import com.armedia.commons.jmeter.gherkin.GherkinContext;
 
 public class LoginPageSteps extends ComponentSteps {
 
