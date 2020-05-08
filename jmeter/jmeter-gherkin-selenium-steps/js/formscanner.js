@@ -1,7 +1,7 @@
 (function(document) {
-    document.scanAcmForm = function(form) {
+    document.scanAcmForm = function(root, targetName) {
     	var fieldData = {};
-    	$(form).each(function (tabIndex) {
+    	$(root).each(function (tabIndex) {
     		var tabObj = {};
     		var tabName = this.getAttribute("name");
     		tabObj["locator"] = `<all-tabs-container> ng-form[name="${tabName}"]`;
@@ -109,6 +109,9 @@
     			fieldData[tabName] = tabObj;
     		}
     	});
-    	console.save(fieldData, "fieldData.json");
+    	if (!jQuery.isEmptyObject(fieldData)) {
+    		if (!targetName) targetName = "fields.json";
+    		console.save(fieldData, targetName);
+    	}
     }
 })(document);
