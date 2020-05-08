@@ -26,7 +26,7 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
-import com.arkcase.sim.gherkin.steps.selenium.BasicWebDriverSteps;
+import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
 
 public class ComponentSteps extends BasicWebDriverSteps {
 }

@@ -24,7 +24,7 @@
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  *******************************************************************************/
-package com.arkcase.sim.gherkin.steps.selenium;
+package com.arkcase.sim.gherkin.steps;
 
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Aliases;
