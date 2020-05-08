@@ -6,12 +6,12 @@
                 "source": "modules/orders/views/components/patient-info.client.view.html",
                 "locator": "<parent-tab> form[name=\"Patient Specifics\"",
                 "fields": {
-                    "patientType.new": {
+                    "New Patient": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"patientType\"][value=\"new\"]",
                         "value": "new"
                     },
-                    "patientType.existing": {
+                    "Existing Patient": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"patientType\"][value=\"existing\"]",
                         "value": "existing"
@@ -36,7 +36,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.medicalRecordNumber\"]"
                     },
-                    "orderInfo.patient.gender": {
+                    "Gender": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.gender\"]",
                         "options": [
@@ -62,7 +62,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.addresses[0].city\"]"
                     },
-                    "orderInfo.patient.addresses[0].state": {
+                    "State": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.addresses[0].state\"]",
                         "options": [
@@ -312,7 +312,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.addresses[0].zip\"]"
                     },
-                    "orderInfo.patient.addresses[0].country": {
+                    "Country": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.addresses[0].country\"]",
                         "options": [
@@ -342,7 +342,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
                     },
-                    "orderInfo.certificationType": {
+                    "Certification Type": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.certificationType\"]",
                         "options": [
@@ -382,17 +382,17 @@
                 "source": "modules/orders/views/components/order-details.client.view.html",
                 "locator": "<parent-tab> form[name=\"Request Specifics\"",
                 "fields": {
-                    "orderInfo.billTo.bill_to_requester": {
+                    "Bill to Requester": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_requester\"]",
                         "value": "bill_to_requester"
                     },
-                    "orderInfo.billTo.bill_to_client": {
+                    "Bill to Client": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_client\"]",
                         "value": "bill_to_client"
                     },
-                    "orderInfo.priority": {
+                    "Priority": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.priority\"]",
                         "options": [
@@ -410,7 +410,7 @@
                             }
                         ]
                     },
-                    "orderInfo.overrideStatus": {
+                    "Override Status": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.overrideStatus\"]",
                         "options": [
@@ -432,7 +432,7 @@
                             }
                         ]
                     },
-                    "orderInfo.printOption": {
+                    "Handling Option": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.printOption\"]",
                         "options": [
@@ -450,7 +450,7 @@
                             }
                         ]
                     },
-                    "orderInfo.recordType": {
+                    "Record Type": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.recordType\"]",
                         "options": [
@@ -484,7 +484,7 @@
                             }
                         ]
                     },
-                    "selectedProcessingOption": {
+                    "Processing Options": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"selectedProcessingOption\"]",
                         "options": [
@@ -530,7 +530,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.validBarcodeFlag\"]"
                     },
-                    "orderInfo.receivedVia": {
+                    "Received Via": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.receivedVia\"]",
                         "options": [
@@ -574,7 +574,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.paymentAmount\"]"
                     },
-                    "orderInfo.paymentMethod": {
+                    "Deposit Method": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.paymentMethod\"]",
                         "options": [
@@ -614,7 +614,7 @@
                 "source": "modules/orders/views/components/order-activity.client.view.html",
                 "locator": "<parent-tab> form[name=\"Request Activity\"",
                 "fields": {
-                    "orderInfo.pendingState": {
+                    "Pending State": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.pendingState\"]",
                         "options": [
@@ -843,17 +843,17 @@
                 "source": "modules/orders/views/components/requester-info.client.view.html",
                 "locator": "<parent-tab> form[name=\"Requester Specifics\"",
                 "fields": {
-                    "requesterType.existing": {
+                    "Existing Requester": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"existing\"]",
                         "value": "existing"
                     },
-                    "requesterType.new": {
+                    "New Requester": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"new\"]",
                         "value": "new"
                     },
-                    "requesterType.asPatient": {
+                    "As Patient": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"asPatient\"]",
                         "value": "asPatient"
@@ -864,7 +864,7 @@
                 "source": "modules/orders/views/components/billing-info.client.view.html",
                 "locator": "<parent-tab> form[name=\"Billing Contact Specifics\"",
                 "fields": {
-                    "billingType.asRequester": {
+                    "As Requester": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"billingType\"][value=\"asRequester\"]",
                         "value": "asRequester"
@@ -887,17 +887,17 @@
                 "source": "modules/orders/views/components/order-notifications.client.view.html",
                 "locator": "<parent-tab> form[name=\"Email Notifications\"",
                 "fields": {
-                    "orderInfo.notificationEmailType.asRequester": {
+                    "As Requester": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asRequester\"]",
                         "value": "asRequester"
                     },
-                    "orderInfo.notificationEmailType.asPatient": {
+                    "As Patient": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asPatient\"]",
                         "value": "asPatient"
                     },
-                    "orderInfo.notificationEmailType.new": {
+                    "New email": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"new\"]",
                         "value": "new"
@@ -920,27 +920,27 @@
                 "source": "modules/orders/views/components/shipping-info.client.view.html",
                 "locator": "<parent-tab> form[name=\"Shipping Specifics\"",
                 "fields": {
-                    "shippingType.asRequester": {
+                    "As Requester": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asRequester\"]",
                         "value": "asRequester"
                     },
-                    "shippingType.asPatient": {
+                    "As Patient": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asPatient\"]",
                         "value": "asPatient"
                     },
-                    "shippingType.asClient": {
+                    "As Location": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asClient\"]",
                         "value": "asClient"
                     },
-                    "shippingType.new": {
+                    "New": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"new\"]",
                         "value": "new"
                     },
-                    "shippingType.asOtherRequester": {
+                    "As Other Requester": {
                         "type": "radio",
                         "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asOtherRequester\"]",
                         "value": "asOtherRequester"
@@ -953,7 +953,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.addresses[0].city\"]"
                     },
-                    "orderInfo.shippingInfo.addresses[0].state": {
+                    "State": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.shippingInfo.addresses[0].state\"]",
                         "options": [
@@ -1203,7 +1203,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.addresses[0].zip\"]"
                     },
-                    "orderInfo.shippingInfo.addresses[0].country": {
+                    "Country": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.shippingInfo.addresses[0].country\"]",
                         "options": [
@@ -1249,7 +1249,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"contacts.fax\"]"
                     },
-                    "orderInfo.deliveryMethod": {
+                    "Delivery Method": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.deliveryMethod\"]",
                         "options": [
@@ -1282,7 +1282,7 @@
                 "source": "modules/orders/views/components/order-authorization.client.view.html",
                 "locator": "<parent-tab> form[name=\"Authorization Specifics\"",
                 "fields": {
-                    "orderInfo.requestType": {
+                    "Request Type": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.requestType\"]",
                         "options": [
@@ -1292,7 +1292,7 @@
                             }
                         ]
                     },
-                    "orderInfo.requestSubType": {
+                    "Request Subtype": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.requestSubType\"]",
                         "options": [
@@ -1318,7 +1318,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"signatureDate\"]"
                     },
-                    "orderInfo.authorizationType": {
+                    "Authorization Type": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.authorizationType\"]",
                         "options": [
@@ -1425,7 +1425,7 @@
                 "source": "modules/orders/views/components/order-disclosures.client.view.html",
                 "locator": "<parent-tab> form[name=\"Disclosures\"",
                 "fields": {
-                    "orderInfo.disclosureScope": {
+                    "Dates of Service": {
                         "type": "select",
                         "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.disclosureScope\"]",
                         "options": [

@@ -7,6 +7,11 @@ $('ng-form[name="createNewOrderForm"] div.tab-pane ng-form').each(function (tabI
 	var forms = {};
 	tabObj["forms"] = forms;
 
+	var normalize = function(str) {
+		if (!str) return null;
+		return str.trim().replace(/\s+/g, " ");
+	};
+
 	$(this).find('panel-view div.panel-body form').each(function (formIndex) {
 		var formObj = {};
 		var formName = document.xpath("ancestor::div[@ng-if='collapsible']/div[contains(@class, 'panel-heading')]", this)[0].textContent;
@@ -50,7 +55,7 @@ $('ng-form[name="createNewOrderForm"] div.tab-pane ng-form').each(function (tabI
 				// Radio buttons are selected by value
 				value = this.getAttribute("value");
 				locator = `${locator}[value="${value}"]`;
-				label = `${label}.${value}`;
+				label = normalize(this.parentNode.textContent);
 			} else if (type == "checkbox") {
 				label = this.parentNode.textContent.trim().replace(/\s+/g, " ");
 				locator = `<from-parent-form-xpath> .//label[normalize-space(text())='${label}']/input[@type='checkbox']`;
@@ -70,9 +75,14 @@ $('ng-form[name="createNewOrderForm"] div.tab-pane ng-form').each(function (tabI
 					};
 					options.push(o);
 				});
+                var labelTag = document.xpath("preceding-sibling::label", this);
+                if (labelTag) label = normalize(labelTag[0].textContent);
 				// We avoid select fields with no options
 				if (options.length < 1) return;
 			}
+
+			// Remove the "required" asterisk
+			if (label.endsWith(" *")) label = label.replace(/ \*$/g, "");
 
 			var field = {
 				"type" : type,
