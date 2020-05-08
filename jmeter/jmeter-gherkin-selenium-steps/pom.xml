@@ -166,7 +166,7 @@
 					<artifactId>license-maven-plugin</artifactId>
 					<version>1.16</version>
 					<configuration>
-						<licenseName>arkcase_license</licenseName>
+						<licenseName>license</licenseName>
 						<licenseResolver>${project.baseUri}/license</licenseResolver>
 						<addJavaLicenseAfterPackage>false</addJavaLicenseAfterPackage>
 						<canUpdateCopyright>true</canUpdateCopyright>

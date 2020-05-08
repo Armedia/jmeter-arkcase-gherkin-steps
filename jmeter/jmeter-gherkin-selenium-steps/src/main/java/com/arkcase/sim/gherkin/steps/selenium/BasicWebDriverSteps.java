@@ -53,7 +53,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.WebStorage;
 
 import com.armedia.commons.jmeter.gherkin.GherkinContext;
-import com.armedia.commons.jmeter.gherkin.impl.jbehave.steps.BasicSteps;
+import com.armedia.commons.jmeter.gherkin.jbehave.steps.BasicSteps;
 import com.arkcase.sim.components.WebDriverHelper;
 import com.arkcase.sim.components.html.WaitHelper;
 
