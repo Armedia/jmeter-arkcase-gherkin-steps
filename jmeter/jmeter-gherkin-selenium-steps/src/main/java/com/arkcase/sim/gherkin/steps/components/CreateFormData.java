@@ -72,7 +72,7 @@ public class CreateFormData extends AbstractFormData {
 		WebElement element = wh.waitForElement(tab.title, WaitType.CLICKABLE);
 		element.click();
 
-		// WaitTool until the body is displayed (animation wait)
+		// Wait until the body is displayed (animation wait)
 		element = wh.waitForElement(tab.body, WaitType.VISIBLE);
 
 		// Now find the element that contains the section
@@ -94,7 +94,7 @@ public class CreateFormData extends AbstractFormData {
 		WebElement element = wh.waitForElement(tab.title, WaitType.CLICKABLE);
 		element.click();
 
-		// WaitTool until the body is displayed (animation wait)
+		// Wait until the body is displayed (animation wait)
 		element = wh.waitForElement(tab.body, WaitType.VISIBLE);
 
 		// Now find the element that contains the section

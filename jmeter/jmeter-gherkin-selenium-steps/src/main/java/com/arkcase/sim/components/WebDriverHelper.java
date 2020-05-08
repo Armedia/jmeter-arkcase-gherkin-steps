@@ -4,22 +4,22 @@
  * %%
  * Copyright (C) 2020 Armedia, LLC
  * %%
- * This file is part of the ArkCase software. 
- * 
- * If the software was purchased under a paid ArkCase license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the ArkCase software.
+ *
+ * If the software was purchased under a paid ArkCase license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
- * 
+ *
  * ArkCase is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * ArkCase is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -30,6 +30,7 @@ import java.lang.reflect.Proxy;
 import java.time.Duration;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiFunction;
 import java.util.function.Supplier;
 
 import org.openqa.selenium.By;
@@ -91,7 +92,7 @@ public class WebDriverHelper {
 			@Override
 			public WebElement apply(WebDriver driver) {
 				try {
-					// If the element is still there, then we
+					// If the target is still there, then we
 					if (driver.findElement(by).isDisplayed()) { return null; }
 				} catch (NoSuchElementException | StaleElementReferenceException e) {
 					// Element is gone, and thus no longer visible
@@ -141,7 +142,7 @@ public class WebDriverHelper {
 	}
 
 	public static ExpectedCondition<WebElement> renderCondition(By by, WaitType waitType) {
-		Objects.requireNonNull(by, "Must provide a non-null element by");
+		Objects.requireNonNull(by, "Must provide a non-null target by");
 		ExpectedCondition<WebElement> condition = null;
 		switch (WebDriverHelper.getOrDefault(waitType, WaitType.PRESENT)) {
 			case ENABLED:
@@ -168,7 +169,7 @@ public class WebDriverHelper {
 	}
 
 	public static ExpectedCondition<Boolean> renderCondition(WebElement element, WaitType waitType) {
-		Objects.requireNonNull(element, "Must provide a non-null element");
+		Objects.requireNonNull(element, "Must provide a non-null target");
 		ExpectedCondition<Boolean> condition = null;
 		switch (WebDriverHelper.getOrDefault(waitType, WaitType.PRESENT)) {
 			case PRESENT:
@@ -197,7 +198,7 @@ public class WebDriverHelper {
 
 		protected Duration duration = WebDriverHelper.DEFAULT_WAIT;
 		protected Duration frequency = WebDriverHelper.DEFAULT_POLL_FREQ;
-		protected Supplier<String> message = null;
+		protected Supplier<String> errorMessage = null;
 
 		public AbstractWait duration(Duration duration) {
 			this.duration = WebDriverHelper.getOrDefault(duration, WebDriverHelper.DEFAULT_WAIT);
@@ -208,25 +209,25 @@ public class WebDriverHelper {
 			return this.duration;
 		}
 
-		public AbstractWait frequency(Duration frequency) {
+		public AbstractWait pollFrequency(Duration frequency) {
 			this.frequency = WebDriverHelper.getOrDefault(frequency, WebDriverHelper.DEFAULT_POLL_FREQ);
 			return this;
 		}
 
-		public final Duration frequency() {
+		public final Duration pollFrequency() {
 			return this.frequency;
 		}
 
-		public AbstractWait message(String message) {
-			return message(WebDriverHelper.nullableSupplier(message));
+		public AbstractWait errorMessage(String errorMessage) {
+			return errorMessage(WebDriverHelper.nullableSupplier(errorMessage));
 		}
 
-		public final Supplier<String> message() {
-			return this.message;
+		public final Supplier<String> errorMessage() {
+			return this.errorMessage;
 		}
 
-		public AbstractWait message(Supplier<String> message) {
-			this.message = message;
+		public AbstractWait errorMessage(Supplier<String> errorMessage) {
+			this.errorMessage = errorMessage;
 			return this;
 		}
 
@@ -243,117 +244,159 @@ public class WebDriverHelper {
 
 			FluentWait<WebDriver> waiter = new WebDriverWait(WebDriverHelper.this.browser, period.getSeconds(),
 				frequency.toMillis());
-			if (this.message != null) {
-				waiter = waiter.withMessage(this.message);
+			if (this.errorMessage != null) {
+				waiter = waiter.withMessage(this.errorMessage);
 			}
 			return waiter.until(condition);
 		}
 	}
 
-	public class WaitTool extends AbstractWait {
+	public class ConditionWait extends AbstractWait {
 		@Override
-		public WaitTool duration(Duration period) {
+		public ConditionWait duration(Duration period) {
 			super.duration(period);
 			return this;
 		}
 
 		@Override
-		public WaitTool frequency(Duration frequency) {
-			super.frequency(frequency);
+		public ConditionWait pollFrequency(Duration frequency) {
+			super.pollFrequency(frequency);
 			return this;
 		}
 
 		@Override
-		public WaitTool message(String message) {
-			super.message(message);
+		public ConditionWait errorMessage(String message) {
+			super.errorMessage(message);
 			return this;
 		}
 
 		@Override
-		public WaitTool message(Supplier<String> message) {
-			super.message(message);
+		public ConditionWait errorMessage(Supplier<String> message) {
+			super.errorMessage(message);
 			return this;
 		}
 
 		@Override
-		public <T> T until(ExpectedCondition<T> condition) {
+		public final <T> T until(ExpectedCondition<T> condition) {
 			return super.until(condition);
 		}
 	}
 
-	public class ElementWait extends AbstractWait {
-
-		protected WebElement element = null;
+	public class TargettedWait<T, R> extends AbstractWait {
+		protected T target = null;
 		protected WaitType waitType = WaitType.PRESENT;
+		private final BiFunction<T, WaitType, ExpectedCondition<R>> conditionRenderer;
 
-		public ElementWait element(WebElement element) {
-			this.element = element;
+		protected TargettedWait(BiFunction<T, WaitType, ExpectedCondition<R>> conditionRenderer) {
+			this.conditionRenderer = Objects.requireNonNull(conditionRenderer);
+		}
+
+		public TargettedWait<T, R> target(T target) {
+			this.target = target;
 			return this;
 		}
 
-		public WebElement element() {
-			return this.element;
+		public T target() {
+			return this.target;
 		}
 
-		public ElementWait waitType(WaitType waitType) {
+		public TargettedWait<T, R> waitType(WaitType waitType) {
 			this.waitType = WebDriverHelper.getOrDefault(waitType, WaitType.PRESENT);
 			return this;
 		}
 
-		public WaitType waitType() {
+		public final WaitType waitType() {
 			return this.waitType;
 		}
 
 		@Override
-		public ElementWait duration(Duration period) {
+		public TargettedWait<T, R> duration(Duration period) {
 			super.duration(period);
 			return this;
 		}
 
 		@Override
-		public ElementWait frequency(Duration frequency) {
-			super.frequency(frequency);
+		public TargettedWait<T, R> pollFrequency(Duration frequency) {
+			super.pollFrequency(frequency);
 			return this;
 		}
 
 		@Override
-		public ElementWait message(String message) {
-			super.message(message);
+		public TargettedWait<T, R> errorMessage(String message) {
+			super.errorMessage(message);
 			return this;
 		}
 
 		@Override
-		public ElementWait message(Supplier<String> message) {
-			super.message(message);
+		public TargettedWait<T, R> errorMessage(Supplier<String> message) {
+			super.errorMessage(message);
 			return this;
 		}
 
-		public boolean perform() {
-			return until(WebDriverHelper.renderCondition(this.element, this.waitType));
+		public final R perform() {
+			return until(this.conditionRenderer.apply(this.target, this.waitType));
 		}
 	}
 
-	public class LocatorWait extends AbstractWait {
+	public class WebElementWait extends TargettedWait<WebElement, Boolean> {
 
-		protected By by = null;
-		protected WaitType waitType = WaitType.PRESENT;
+		public WebElementWait() {
+			super(WebDriverHelper::renderCondition);
+		}
 
-		public LocatorWait by(By by) {
-			this.by = by;
+		@Override
+		public WebElementWait target(WebElement element) {
+			super.target(element);
 			return this;
 		}
 
-		public By by() {
-			return this.by;
-		}
-
-		public LocatorWait waitType(WaitType waitType) {
+		@Override
+		public WebElementWait waitType(WaitType waitType) {
 			this.waitType = WebDriverHelper.getOrDefault(waitType, WaitType.PRESENT);
 			return this;
 		}
 
-		public WaitType waitType() {
-			return this.waitType;
+		@Override
+		public WebElementWait duration(Duration period) {
+			super.duration(period);
+			return this;
+		}
+
+		@Override
+		public WebElementWait pollFrequency(Duration frequency) {
+			super.pollFrequency(frequency);
+			return this;
+		}
+
+		@Override
+		public WebElementWait errorMessage(String errorMessage) {
+			super.errorMessage(errorMessage);
+			return this;
+		}
+
+		@Override
+		public WebElementWait errorMessage(Supplier<String> errorMessage) {
+			super.errorMessage(errorMessage);
+			return this;
+		}
+	}
+
+	public class LocatorWait extends TargettedWait<By, WebElement> {
+
+		public LocatorWait() {
+			super(WebDriverHelper::renderCondition);
+		}
+
+		@Override
+		public LocatorWait target(By element) {
+			super.target(element);
+			return this;
+		}
+
+		@Override
+		public LocatorWait waitType(WaitType waitType) {
+			this.waitType = WebDriverHelper.getOrDefault(waitType, WaitType.PRESENT);
+			return this;
 		}
 
 		@Override
@@ -363,25 +406,21 @@ public class WebDriverHelper {
 		}
 
 		@Override
-		public LocatorWait frequency(Duration frequency) {
-			super.frequency(frequency);
+		public LocatorWait pollFrequency(Duration frequency) {
+			super.pollFrequency(frequency);
 			return this;
 		}
 
 		@Override
-		public LocatorWait message(String message) {
-			super.message(message);
+		public LocatorWait errorMessage(String errorMessage) {
+			super.errorMessage(errorMessage);
 			return this;
 		}
 
 		@Override
-		public LocatorWait message(Supplier<String> message) {
-			super.message(message);
+		public LocatorWait errorMessage(Supplier<String> errorMessage) {
+			super.errorMessage(errorMessage);
 			return this;
-		}
-
-		public WebElement perform() {
-			return until(WebDriverHelper.renderCondition(this.by, this.waitType));
 		}
 	}
 
@@ -473,7 +512,12 @@ public class WebDriverHelper {
 
 	public final <T> T waitUntil(ExpectedCondition<T> condition, Duration wait, Duration pollTime,
 		Supplier<String> message) {
-		return new WaitTool().duration(wait).frequency(pollTime).message(message).until(condition);
+		return new ConditionWait() //
+			.duration(wait) //
+			.pollFrequency(pollTime) //
+			.errorMessage(message) //
+			.until(condition) //
+		;
 	}
 
 	public final WebElement waitForElement(By by, WaitType waitType) {
@@ -510,7 +554,14 @@ public class WebDriverHelper {
 
 	public final WebElement waitForElement(By by, WaitType waitType, Duration wait, Duration pollTime,
 		Supplier<String> message) {
-		WebElement ret = waitUntil(WebDriverHelper.renderCondition(by, waitType), wait, pollTime, message);
+		WebElement ret = new LocatorWait() //
+			.target(by) //
+			.waitType(waitType) //
+			.duration(wait) //
+			.pollFrequency(pollTime) //
+			.errorMessage(message) //
+			.perform() //
+		;
 		return (ret != WebDriverHelper.NULL_ELEMENT ? ret : null);
 	}
 
@@ -550,6 +601,13 @@ public class WebDriverHelper {
 
 	public final boolean waitForElement(WebElement element, WaitType waitType, Duration wait, Duration pollTime,
 		Supplier<String> message) {
-		return waitUntil(WebDriverHelper.renderCondition(element, waitType), wait, pollTime, message);
+		return new WebElementWait() //
+			.target(element) //
+			.waitType(waitType) //
+			.duration(wait) //
+			.pollFrequency(pollTime) //
+			.errorMessage(message) //
+			.perform() //
+		;
 	}
 }
