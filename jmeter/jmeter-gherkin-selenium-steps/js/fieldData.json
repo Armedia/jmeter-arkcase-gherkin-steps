@@ -1,0 +1,1740 @@
+{
+    "createTabForm": {
+        "locator": "<all-tabs-container> ng-form[name=\"createTabForm\"]",
+        "forms": {
+            "Patient Specifics": {
+                "source": "modules/orders/views/components/patient-info.client.view.html",
+                "locator": "<parent-tab> form[name=\"Patient Specifics\"",
+                "fields": {
+                    "patientType.new": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"patientType\"][value=\"new\"]",
+                        "value": "new"
+                    },
+                    "patientType.existing": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"patientType\"][value=\"existing\"]",
+                        "value": "existing"
+                    },
+                    "orderInfo.patient.familyName": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.familyName\"]"
+                    },
+                    "orderInfo.patient.givenName": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.givenName\"]"
+                    },
+                    "orderInfo.patient.middleInitials": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.middleInitials\"]"
+                    },
+                    "dateOfBirth": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"dateOfBirth\"]"
+                    },
+                    "orderInfo.patient.medicalRecordNumber": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.medicalRecordNumber\"]"
+                    },
+                    "orderInfo.patient.gender": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.gender\"]",
+                        "options": [
+                            {
+                                "label": "Select Gender",
+                                "value": ""
+                            },
+                            {
+                                "label": "Male",
+                                "value": "string:male"
+                            },
+                            {
+                                "label": "Female",
+                                "value": "string:female"
+                            }
+                        ]
+                    },
+                    "orderInfo.patient.addresses[0].streetAddress": {
+                        "type": "textarea",
+                        "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.patient.addresses[0].streetAddress\"]"
+                    },
+                    "orderInfo.patient.addresses[0].city": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.addresses[0].city\"]"
+                    },
+                    "orderInfo.patient.addresses[0].state": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.addresses[0].state\"]",
+                        "options": [
+                            {
+                                "label": "Choose State",
+                                "value": ""
+                            },
+                            {
+                                "label": "Alabama",
+                                "value": "string:AL"
+                            },
+                            {
+                                "label": "Alaska",
+                                "value": "string:AK"
+                            },
+                            {
+                                "label": "American Samoa",
+                                "value": "string:AS"
+                            },
+                            {
+                                "label": "Arizona",
+                                "value": "string:AZ"
+                            },
+                            {
+                                "label": "Arkansas",
+                                "value": "string:AR"
+                            },
+                            {
+                                "label": "California",
+                                "value": "string:CA"
+                            },
+                            {
+                                "label": "Colorado",
+                                "value": "string:CO"
+                            },
+                            {
+                                "label": "Connecticut",
+                                "value": "string:CT"
+                            },
+                            {
+                                "label": "Delaware",
+                                "value": "string:DE"
+                            },
+                            {
+                                "label": "District Of Columbia",
+                                "value": "string:DC"
+                            },
+                            {
+                                "label": "Federated States Of Micronesia",
+                                "value": "string:FM"
+                            },
+                            {
+                                "label": "Florida",
+                                "value": "string:FL"
+                            },
+                            {
+                                "label": "Georgia",
+                                "value": "string:GA"
+                            },
+                            {
+                                "label": "Guam",
+                                "value": "string:GU"
+                            },
+                            {
+                                "label": "Hawaii",
+                                "value": "string:HI"
+                            },
+                            {
+                                "label": "Idaho",
+                                "value": "string:ID"
+                            },
+                            {
+                                "label": "Illinois",
+                                "value": "string:IL"
+                            },
+                            {
+                                "label": "Indiana",
+                                "value": "string:IN"
+                            },
+                            {
+                                "label": "Iowa",
+                                "value": "string:IA"
+                            },
+                            {
+                                "label": "Kansas",
+                                "value": "string:KS"
+                            },
+                            {
+                                "label": "Kentucky",
+                                "value": "string:KY"
+                            },
+                            {
+                                "label": "Louisiana",
+                                "value": "string:LA"
+                            },
+                            {
+                                "label": "Maine",
+                                "value": "string:ME"
+                            },
+                            {
+                                "label": "Marshall Islands",
+                                "value": "string:MH"
+                            },
+                            {
+                                "label": "Maryland",
+                                "value": "string:MD"
+                            },
+                            {
+                                "label": "Massachusetts",
+                                "value": "string:MA"
+                            },
+                            {
+                                "label": "Michigan",
+                                "value": "string:MI"
+                            },
+                            {
+                                "label": "Minnesota",
+                                "value": "string:MN"
+                            },
+                            {
+                                "label": "Mississippi",
+                                "value": "string:MS"
+                            },
+                            {
+                                "label": "Missouri",
+                                "value": "string:MO"
+                            },
+                            {
+                                "label": "Montana",
+                                "value": "string:MT"
+                            },
+                            {
+                                "label": "Nebraska",
+                                "value": "string:NE"
+                            },
+                            {
+                                "label": "Nevada",
+                                "value": "string:NV"
+                            },
+                            {
+                                "label": "New Hampshire",
+                                "value": "string:NH"
+                            },
+                            {
+                                "label": "New Jersey",
+                                "value": "string:NJ"
+                            },
+                            {
+                                "label": "New Mexico",
+                                "value": "string:NM"
+                            },
+                            {
+                                "label": "New York",
+                                "value": "string:NY"
+                            },
+                            {
+                                "label": "North Carolina",
+                                "value": "string:NC"
+                            },
+                            {
+                                "label": "North Dakota",
+                                "value": "string:ND"
+                            },
+                            {
+                                "label": "Northern Mariana Islands",
+                                "value": "string:MP"
+                            },
+                            {
+                                "label": "Ohio",
+                                "value": "string:OH"
+                            },
+                            {
+                                "label": "Oklahoma",
+                                "value": "string:OK"
+                            },
+                            {
+                                "label": "Oregon",
+                                "value": "string:OR"
+                            },
+                            {
+                                "label": "Palau",
+                                "value": "string:PW"
+                            },
+                            {
+                                "label": "Pennsylvania",
+                                "value": "string:PA"
+                            },
+                            {
+                                "label": "Puerto Rico",
+                                "value": "string:PR"
+                            },
+                            {
+                                "label": "Rhode Island",
+                                "value": "string:RI"
+                            },
+                            {
+                                "label": "South Carolina",
+                                "value": "string:SC"
+                            },
+                            {
+                                "label": "South Dakota",
+                                "value": "string:SD"
+                            },
+                            {
+                                "label": "Tennessee",
+                                "value": "string:TN"
+                            },
+                            {
+                                "label": "Texas",
+                                "value": "string:TX"
+                            },
+                            {
+                                "label": "Utah",
+                                "value": "string:UT"
+                            },
+                            {
+                                "label": "Vermont",
+                                "value": "string:VT"
+                            },
+                            {
+                                "label": "Virgin Islands",
+                                "value": "string:VI"
+                            },
+                            {
+                                "label": "Virginia",
+                                "value": "string:VA"
+                            },
+                            {
+                                "label": "Washington",
+                                "value": "string:WA"
+                            },
+                            {
+                                "label": "West Virginia",
+                                "value": "string:WV"
+                            },
+                            {
+                                "label": "Wisconsin",
+                                "value": "string:WI"
+                            },
+                            {
+                                "label": "Wyoming",
+                                "value": "string:WY"
+                            }
+                        ]
+                    },
+                    "orderInfo.patient.addresses[0].zip": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.addresses[0].zip\"]"
+                    },
+                    "orderInfo.patient.addresses[0].country": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.addresses[0].country\"]",
+                        "options": [
+                            {
+                                "label": "Choose Country",
+                                "value": ""
+                            },
+                            {
+                                "label": "United States of America",
+                                "value": "string:USA"
+                            },
+                            {
+                                "label": "Canada",
+                                "value": "string:CAN"
+                            }
+                        ]
+                    },
+                    "contacts.defaultPhone": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.defaultPhone\"]"
+                    },
+                    "contacts.phone": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.phone\"]"
+                    },
+                    "contacts.email": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
+                    },
+                    "orderInfo.certificationType": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.certificationType\"]",
+                        "options": [
+                            {
+                                "label": "Choose Certification Type",
+                                "value": ""
+                            },
+                            {
+                                "label": "Driver's License",
+                                "value": "string:statue"
+                            },
+                            {
+                                "label": "ID Card",
+                                "value": "string:id_card"
+                            },
+                            {
+                                "label": "Passport",
+                                "value": "string:passport"
+                            }
+                        ]
+                    },
+                    "orderInfo.certificationNumber": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.certificationNumber\"]"
+                    },
+                    "expirationDate": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"expirationDate\"]"
+                    },
+                    "orderInfo.custodialReference": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.custodialReference\"]"
+                    }
+                }
+            },
+            "Request Specifics": {
+                "source": "modules/orders/views/components/order-details.client.view.html",
+                "locator": "<parent-tab> form[name=\"Request Specifics\"",
+                "fields": {
+                    "orderInfo.billTo.bill_to_requester": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_requester\"]",
+                        "value": "bill_to_requester"
+                    },
+                    "orderInfo.billTo.bill_to_client": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_client\"]",
+                        "value": "bill_to_client"
+                    },
+                    "orderInfo.priority": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.priority\"]",
+                        "options": [
+                            {
+                                "label": "Choose Priority",
+                                "value": ""
+                            },
+                            {
+                                "label": "Urgent",
+                                "value": "string:Urgent"
+                            },
+                            {
+                                "label": "Normal",
+                                "value": "string:Normal"
+                            }
+                        ]
+                    },
+                    "orderInfo.overrideStatus": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.overrideStatus\"]",
+                        "options": [
+                            {
+                                "label": "Select Override Status",
+                                "value": ""
+                            },
+                            {
+                                "label": "Stat",
+                                "value": "stat"
+                            },
+                            {
+                                "label": "Review",
+                                "value": "review"
+                            },
+                            {
+                                "label": "Logging",
+                                "value": "logging"
+                            }
+                        ]
+                    },
+                    "orderInfo.printOption": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.printOption\"]",
+                        "options": [
+                            {
+                                "label": "Choose Handling Option",
+                                "value": ""
+                            },
+                            {
+                                "label": "Centrally",
+                                "value": "string:Central Print"
+                            },
+                            {
+                                "label": "Field",
+                                "value": "string:Local Print"
+                            }
+                        ]
+                    },
+                    "orderInfo.recordType": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.recordType\"]",
+                        "options": [
+                            {
+                                "label": "Choose Record Type",
+                                "value": ""
+                            },
+                            {
+                                "label": "Billing",
+                                "value": "string:billing"
+                            },
+                            {
+                                "label": "Medical",
+                                "value": "string:medical"
+                            },
+                            {
+                                "label": "Imaging",
+                                "value": "string:imaging"
+                            },
+                            {
+                                "label": "No Records",
+                                "value": "string:no records"
+                            },
+                            {
+                                "label": "Acquisition Exception",
+                                "value": "string:acquisition exception"
+                            },
+                            {
+                                "label": "Forms",
+                                "value": "string:forms"
+                            }
+                        ]
+                    },
+                    "selectedProcessingOption": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"selectedProcessingOption\"]",
+                        "options": [
+                            {
+                                "label": "Choose Processing Options",
+                                "value": ""
+                            },
+                            {
+                                "label": "Notary",
+                                "value": "object:1673"
+                            },
+                            {
+                                "label": "Certification",
+                                "value": "object:1674"
+                            },
+                            {
+                                "label": "Affidavit",
+                                "value": "object:1675"
+                            },
+                            {
+                                "label": "Questionnaire",
+                                "value": "object:1676"
+                            },
+                            {
+                                "label": "Film",
+                                "value": "object:1677"
+                            },
+                            {
+                                "label": "Studies",
+                                "value": "object:1678"
+                            },
+                            {
+                                "label": "Photographs",
+                                "value": "object:1679"
+                            },
+                            {
+                                "label": "# Years Searched",
+                                "value": "object:1680"
+                            }
+                        ]
+                    },
+                    "orderInfo.validBarcodeFlag": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.validBarcodeFlag\"]"
+                    },
+                    "orderInfo.receivedVia": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.receivedVia\"]",
+                        "options": [
+                            {
+                                "label": "Choose Received Via",
+                                "value": ""
+                            },
+                            {
+                                "label": "Fax",
+                                "value": "string:fax"
+                            },
+                            {
+                                "label": "Mail",
+                                "value": "string:mail"
+                            },
+                            {
+                                "label": "Email",
+                                "value": "string:email"
+                            },
+                            {
+                                "label": "Walk-in",
+                                "value": "string:walk_in"
+                            }
+                        ]
+                    },
+                    "receivedDate": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"receivedDate\"]"
+                    },
+                    "orderInfo.externalSystemId": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.externalSystemId\"]"
+                    }
+                }
+            },
+            "Deposit Information": {
+                "source": "modules/orders/views/components/order-payment.client.view.html",
+                "locator": "<parent-tab> form[name=\"Deposit Information\"",
+                "fields": {
+                    "orderInfo.paymentAmount": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.paymentAmount\"]"
+                    },
+                    "orderInfo.paymentMethod": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.paymentMethod\"]",
+                        "options": [
+                            {
+                                "label": "Select Payment Method",
+                                "value": ""
+                            },
+                            {
+                                "label": "Cash",
+                                "value": "string:cash"
+                            },
+                            {
+                                "label": "Check",
+                                "value": "string:check"
+                            },
+                            {
+                                "label": "Credit Card",
+                                "value": "string:creditCard"
+                            },
+                            {
+                                "label": "Money Order",
+                                "value": "string:moneyOrder"
+                            },
+                            {
+                                "label": "Cashier's Check",
+                                "value": "string:cashiersCheck"
+                            }
+                        ]
+                    },
+                    "orderInfo.paymentMethodNumber": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.paymentMethodNumber\"]"
+                    }
+                }
+            },
+            "Request Activity": {
+                "source": "modules/orders/views/components/order-activity.client.view.html",
+                "locator": "<parent-tab> form[name=\"Request Activity\"",
+                "fields": {
+                    "orderInfo.pendingState": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.pendingState\"]",
+                        "options": [
+                            {
+                                "label": "Select Pending State",
+                                "value": ""
+                            },
+                            {
+                                "label": "Approved by Compliance",
+                                "value": "string:Approved by Compliance"
+                            },
+                            {
+                                "label": "Approved by HIM",
+                                "value": "string:Approved by HIM"
+                            },
+                            {
+                                "label": "Approved by Legal",
+                                "value": "string:Approved by Legal"
+                            },
+                            {
+                                "label": "Approved by Physician",
+                                "value": "string:Approved by Physician"
+                            },
+                            {
+                                "label": "Approved by Risk",
+                                "value": "string:Approved by Risk"
+                            },
+                            {
+                                "label": "Approved by Supervisor",
+                                "value": "string:Approved by Supervisor"
+                            },
+                            {
+                                "label": "Attached Anesthesia",
+                                "value": "string:Attached Anesthesia"
+                            },
+                            {
+                                "label": "Attached Certification",
+                                "value": "string:Attached Certification"
+                            },
+                            {
+                                "label": "Attached Dictation/Chart Completion",
+                                "value": "string:Attached Dictation/Chart Completion"
+                            },
+                            {
+                                "label": "Attached Discharge Summary",
+                                "value": "string:Attached Discharge Summary"
+                            },
+                            {
+                                "label": "Attached EMR Documents",
+                                "value": "string:Attached EMR Documents"
+                            },
+                            {
+                                "label": "Attached Microfilm",
+                                "value": "string:Attached Microfilm"
+                            },
+                            {
+                                "label": "Attached Notarized Documents",
+                                "value": "string:Attached Notarized Documents"
+                            },
+                            {
+                                "label": "Attached Offsite Paper Chart",
+                                "value": "string:Attached Offsite Paper Chart"
+                            },
+                            {
+                                "label": "Attached Other Records",
+                                "value": "string:Attached Other Records"
+                            },
+                            {
+                                "label": "Attached Radiology",
+                                "value": "string:Attached Radiology"
+                            },
+                            {
+                                "label": "Authorization Reviewed for Completeness",
+                                "value": "string:Authorization Reviewed for Completeness"
+                            },
+                            {
+                                "label": "Auto Extract Record",
+                                "value": "string:Auto Extract Record"
+                            },
+                            {
+                                "label": "Provider Lack of Response-Closed",
+                                "value": "string:Provider Lack of Response-Closed"
+                            },
+                            {
+                                "label": "Provider Provided Invoice has been Paid",
+                                "value": "string:Provider Provided Invoice has been Paid"
+                            },
+                            {
+                                "label": "Provider Refused to Send Record",
+                                "value": "string:Provider Refused to Send Record"
+                            },
+                            {
+                                "label": "Provider sent CNR",
+                                "value": "string:Provider sent CNR"
+                            },
+                            {
+                                "label": "Provider sent Invoice",
+                                "value": "string:Provider sent Invoice"
+                            },
+                            {
+                                "label": "Ready for ROI Specialist",
+                                "value": "string:Ready for ROI Specialist"
+                            },
+                            {
+                                "label": "Ready for Team 1",
+                                "value": "string:Ready for Team 1"
+                            },
+                            {
+                                "label": "Ready for Team 2",
+                                "value": "string:Ready for Team 2"
+                            },
+                            {
+                                "label": "Ready for Team 3",
+                                "value": "string:Ready for Team 3"
+                            },
+                            {
+                                "label": "Ready for Team 4",
+                                "value": "string:Ready for Team 4"
+                            },
+                            {
+                                "label": "Ready for Team 5",
+                                "value": "string:Ready for Team 5"
+                            },
+                            {
+                                "label": "Ready for Team 6",
+                                "value": "string:Ready for Team 6"
+                            },
+                            {
+                                "label": "Ready to Process",
+                                "value": "string:Ready to Process"
+                            },
+                            {
+                                "label": "Request for Anesthesia",
+                                "value": "string:Request for Anesthesia"
+                            },
+                            {
+                                "label": "Request for Compliant Authorization",
+                                "value": "string:Request for Compliant Authorization"
+                            },
+                            {
+                                "label": "Request for Contact Information",
+                                "value": "string:Request for Contact Information"
+                            },
+                            {
+                                "label": "Request for Custodian Certification",
+                                "value": "string:Request for Custodian Certification"
+                            },
+                            {
+                                "label": "Request for Dictation/Chart Completion",
+                                "value": "string:Request for Dictation/Chart Completion"
+                            },
+                            {
+                                "label": "Request for EMR documents",
+                                "value": "string:Request for EMR documents"
+                            },
+                            {
+                                "label": "Request for Future DOS",
+                                "value": "string:Request for Future DOS"
+                            },
+                            {
+                                "label": "Request for Management Approval: Compliance",
+                                "value": "string:Request for Management Approval: Compliance"
+                            },
+                            {
+                                "label": "Request for Management Approval: HIM Management",
+                                "value": "string:Request for Management Approval: HIM Management"
+                            },
+                            {
+                                "label": "Request for Management Approval: Immediate Supervisor",
+                                "value": "string:Request for Management Approval: Immediate Supervisor"
+                            },
+                            {
+                                "label": "Request for Management Approval: Legal",
+                                "value": "string:Request for Management Approval: Legal"
+                            },
+                            {
+                                "label": "Request for Management Approval: Physician",
+                                "value": "string:Request for Management Approval: Physician"
+                            },
+                            {
+                                "label": "Request for Management Approval: Risk",
+                                "value": "string:Request for Management Approval: Risk"
+                            },
+                            {
+                                "label": "Request for Microfilm",
+                                "value": "string:Request for Microfilm"
+                            },
+                            {
+                                "label": "Request for Notarized Documents",
+                                "value": "string:Request for Notarized Documents"
+                            },
+                            {
+                                "label": "Request for on Premises Paper Chart",
+                                "value": "string:Request for on Premises Paper Chart"
+                            },
+                            {
+                                "label": "Request for Paper Chart offsite storage",
+                                "value": "string:Request for Paper Chart offsite storage"
+                            },
+                            {
+                                "label": "Request for Pending Patient Discharge",
+                                "value": "string:Request for Pending Patient Discharge"
+                            },
+                            {
+                                "label": "Request for Radiology",
+                                "value": "string:Request for Radiology"
+                            },
+                            {
+                                "label": "Request for Records-Other",
+                                "value": "string:Request for Records-Other"
+                            },
+                            {
+                                "label": "Separated Document",
+                                "value": "string:Separated Document"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "shippingBillingForm": {
+        "locator": "<all-tabs-container> ng-form[name=\"shippingBillingForm\"]",
+        "forms": {
+            "Requester Specifics": {
+                "source": "modules/orders/views/components/requester-info.client.view.html",
+                "locator": "<parent-tab> form[name=\"Requester Specifics\"",
+                "fields": {
+                    "requesterType.existing": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"existing\"]",
+                        "value": "existing"
+                    },
+                    "requesterType.new": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"new\"]",
+                        "value": "new"
+                    },
+                    "requesterType.asPatient": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"asPatient\"]",
+                        "value": "asPatient"
+                    }
+                }
+            },
+            "Billing Contact Specifics": {
+                "source": "modules/orders/views/components/billing-info.client.view.html",
+                "locator": "<parent-tab> form[name=\"Billing Contact Specifics\"",
+                "fields": {
+                    "billingType.asRequester": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"billingType\"][value=\"asRequester\"]",
+                        "value": "asRequester"
+                    },
+                    "orderInfo.billingInfo.attention": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billingInfo.attention\"]"
+                    },
+                    "contacts.email": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
+                    },
+                    "contacts.fax": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.fax\"]"
+                    }
+                }
+            },
+            "Email Notifications": {
+                "source": "modules/orders/views/components/order-notifications.client.view.html",
+                "locator": "<parent-tab> form[name=\"Email Notifications\"",
+                "fields": {
+                    "orderInfo.notificationEmailType.asRequester": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asRequester\"]",
+                        "value": "asRequester"
+                    },
+                    "orderInfo.notificationEmailType.asPatient": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asPatient\"]",
+                        "value": "asPatient"
+                    },
+                    "orderInfo.notificationEmailType.new": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"new\"]",
+                        "value": "new"
+                    },
+                    "Send Notifications to these addresses?": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Send Notifications to these addresses?']/input[@type='checkbox']"
+                    },
+                    "orderInfo.notificationEmail": {
+                        "type": "email",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmail\"]"
+                    },
+                    "orderInfo.ccNotificationEmail": {
+                        "type": "email",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.ccNotificationEmail\"]"
+                    }
+                }
+            },
+            "Shipping Specifics": {
+                "source": "modules/orders/views/components/shipping-info.client.view.html",
+                "locator": "<parent-tab> form[name=\"Shipping Specifics\"",
+                "fields": {
+                    "shippingType.asRequester": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asRequester\"]",
+                        "value": "asRequester"
+                    },
+                    "shippingType.asPatient": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asPatient\"]",
+                        "value": "asPatient"
+                    },
+                    "shippingType.asClient": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asClient\"]",
+                        "value": "asClient"
+                    },
+                    "shippingType.new": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"new\"]",
+                        "value": "new"
+                    },
+                    "shippingType.asOtherRequester": {
+                        "type": "radio",
+                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asOtherRequester\"]",
+                        "value": "asOtherRequester"
+                    },
+                    "orderInfo.shippingInfo.addresses[0].streetAddress": {
+                        "type": "textarea",
+                        "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.shippingInfo.addresses[0].streetAddress\"]"
+                    },
+                    "orderInfo.shippingInfo.addresses[0].city": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.addresses[0].city\"]"
+                    },
+                    "orderInfo.shippingInfo.addresses[0].state": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.shippingInfo.addresses[0].state\"]",
+                        "options": [
+                            {
+                                "label": "Choose State",
+                                "value": ""
+                            },
+                            {
+                                "label": "Alabama",
+                                "value": "string:AL"
+                            },
+                            {
+                                "label": "Alaska",
+                                "value": "string:AK"
+                            },
+                            {
+                                "label": "American Samoa",
+                                "value": "string:AS"
+                            },
+                            {
+                                "label": "Arizona",
+                                "value": "string:AZ"
+                            },
+                            {
+                                "label": "Arkansas",
+                                "value": "string:AR"
+                            },
+                            {
+                                "label": "California",
+                                "value": "string:CA"
+                            },
+                            {
+                                "label": "Colorado",
+                                "value": "string:CO"
+                            },
+                            {
+                                "label": "Connecticut",
+                                "value": "string:CT"
+                            },
+                            {
+                                "label": "Delaware",
+                                "value": "string:DE"
+                            },
+                            {
+                                "label": "District Of Columbia",
+                                "value": "string:DC"
+                            },
+                            {
+                                "label": "Federated States Of Micronesia",
+                                "value": "string:FM"
+                            },
+                            {
+                                "label": "Florida",
+                                "value": "string:FL"
+                            },
+                            {
+                                "label": "Georgia",
+                                "value": "string:GA"
+                            },
+                            {
+                                "label": "Guam",
+                                "value": "string:GU"
+                            },
+                            {
+                                "label": "Hawaii",
+                                "value": "string:HI"
+                            },
+                            {
+                                "label": "Idaho",
+                                "value": "string:ID"
+                            },
+                            {
+                                "label": "Illinois",
+                                "value": "string:IL"
+                            },
+                            {
+                                "label": "Indiana",
+                                "value": "string:IN"
+                            },
+                            {
+                                "label": "Iowa",
+                                "value": "string:IA"
+                            },
+                            {
+                                "label": "Kansas",
+                                "value": "string:KS"
+                            },
+                            {
+                                "label": "Kentucky",
+                                "value": "string:KY"
+                            },
+                            {
+                                "label": "Louisiana",
+                                "value": "string:LA"
+                            },
+                            {
+                                "label": "Maine",
+                                "value": "string:ME"
+                            },
+                            {
+                                "label": "Marshall Islands",
+                                "value": "string:MH"
+                            },
+                            {
+                                "label": "Maryland",
+                                "value": "string:MD"
+                            },
+                            {
+                                "label": "Massachusetts",
+                                "value": "string:MA"
+                            },
+                            {
+                                "label": "Michigan",
+                                "value": "string:MI"
+                            },
+                            {
+                                "label": "Minnesota",
+                                "value": "string:MN"
+                            },
+                            {
+                                "label": "Mississippi",
+                                "value": "string:MS"
+                            },
+                            {
+                                "label": "Missouri",
+                                "value": "string:MO"
+                            },
+                            {
+                                "label": "Montana",
+                                "value": "string:MT"
+                            },
+                            {
+                                "label": "Nebraska",
+                                "value": "string:NE"
+                            },
+                            {
+                                "label": "Nevada",
+                                "value": "string:NV"
+                            },
+                            {
+                                "label": "New Hampshire",
+                                "value": "string:NH"
+                            },
+                            {
+                                "label": "New Jersey",
+                                "value": "string:NJ"
+                            },
+                            {
+                                "label": "New Mexico",
+                                "value": "string:NM"
+                            },
+                            {
+                                "label": "New York",
+                                "value": "string:NY"
+                            },
+                            {
+                                "label": "North Carolina",
+                                "value": "string:NC"
+                            },
+                            {
+                                "label": "North Dakota",
+                                "value": "string:ND"
+                            },
+                            {
+                                "label": "Northern Mariana Islands",
+                                "value": "string:MP"
+                            },
+                            {
+                                "label": "Ohio",
+                                "value": "string:OH"
+                            },
+                            {
+                                "label": "Oklahoma",
+                                "value": "string:OK"
+                            },
+                            {
+                                "label": "Oregon",
+                                "value": "string:OR"
+                            },
+                            {
+                                "label": "Palau",
+                                "value": "string:PW"
+                            },
+                            {
+                                "label": "Pennsylvania",
+                                "value": "string:PA"
+                            },
+                            {
+                                "label": "Puerto Rico",
+                                "value": "string:PR"
+                            },
+                            {
+                                "label": "Rhode Island",
+                                "value": "string:RI"
+                            },
+                            {
+                                "label": "South Carolina",
+                                "value": "string:SC"
+                            },
+                            {
+                                "label": "South Dakota",
+                                "value": "string:SD"
+                            },
+                            {
+                                "label": "Tennessee",
+                                "value": "string:TN"
+                            },
+                            {
+                                "label": "Texas",
+                                "value": "string:TX"
+                            },
+                            {
+                                "label": "Utah",
+                                "value": "string:UT"
+                            },
+                            {
+                                "label": "Vermont",
+                                "value": "string:VT"
+                            },
+                            {
+                                "label": "Virgin Islands",
+                                "value": "string:VI"
+                            },
+                            {
+                                "label": "Virginia",
+                                "value": "string:VA"
+                            },
+                            {
+                                "label": "Washington",
+                                "value": "string:WA"
+                            },
+                            {
+                                "label": "West Virginia",
+                                "value": "string:WV"
+                            },
+                            {
+                                "label": "Wisconsin",
+                                "value": "string:WI"
+                            },
+                            {
+                                "label": "Wyoming",
+                                "value": "string:WY"
+                            }
+                        ]
+                    },
+                    "orderInfo.shippingInfo.addresses[0].zip": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.addresses[0].zip\"]"
+                    },
+                    "orderInfo.shippingInfo.addresses[0].country": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.shippingInfo.addresses[0].country\"]",
+                        "options": [
+                            {
+                                "label": "Choose Country",
+                                "value": ""
+                            },
+                            {
+                                "label": "United States of America",
+                                "value": "string:USA"
+                            },
+                            {
+                                "label": "Canada",
+                                "value": "string:CAN"
+                            }
+                        ]
+                    },
+                    "Certified Mail": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Certified Mail']/input[@type='checkbox']"
+                    },
+                    "orderInfo.shippingInfo.companyName": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.companyName\"]"
+                    },
+                    "orderInfo.shippingInfo.attention": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.attention\"]"
+                    },
+                    "contacts.phone": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.phone\"]"
+                    },
+                    "contacts.email": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
+                    },
+                    "contacts.confirmationEmail": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.confirmationEmail\"]"
+                    },
+                    "contacts.fax": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.fax\"]"
+                    },
+                    "orderInfo.deliveryMethod": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.deliveryMethod\"]",
+                        "options": [
+                            {
+                                "label": "Choose Delivery Method",
+                                "value": ""
+                            },
+                            {
+                                "label": "Electronic",
+                                "value": "string:Electronic"
+                            },
+                            {
+                                "label": "Pickup",
+                                "value": "string:Pickup"
+                            },
+                            {
+                                "label": "Standard Postage",
+                                "value": "string:Standard Postage"
+                            }
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "orderDetailsForm": {
+        "locator": "<all-tabs-container> ng-form[name=\"orderDetailsForm\"]",
+        "forms": {
+            "Authorization Specifics": {
+                "source": "modules/orders/views/components/order-authorization.client.view.html",
+                "locator": "<parent-tab> form[name=\"Authorization Specifics\"",
+                "fields": {
+                    "orderInfo.requestType": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.requestType\"]",
+                        "options": [
+                            {
+                                "label": "Choose Request Type",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    "orderInfo.requestSubType": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.requestSubType\"]",
+                        "options": [
+                            {
+                                "label": "Choose Request Subtype",
+                                "value": ""
+                            }
+                        ]
+                    },
+                    "dueDate": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"dueDate\"]"
+                    },
+                    "depositionDate": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"depositionDate\"]"
+                    },
+                    "Signature Present": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Signature Present']/input[@type='checkbox']"
+                    },
+                    "signatureDate": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"signatureDate\"]"
+                    },
+                    "orderInfo.authorizationType": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.authorizationType\"]",
+                        "options": [
+                            {
+                                "label": "Choose Authorization",
+                                "value": ""
+                            },
+                            {
+                                "label": "Patient",
+                                "value": "string:patient"
+                            },
+                            {
+                                "label": "Parent",
+                                "value": "string:parent"
+                            },
+                            {
+                                "label": "Legal Guardian",
+                                "value": "string:legal_guardian"
+                            },
+                            {
+                                "label": "Spouse",
+                                "value": "string:spouse"
+                            },
+                            {
+                                "label": "Next of Kin",
+                                "value": "string:next_of_kin"
+                            },
+                            {
+                                "label": "Adult Child",
+                                "value": "string:adult_child"
+                            },
+                            {
+                                "label": "Power of Attorney",
+                                "value": "string:power_of_attorney"
+                            }
+                        ]
+                    }
+                }
+            },
+            "Validation": {
+                "source": "modules/orders/views/components/order-validation.client.view.html",
+                "locator": "<parent-tab> form[name=\"Validation\"",
+                "fields": {
+                    "Verify Patient DOB": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Verify Patient DOB']/input[@type='checkbox']"
+                    },
+                    "Verify First Page of Abstract": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Verify First Page of Abstract']/input[@type='checkbox']"
+                    },
+                    "Verify Last Page of Abstract": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Verify Last Page of Abstract']/input[@type='checkbox']"
+                    }
+                }
+            }
+        }
+    },
+    "orderInfoForm": {
+        "locator": "<all-tabs-container> ng-form[name=\"orderInfoForm\"]",
+        "forms": {
+            "Legacy": {
+                "source": "modules/orders/views/components/order-legacy.client.view.html",
+                "locator": "<parent-tab> form[name=\"Legacy\"",
+                "fields": {
+                    "orderInfo.creator": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.creator\"]"
+                    },
+                    "orderInfo.requestId": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requestId\"]"
+                    },
+                    "orderInfo.recordSource": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.recordSource\"]"
+                    }
+                }
+            },
+            "Project Specifics": {
+                "source": "modules/orders/views/components/order-project-specifics.client.view.html",
+                "locator": "<parent-tab> form[name=\"Project Specifics\"",
+                "fields": {
+                    "orderInfo.projectId": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.projectId\"]"
+                    },
+                    "orderInfo.batch.batchNumber": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.batch.batchNumber\"]"
+                    },
+                    "orderInfo.requesterCaseNumber1": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requesterCaseNumber1\"]"
+                    },
+                    "orderInfo.requesterCaseNumber2": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requesterCaseNumber2\"]"
+                    }
+                }
+            },
+            "Disclosures": {
+                "source": "modules/orders/views/components/order-disclosures.client.view.html",
+                "locator": "<parent-tab> form[name=\"Disclosures\"",
+                "fields": {
+                    "orderInfo.disclosureScope": {
+                        "type": "select",
+                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.disclosureScope\"]",
+                        "options": [
+                            {
+                                "label": "? object:null ?",
+                                "value": "? object:null ?"
+                            },
+                            {
+                                "label": "Choose Dates of Service",
+                                "value": "choose_dates_of_service"
+                            },
+                            {
+                                "label": "Entire Chart",
+                                "value": "entire_chart"
+                            },
+                            {
+                                "label": "Last 12 Months",
+                                "value": "last_twelve_months"
+                            },
+                            {
+                                "label": "DOS TEST",
+                                "value": "dos_test"
+                            },
+                            {
+                                "label": "Last 2 Years",
+                                "value": "last_two_years"
+                            },
+                            {
+                                "label": "Last 5 Years",
+                                "value": "last_five_years"
+                            },
+                            {
+                                "label": "Last 6 Months",
+                                "value": "last_6_months"
+                            },
+                            {
+                                "label": "Last 6 Months",
+                                "value": "last_6_months"
+                            },
+                            {
+                                "label": "TEST 11",
+                                "value": "test_11"
+                            }
+                        ]
+                    },
+                    "Any and all": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Any and all']/input[@type='checkbox']"
+                    },
+                    "Commitment Papers": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Commitment Papers']/input[@type='checkbox']"
+                    },
+                    "Consultation": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Consultation']/input[@type='checkbox']"
+                    },
+                    "Diagnostic Imaging Reports": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Diagnostic Imaging Reports']/input[@type='checkbox']"
+                    },
+                    "Disclosure Summary": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Disclosure Summary']/input[@type='checkbox']"
+                    },
+                    "Discharge Summary": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Discharge Summary']/input[@type='checkbox']"
+                    },
+                    "Rennick Left Test": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Rennick Left Test']/input[@type='checkbox']"
+                    },
+                    "Discharge Instructions": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Discharge Instructions']/input[@type='checkbox']"
+                    },
+                    "Doctor Orders": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Doctor Orders']/input[@type='checkbox']"
+                    },
+                    "Er Record": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Er Record']/input[@type='checkbox']"
+                    },
+                    "EKC/ECG Tests": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='EKC/ECG Tests']/input[@type='checkbox']"
+                    },
+                    "Facesheet": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Facesheet']/input[@type='checkbox']"
+                    },
+                    "MRI Scan": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='MRI Scan']/input[@type='checkbox']"
+                    },
+                    "TEST 22": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 22']/input[@type='checkbox']"
+                    },
+                    "TEST 10": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 10']/input[@type='checkbox']"
+                    },
+                    "test": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='test']/input[@type='checkbox']"
+                    },
+                    "Hard-Copy Offsite": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Hard-Copy Offsite']/input[@type='checkbox']"
+                    },
+                    "Itemized Bill": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Itemized Bill']/input[@type='checkbox']"
+                    },
+                    "Rennick Right Test EDIT": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Rennick Right Test EDIT']/input[@type='checkbox']"
+                    },
+                    "Lab Reports": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Lab Reports']/input[@type='checkbox']"
+                    },
+                    "Medication Records": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Medication Records']/input[@type='checkbox']"
+                    },
+                    "Nurse Notes": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Nurse Notes']/input[@type='checkbox']"
+                    },
+                    "Operative Report": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Operative Report']/input[@type='checkbox']"
+                    },
+                    "Progress Notes": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Progress Notes']/input[@type='checkbox']"
+                    },
+                    "Treatment Plans": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Treatment Plans']/input[@type='checkbox']"
+                    },
+                    "Therapy Notes": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Therapy Notes']/input[@type='checkbox']"
+                    },
+                    "CAT Scan": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='CAT Scan']/input[@type='checkbox']"
+                    },
+                    "TEST 33": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 33']/input[@type='checkbox']"
+                    },
+                    "test 12": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='test 12']/input[@type='checkbox']"
+                    },
+                    "none": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='none']/input[@type='checkbox']"
+                    },
+                    "HIV/AIDS": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='HIV/AIDS']/input[@type='checkbox']"
+                    },
+                    "Rennick Left Test EDIT": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Rennick Left Test EDIT']/input[@type='checkbox']"
+                    },
+                    "Mental Health": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Mental Health']/input[@type='checkbox']"
+                    },
+                    "Health": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Health']/input[@type='checkbox']"
+                    },
+                    "TEST 44": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 44']/input[@type='checkbox']"
+                    },
+                    "TEST 5": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 5']/input[@type='checkbox']"
+                    },
+                    "TEST 87": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 87']/input[@type='checkbox']"
+                    },
+                    "Genetic Testing": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Genetic Testing']/input[@type='checkbox']"
+                    },
+                    "Drug Treatment": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Drug Treatment']/input[@type='checkbox']"
+                    },
+                    "Blood Test": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Blood Test']/input[@type='checkbox']"
+                    },
+                    "TEST 66": {
+                        "type": "checkbox",
+                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 66']/input[@type='checkbox']"
+                    }
+                }
+            },
+            "EMR Import": {
+                "source": "modules/orders/views/components/order-emr-import.client.view.html",
+                "locator": "<parent-tab> form[name=\"EMR Import\"",
+                "fields": {
+                    "orderInfo.emrImport.unknownPatient": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.unknownPatient\"]"
+                    },
+                    "orderInfo.emrImport.releaseType": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.releaseType\"]"
+                    },
+                    "orderInfo.emrImport.requesterName": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterName\"]"
+                    },
+                    "orderInfo.emrImport.requesterAttentionTo": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterAttentionTo\"]"
+                    },
+                    "orderInfo.emrImport.requesterAddress": {
+                        "type": "textarea",
+                        "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.emrImport.requesterAddress\"]"
+                    },
+                    "orderInfo.emrImport.requesterCity": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterCity\"]"
+                    },
+                    "orderInfo.emrImport.requesterState": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterState\"]"
+                    },
+                    "orderInfo.emrImport.requesterZip": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterZip\"]"
+                    },
+                    "orderInfo.emrImport.requesterPhone": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterPhone\"]"
+                    },
+                    "orderInfo.emrImport.requesterFax": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterFax\"]"
+                    },
+                    "orderInfo.emrImport.requesterId": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterId\"]"
+                    },
+                    "orderInfo.emrImport.chartType": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.chartType\"]"
+                    },
+                    "orderInfo.emrImport.informationRequested": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.informationRequested\"]"
+                    },
+                    "orderInfo.emrImport.purpose": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.purpose\"]"
+                    },
+                    "orderInfo.emrImport.priority": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.priority\"]"
+                    },
+                    "orderInfo.emrImport.dateNeeded": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.dateNeeded\"]"
+                    },
+                    "orderInfo.emrImport.requestedFormat": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requestedFormat\"]"
+                    },
+                    "orderInfo.emrImport.saveAsImageFilePath": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.saveAsImageFilePath\"]"
+                    },
+                    "orderInfo.emrImport.saveAsImageFileName": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.saveAsImageFileName\"]"
+                    },
+                    "orderInfo.emrImport.releaseStatus": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.releaseStatus\"]"
+                    },
+                    "orderInfo.emrImport.processorUserId": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.processorUserId\"]"
+                    },
+                    "orderInfo.emrImport.epicRequesterId": {
+                        "type": "text",
+                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.epicRequesterId\"]"
+                    },
+                    "orderInfo.emrImport.comments": {
+                        "type": "textarea",
+                        "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.emrImport.comments\"]"
+                    }
+                }
+            }
+        }
+    }
+}
