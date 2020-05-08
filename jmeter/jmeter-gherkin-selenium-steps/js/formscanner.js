@@ -48,6 +48,13 @@ $('ng-form[name="createNewOrderForm"] div.tab-pane ng-form').each(function (tabI
 			// $(this).find( ... );
 
 			var label = model;
+            var labelTag = document.xpath("preceding-sibling::label", this);
+            if (labelTag) {
+            	label = normalize(labelTag[0].textContent);
+            } else {
+            	labelTag = document.xpath("../preceding-sibling::label", this);
+            	if (labelTag) label = normalize(labelTag[0].textContent);
+            }
 
 			var locator = `<from-parent-form-css> ${tag}[ng-model="${model}"]`;
 			var value = "";
@@ -78,13 +85,6 @@ $('ng-form[name="createNewOrderForm"] div.tab-pane ng-form').each(function (tabI
 				});
 				// We avoid select fields with no options
 				if (options.length < 1) return;
-
-                var labelTag = document.xpath("preceding-sibling::label", this);
-                if (labelTag) label = normalize(labelTag[0].textContent);
-			} else {
-				// First, try the preceding sibling...maybe we'll get lucky!
-	            var labelTag = document.xpath("preceding-sibling::label", this);
-	            if (labelTag) label = normalize(labelTag[0].textContent);
 			}
 
 			// Remove the "required" asterisk

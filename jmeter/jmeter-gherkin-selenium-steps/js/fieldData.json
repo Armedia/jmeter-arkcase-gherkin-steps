@@ -28,7 +28,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.middleInitials\"]"
                     },
-                    "FIXME::dateOfBirth": {
+                    "Date of Birth": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"dateOfBirth\"]"
                     },
@@ -368,7 +368,7 @@
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.certificationNumber\"]"
                     },
-                    "FIXME::expirationDate": {
+                    "Expiration Date": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"expirationDate\"]"
                     },
@@ -526,7 +526,7 @@
                             }
                         ]
                     },
-                    "FIXME::orderInfo.validBarcodeFlag": {
+                    "Barcode Validity": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.validBarcodeFlag\"]"
                     },
@@ -556,7 +556,7 @@
                             }
                         ]
                     },
-                    "FIXME::receivedDate": {
+                    "Received Date": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"receivedDate\"]"
                     },
@@ -1302,11 +1302,11 @@
                             }
                         ]
                     },
-                    "FIXME::dueDate": {
+                    "Due Date": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"dueDate\"]"
                     },
-                    "FIXME::depositionDate": {
+                    "Deposition Date": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"depositionDate\"]"
                     },
@@ -1314,7 +1314,7 @@
                         "type": "checkbox",
                         "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Signature Present']/input[@type='checkbox']"
                     },
-                    "FIXME::signatureDate": {
+                    "Enter Date Signed": {
                         "type": "text",
                         "locator": "<from-parent-form-css> input[ng-model=\"signatureDate\"]"
                     },
