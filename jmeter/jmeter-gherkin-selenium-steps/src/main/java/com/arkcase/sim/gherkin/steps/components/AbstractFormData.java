@@ -40,7 +40,6 @@ import java.util.function.Function;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.ui.Select;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
@@ -90,20 +89,19 @@ public class AbstractFormData extends ComponentSteps {
 	 * @param str
 	 * @return
 	 */
-	private static boolean isTrueEquivalent(String str) {
+	private static boolean isTrue(String str) {
 		return AbstractFormData.TRUE.contains(StringUtils.lowerCase(StringUtils.trim(str)));
 	}
 
 	protected static boolean selectItem(WebElement element, String string) {
-		if (AbstractFormData.isTrueEquivalent(string)) {
+		if (AbstractFormData.isTrue(string)) {
 			element.click();
 		}
 		return true;
 	}
 
 	protected static boolean selectOption(WebElement element, String option) {
-		Select select = new Select(element);
-		select.deselectByVisibleText(option);
+		new Select(element).selectByVisibleText(option);
 		return true;
 	}
 
@@ -318,13 +316,6 @@ public class AbstractFormData extends ComponentSteps {
 	}
 
 	public static class FormTab extends Container {
-
-		@JsonIgnore
-		public final By expandButton;
-
-		@JsonIgnore
-		public final By contractButton;
-
 		@JsonProperty("sections")
 		private final Map<String, FormSection> sections;
 
@@ -335,8 +326,6 @@ public class AbstractFormData extends ComponentSteps {
 			@JsonProperty("forms") Map<String, FormSection> forms //
 		) {
 			super(name, body, title);
-			this.expandButton = new ByChained(this.body, By.cssSelector("i.fa.fa-expand"));
-			this.contractButton = new ByChained(this.body, By.cssSelector("i.fa.fa-compress"));
 			if ((forms != null) && !forms.isEmpty()) {
 				this.sections = Collections.unmodifiableMap(new LinkedHashMap<>(forms));
 			} else {

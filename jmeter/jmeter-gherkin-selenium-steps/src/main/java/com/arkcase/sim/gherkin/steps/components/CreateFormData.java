@@ -31,6 +31,7 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
@@ -41,6 +42,10 @@ import com.arkcase.sim.tools.JSON;
 public class CreateFormData extends AbstractFormData {
 
 	private static final String CREATE_FORM_DEFINITIONS = "createNewOrderForm.json";
+
+	private static final By BTN_EXPAND = By.cssSelector("i.fa.fa-expand");
+	// private static final By BTN_COMPRESS = By.cssSelector("i.fa.fa-compress");
+
 	private static final Map<String, FormTab> TABS;
 	static {
 		Map<String, FormTab> tabs;
@@ -95,8 +100,9 @@ public class CreateFormData extends AbstractFormData {
 		}
 
 		final WebElement tabBody = findTab(tab, wait);
-
-		WebElement sectionBody = tabBody.findElement(section.body);
+		// Expand the tab's contents
+		tabBody.findElement(CreateFormData.BTN_EXPAND).click();
+		WebElement sectionBody = section.getBody(getWaitHelper());
 		if (wait) {
 			getWaitHelper().waitForElement(sectionBody, WaitType.VISIBLE);
 		}
