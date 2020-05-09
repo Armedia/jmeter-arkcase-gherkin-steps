@@ -1,44 +1,52 @@
 {
-    "createTabForm": {
-        "locator": "<all-tabs-container> ng-form[name=\"createTabForm\"]",
+    "Create": {
+        "locator": "ng-form[name=\"createTabForm\"]",
         "forms": {
             "Patient Specifics": {
                 "source": "modules/orders/views/components/patient-info.client.view.html",
-                "locator": "<parent-tab> form[name=\"Patient Specifics\"",
+                "locator": "form[name=\"Patient Specifics\"",
                 "fields": {
                     "New Patient": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"patientType\"][value=\"new\"]",
+                        "locator": "input[ng-model=\"patientType\"][value=\"new\"]",
+                        "locatorType": "css",
                         "value": "new"
                     },
                     "Existing Patient": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"patientType\"][value=\"existing\"]",
+                        "locator": "input[ng-model=\"patientType\"][value=\"existing\"]",
+                        "locatorType": "css",
                         "value": "existing"
                     },
                     "Last Name": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.familyName\"]"
+                        "locator": "input[ng-model=\"orderInfo.patient.familyName\"]",
+                        "locatorType": "css"
                     },
                     "First Name": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.givenName\"]"
+                        "locator": "input[ng-model=\"orderInfo.patient.givenName\"]",
+                        "locatorType": "css"
                     },
                     "M.I.": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.middleInitials\"]"
+                        "locator": "input[ng-model=\"orderInfo.patient.middleInitials\"]",
+                        "locatorType": "css"
                     },
                     "Date of Birth": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"dateOfBirth\"]"
+                        "locator": "input[ng-model=\"dateOfBirth\"]",
+                        "locatorType": "css"
                     },
                     "MRN": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.medicalRecordNumber\"]"
+                        "locator": "input[ng-model=\"orderInfo.patient.medicalRecordNumber\"]",
+                        "locatorType": "css"
                     },
                     "Gender": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.gender\"]",
+                        "locator": "select[ng-model=\"orderInfo.patient.gender\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Select Gender",
@@ -56,15 +64,18 @@
                     },
                     "Address": {
                         "type": "textarea",
-                        "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.patient.addresses[0].streetAddress\"]"
+                        "locator": "textarea[ng-model=\"orderInfo.patient.addresses[0].streetAddress\"]",
+                        "locatorType": "css"
                     },
                     "City": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.addresses[0].city\"]"
+                        "locator": "input[ng-model=\"orderInfo.patient.addresses[0].city\"]",
+                        "locatorType": "css"
                     },
                     "State": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.addresses[0].state\"]",
+                        "locator": "select[ng-model=\"orderInfo.patient.addresses[0].state\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose State",
@@ -310,11 +321,13 @@
                     },
                     "ZIP": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.patient.addresses[0].zip\"]"
+                        "locator": "input[ng-model=\"orderInfo.patient.addresses[0].zip\"]",
+                        "locatorType": "css"
                     },
                     "Country": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.patient.addresses[0].country\"]",
+                        "locator": "select[ng-model=\"orderInfo.patient.addresses[0].country\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Country",
@@ -332,19 +345,23 @@
                     },
                     "Phone Number": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.defaultPhone\"]"
+                        "locator": "input[ng-model=\"contacts.defaultPhone\"]",
+                        "locatorType": "css"
                     },
                     "Alt Phone Number": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.phone\"]"
+                        "locator": "input[ng-model=\"contacts.phone\"]",
+                        "locatorType": "css"
                     },
                     "Email Address": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
+                        "locator": "input[ng-model=\"contacts.email\"]",
+                        "locatorType": "css"
                     },
                     "Certification Type": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.certificationType\"]",
+                        "locator": "select[ng-model=\"orderInfo.certificationType\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Certification Type",
@@ -366,35 +383,41 @@
                     },
                     "Certification Number": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.certificationNumber\"]"
+                        "locator": "input[ng-model=\"orderInfo.certificationNumber\"]",
+                        "locatorType": "css"
                     },
                     "Expiration Date": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"expirationDate\"]"
+                        "locator": "input[ng-model=\"expirationDate\"]",
+                        "locatorType": "css"
                     },
                     "Custodial Reference": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.custodialReference\"]"
+                        "locator": "input[ng-model=\"orderInfo.custodialReference\"]",
+                        "locatorType": "css"
                     }
                 }
             },
             "Request Specifics": {
                 "source": "modules/orders/views/components/order-details.client.view.html",
-                "locator": "<parent-tab> form[name=\"Request Specifics\"",
+                "locator": "form[name=\"Request Specifics\"",
                 "fields": {
                     "Bill to Requester": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_requester\"]",
+                        "locator": "input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_requester\"]",
+                        "locatorType": "css",
                         "value": "bill_to_requester"
                     },
                     "Bill to Client": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_client\"]",
+                        "locator": "input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_client\"]",
+                        "locatorType": "css",
                         "value": "bill_to_client"
                     },
                     "Priority": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.priority\"]",
+                        "locator": "select[ng-model=\"orderInfo.priority\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Priority",
@@ -412,7 +435,8 @@
                     },
                     "Override Status": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.overrideStatus\"]",
+                        "locator": "select[ng-model=\"orderInfo.overrideStatus\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Select Override Status",
@@ -434,7 +458,8 @@
                     },
                     "Handling Option": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.printOption\"]",
+                        "locator": "select[ng-model=\"orderInfo.printOption\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Handling Option",
@@ -452,7 +477,8 @@
                     },
                     "Record Type": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.recordType\"]",
+                        "locator": "select[ng-model=\"orderInfo.recordType\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Record Type",
@@ -486,7 +512,8 @@
                     },
                     "Processing Options": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"selectedProcessingOption\"]",
+                        "locator": "select[ng-model=\"selectedProcessingOption\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Processing Options",
@@ -494,45 +521,47 @@
                             },
                             {
                                 "label": "Notary",
-                                "value": "object:1673"
+                                "value": "object:1924"
                             },
                             {
                                 "label": "Certification",
-                                "value": "object:1674"
+                                "value": "object:1925"
                             },
                             {
                                 "label": "Affidavit",
-                                "value": "object:1675"
+                                "value": "object:1926"
                             },
                             {
                                 "label": "Questionnaire",
-                                "value": "object:1676"
+                                "value": "object:1927"
                             },
                             {
                                 "label": "Film",
-                                "value": "object:1677"
+                                "value": "object:1928"
                             },
                             {
                                 "label": "Studies",
-                                "value": "object:1678"
+                                "value": "object:1929"
                             },
                             {
                                 "label": "Photographs",
-                                "value": "object:1679"
+                                "value": "object:1930"
                             },
                             {
                                 "label": "# Years Searched",
-                                "value": "object:1680"
+                                "value": "object:1931"
                             }
                         ]
                     },
                     "Barcode Validity": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.validBarcodeFlag\"]"
+                        "locator": "input[ng-model=\"orderInfo.validBarcodeFlag\"]",
+                        "locatorType": "css"
                     },
                     "Received Via": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.receivedVia\"]",
+                        "locator": "select[ng-model=\"orderInfo.receivedVia\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Received Via",
@@ -558,25 +587,29 @@
                     },
                     "Received Date": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"receivedDate\"]"
+                        "locator": "input[ng-model=\"receivedDate\"]",
+                        "locatorType": "css"
                     },
                     "External System ID": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.externalSystemId\"]"
+                        "locator": "input[ng-model=\"orderInfo.externalSystemId\"]",
+                        "locatorType": "css"
                     }
                 }
             },
             "Deposit Information": {
                 "source": "modules/orders/views/components/order-payment.client.view.html",
-                "locator": "<parent-tab> form[name=\"Deposit Information\"",
+                "locator": "form[name=\"Deposit Information\"",
                 "fields": {
                     "Deposit Amount": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.paymentAmount\"]"
+                        "locator": "input[ng-model=\"orderInfo.paymentAmount\"]",
+                        "locatorType": "css"
                     },
                     "Deposit Method": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.paymentMethod\"]",
+                        "locator": "select[ng-model=\"orderInfo.paymentMethod\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Select Payment Method",
@@ -606,17 +639,19 @@
                     },
                     "Method Number": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.paymentMethodNumber\"]"
+                        "locator": "input[ng-model=\"orderInfo.paymentMethodNumber\"]",
+                        "locatorType": "css"
                     }
                 }
             },
             "Request Activity": {
                 "source": "modules/orders/views/components/order-activity.client.view.html",
-                "locator": "<parent-tab> form[name=\"Request Activity\"",
+                "locator": "form[name=\"Request Activity\"",
                 "fields": {
                     "Pending State": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.pendingState\"]",
+                        "locator": "select[ng-model=\"orderInfo.pendingState\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Select Pending State",
@@ -836,126 +871,147 @@
             }
         }
     },
-    "shippingBillingForm": {
-        "locator": "<all-tabs-container> ng-form[name=\"shippingBillingForm\"]",
+    "Shipping & Billing": {
+        "locator": "ng-form[name=\"shippingBillingForm\"]",
         "forms": {
             "Requester Specifics": {
                 "source": "modules/orders/views/components/requester-info.client.view.html",
-                "locator": "<parent-tab> form[name=\"Requester Specifics\"",
+                "locator": "form[name=\"Requester Specifics\"",
                 "fields": {
                     "Existing Requester": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"existing\"]",
+                        "locator": "input[ng-model=\"requesterType\"][value=\"existing\"]",
+                        "locatorType": "css",
                         "value": "existing"
                     },
                     "New Requester": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"new\"]",
+                        "locator": "input[ng-model=\"requesterType\"][value=\"new\"]",
+                        "locatorType": "css",
                         "value": "new"
                     },
                     "As Patient": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"requesterType\"][value=\"asPatient\"]",
+                        "locator": "input[ng-model=\"requesterType\"][value=\"asPatient\"]",
+                        "locatorType": "css",
                         "value": "asPatient"
                     }
                 }
             },
             "Billing Contact Specifics": {
                 "source": "modules/orders/views/components/billing-info.client.view.html",
-                "locator": "<parent-tab> form[name=\"Billing Contact Specifics\"",
+                "locator": "form[name=\"Billing Contact Specifics\"",
                 "fields": {
                     "As Requester": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"billingType\"][value=\"asRequester\"]",
+                        "locator": "input[ng-model=\"billingType\"][value=\"asRequester\"]",
+                        "locatorType": "css",
                         "value": "asRequester"
                     },
                     "Attention": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.billingInfo.attention\"]"
+                        "locator": "input[ng-model=\"orderInfo.billingInfo.attention\"]",
+                        "locatorType": "css"
                     },
                     "Email Address": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
+                        "locator": "input[ng-model=\"contacts.email\"]",
+                        "locatorType": "css"
                     },
                     "Fax Number": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.fax\"]"
+                        "locator": "input[ng-model=\"contacts.fax\"]",
+                        "locatorType": "css"
                     }
                 }
             },
             "Email Notifications": {
                 "source": "modules/orders/views/components/order-notifications.client.view.html",
-                "locator": "<parent-tab> form[name=\"Email Notifications\"",
+                "locator": "form[name=\"Email Notifications\"",
                 "fields": {
                     "As Requester": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asRequester\"]",
+                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asRequester\"]",
+                        "locatorType": "css",
                         "value": "asRequester"
                     },
                     "As Patient": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asPatient\"]",
+                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asPatient\"]",
+                        "locatorType": "css",
                         "value": "asPatient"
                     },
                     "New email": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmailType\"][value=\"new\"]",
+                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"new\"]",
+                        "locatorType": "css",
                         "value": "new"
                     },
                     "Send Notifications to these addresses?": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Send Notifications to these addresses?']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Send Notifications to these addresses?']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Notification Address": {
                         "type": "email",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.notificationEmail\"]"
+                        "locator": "input[ng-model=\"orderInfo.notificationEmail\"]",
+                        "locatorType": "css"
                     },
                     "CC Address": {
                         "type": "email",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.ccNotificationEmail\"]"
+                        "locator": "input[ng-model=\"orderInfo.ccNotificationEmail\"]",
+                        "locatorType": "css"
                     }
                 }
             },
             "Shipping Specifics": {
                 "source": "modules/orders/views/components/shipping-info.client.view.html",
-                "locator": "<parent-tab> form[name=\"Shipping Specifics\"",
+                "locator": "form[name=\"Shipping Specifics\"",
                 "fields": {
                     "As Requester": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asRequester\"]",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"asRequester\"]",
+                        "locatorType": "css",
                         "value": "asRequester"
                     },
                     "As Patient": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asPatient\"]",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"asPatient\"]",
+                        "locatorType": "css",
                         "value": "asPatient"
                     },
                     "As Location": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asClient\"]",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"asClient\"]",
+                        "locatorType": "css",
                         "value": "asClient"
                     },
                     "New": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"new\"]",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"new\"]",
+                        "locatorType": "css",
                         "value": "new"
                     },
                     "As Other Requester": {
                         "type": "radio",
-                        "locator": "<from-parent-form-css> input[ng-model=\"shippingType\"][value=\"asOtherRequester\"]",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"asOtherRequester\"]",
+                        "locatorType": "css",
                         "value": "asOtherRequester"
                     },
                     "Address": {
                         "type": "textarea",
-                        "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.shippingInfo.addresses[0].streetAddress\"]"
+                        "locator": "textarea[ng-model=\"orderInfo.shippingInfo.addresses[0].streetAddress\"]",
+                        "locatorType": "css"
                     },
                     "City": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.addresses[0].city\"]"
+                        "locator": "input[ng-model=\"orderInfo.shippingInfo.addresses[0].city\"]",
+                        "locatorType": "css"
                     },
                     "State": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.shippingInfo.addresses[0].state\"]",
+                        "locator": "select[ng-model=\"orderInfo.shippingInfo.addresses[0].state\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose State",
@@ -1201,11 +1257,13 @@
                     },
                     "ZIP": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.addresses[0].zip\"]"
+                        "locator": "input[ng-model=\"orderInfo.shippingInfo.addresses[0].zip\"]",
+                        "locatorType": "css"
                     },
                     "Country": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.shippingInfo.addresses[0].country\"]",
+                        "locator": "select[ng-model=\"orderInfo.shippingInfo.addresses[0].country\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Country",
@@ -1223,35 +1281,43 @@
                     },
                     "Certified Mail": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Certified Mail']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Certified Mail']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Company Name": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.companyName\"]"
+                        "locator": "input[ng-model=\"orderInfo.shippingInfo.companyName\"]",
+                        "locatorType": "css"
                     },
                     "Attention": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.shippingInfo.attention\"]"
+                        "locator": "input[ng-model=\"orderInfo.shippingInfo.attention\"]",
+                        "locatorType": "css"
                     },
                     "Phone Number": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.phone\"]"
+                        "locator": "input[ng-model=\"contacts.phone\"]",
+                        "locatorType": "css"
                     },
                     "Email Address": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.email\"]"
+                        "locator": "input[ng-model=\"contacts.email\"]",
+                        "locatorType": "css"
                     },
                     "Confirm Email Address": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.confirmationEmail\"]"
+                        "locator": "input[ng-model=\"contacts.confirmationEmail\"]",
+                        "locatorType": "css"
                     },
                     "Fax Number": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"contacts.fax\"]"
+                        "locator": "input[ng-model=\"contacts.fax\"]",
+                        "locatorType": "css"
                     },
                     "Delivery Method": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.deliveryMethod\"]",
+                        "locator": "select[ng-model=\"orderInfo.deliveryMethod\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Delivery Method",
@@ -1275,16 +1341,17 @@
             }
         }
     },
-    "orderDetailsForm": {
-        "locator": "<all-tabs-container> ng-form[name=\"orderDetailsForm\"]",
+    "Details": {
+        "locator": "ng-form[name=\"orderDetailsForm\"]",
         "forms": {
             "Authorization Specifics": {
                 "source": "modules/orders/views/components/order-authorization.client.view.html",
-                "locator": "<parent-tab> form[name=\"Authorization Specifics\"",
+                "locator": "form[name=\"Authorization Specifics\"",
                 "fields": {
                     "Request Type": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.requestType\"]",
+                        "locator": "select[ng-model=\"orderInfo.requestType\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Request Type",
@@ -1294,7 +1361,8 @@
                     },
                     "Request Subtype": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.requestSubType\"]",
+                        "locator": "select[ng-model=\"orderInfo.requestSubType\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Request Subtype",
@@ -1304,23 +1372,28 @@
                     },
                     "Due Date": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"dueDate\"]"
+                        "locator": "input[ng-model=\"dueDate\"]",
+                        "locatorType": "css"
                     },
                     "Deposition Date": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"depositionDate\"]"
+                        "locator": "input[ng-model=\"depositionDate\"]",
+                        "locatorType": "css"
                     },
                     "Signature Present": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Signature Present']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Signature Present']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Enter Date Signed": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"signatureDate\"]"
+                        "locator": "input[ng-model=\"signatureDate\"]",
+                        "locatorType": "css"
                     },
                     "Authorization Type": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.authorizationType\"]",
+                        "locator": "select[ng-model=\"orderInfo.authorizationType\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "Choose Authorization",
@@ -1360,74 +1433,96 @@
             },
             "Validation": {
                 "source": "modules/orders/views/components/order-validation.client.view.html",
-                "locator": "<parent-tab> form[name=\"Validation\"",
+                "locator": "form[name=\"Validation\"",
                 "fields": {
                     "Verify Patient DOB": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Verify Patient DOB']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Verify Patient DOB']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Verify First Page of Abstract": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Verify First Page of Abstract']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Verify First Page of Abstract']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Verify Last Page of Abstract": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Verify Last Page of Abstract']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Verify Last Page of Abstract']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    }
+                }
+            },
+            "QC Validation": {
+                "source": "modules/orders/views/components/order-qc-validation.client.view.html",
+                "locator": "form[name=\"QC Validation\"",
+                "fields": {
+                    "Verify": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Verify']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     }
                 }
             }
         }
     },
-    "orderInfoForm": {
-        "locator": "<all-tabs-container> ng-form[name=\"orderInfoForm\"]",
+    "Information": {
+        "locator": "ng-form[name=\"orderInfoForm\"]",
         "forms": {
             "Legacy": {
                 "source": "modules/orders/views/components/order-legacy.client.view.html",
-                "locator": "<parent-tab> form[name=\"Legacy\"",
+                "locator": "form[name=\"Legacy\"",
                 "fields": {
                     "Creator/Field Agent": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.creator\"]"
+                        "locator": "input[ng-model=\"orderLegacy.creator\"]",
+                        "locatorType": "css"
                     },
                     "RMS Request ID": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requestId\"]"
+                        "locator": "input[ng-model=\"orderLegacy.requestId\"]",
+                        "locatorType": "css"
                     },
                     "Record Source": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.recordSource\"]"
+                        "locator": "input[ng-model=\"orderLegacy.recordSource\"]",
+                        "locatorType": "css"
                     }
                 }
             },
             "Project Specifics": {
                 "source": "modules/orders/views/components/order-project-specifics.client.view.html",
-                "locator": "<parent-tab> form[name=\"Project Specifics\"",
+                "locator": "form[name=\"Project Specifics\"",
                 "fields": {
                     "Project ID": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.projectId\"]"
+                        "locator": "input[ng-model=\"orderInfo.projectId\"]",
+                        "locatorType": "css"
                     },
                     "Batch #": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.batch.batchNumber\"]"
+                        "locator": "input[ng-model=\"orderInfo.batch.batchNumber\"]",
+                        "locatorType": "css"
                     },
                     "Reference ID 1": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requesterCaseNumber1\"]"
+                        "locator": "input[ng-model=\"orderInfo.requesterCaseNumber1\"]",
+                        "locatorType": "css"
                     },
                     "Reference ID 2": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.requesterCaseNumber2\"]"
+                        "locator": "input[ng-model=\"orderInfo.requesterCaseNumber2\"]",
+                        "locatorType": "css"
                     }
                 }
             },
             "Disclosures": {
                 "source": "modules/orders/views/components/order-disclosures.client.view.html",
-                "locator": "<parent-tab> form[name=\"Disclosures\"",
+                "locator": "form[name=\"Disclosures\"",
                 "fields": {
                     "Dates of Service": {
                         "type": "select",
-                        "locator": "<from-parent-form-css> select[ng-model=\"orderInfo.disclosureScope\"]",
+                        "locator": "select[ng-model=\"orderInfo.disclosureScope\"]",
+                        "locatorType": "css",
                         "options": [
                             {
                                 "label": "? object:null ?",
@@ -1446,10 +1541,6 @@
                                 "value": "last_twelve_months"
                             },
                             {
-                                "label": "DOS TEST",
-                                "value": "dos_test"
-                            },
-                            {
                                 "label": "Last 2 Years",
                                 "value": "last_two_years"
                             },
@@ -1458,280 +1549,310 @@
                                 "value": "last_five_years"
                             },
                             {
-                                "label": "Last 6 Months",
-                                "value": "last_6_months"
+                                "label": "Last 100 years",
+                                "value": "last_100_years"
                             },
                             {
-                                "label": "Last 6 Months",
-                                "value": "last_6_months"
-                            },
-                            {
-                                "label": "TEST 11",
-                                "value": "test_11"
+                                "label": "Last 2 Years",
+                                "value": "last_2_years"
                             }
                         ]
                     },
                     "Any and all": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Any and all']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Any and all']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "MJE Left Disclosure": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='MJE Left Disclosure']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Commitment Papers": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Commitment Papers']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Commitment Papers']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Consultation": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Consultation']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Consultation']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Diagnostic Imaging Reports": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Diagnostic Imaging Reports']/input[@type='checkbox']"
-                    },
-                    "Disclosure Summary": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Disclosure Summary']/input[@type='checkbox']"
-                    },
-                    "Discharge Summary": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Discharge Summary']/input[@type='checkbox']"
-                    },
-                    "Rennick Left Test": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Rennick Left Test']/input[@type='checkbox']"
-                    },
-                    "Discharge Instructions": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Discharge Instructions']/input[@type='checkbox']"
-                    },
-                    "Doctor Orders": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Doctor Orders']/input[@type='checkbox']"
-                    },
-                    "Er Record": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Er Record']/input[@type='checkbox']"
-                    },
-                    "EKC/ECG Tests": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='EKC/ECG Tests']/input[@type='checkbox']"
-                    },
-                    "Facesheet": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Facesheet']/input[@type='checkbox']"
-                    },
-                    "MRI Scan": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='MRI Scan']/input[@type='checkbox']"
-                    },
-                    "TEST 22": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 22']/input[@type='checkbox']"
-                    },
-                    "TEST 10": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 10']/input[@type='checkbox']"
-                    },
-                    "test": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='test']/input[@type='checkbox']"
-                    },
-                    "Hard-Copy Offsite": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Hard-Copy Offsite']/input[@type='checkbox']"
-                    },
-                    "Itemized Bill": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Itemized Bill']/input[@type='checkbox']"
-                    },
-                    "Rennick Right Test EDIT": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Rennick Right Test EDIT']/input[@type='checkbox']"
-                    },
-                    "Lab Reports": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Lab Reports']/input[@type='checkbox']"
-                    },
-                    "Medication Records": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Medication Records']/input[@type='checkbox']"
-                    },
-                    "Nurse Notes": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Nurse Notes']/input[@type='checkbox']"
-                    },
-                    "Operative Report": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Operative Report']/input[@type='checkbox']"
-                    },
-                    "Progress Notes": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Progress Notes']/input[@type='checkbox']"
-                    },
-                    "Treatment Plans": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Treatment Plans']/input[@type='checkbox']"
-                    },
-                    "Therapy Notes": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Therapy Notes']/input[@type='checkbox']"
-                    },
-                    "CAT Scan": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='CAT Scan']/input[@type='checkbox']"
-                    },
-                    "TEST 33": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 33']/input[@type='checkbox']"
-                    },
-                    "test 12": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='test 12']/input[@type='checkbox']"
-                    },
-                    "none": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='none']/input[@type='checkbox']"
-                    },
-                    "HIV/AIDS": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='HIV/AIDS']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Diagnostic Imaging Reports']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Rennick Left Test EDIT": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Rennick Left Test EDIT']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Rennick Left Test EDIT']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Disclosure Summary": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Disclosure Summary']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Discharge Summary": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Discharge Summary']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Discharge Instructions": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Discharge Instructions']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Doctor Orders": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Doctor Orders']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Er Record": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Er Record']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "EKC/ECG Tests": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='EKC/ECG Tests']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Facesheet": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Facesheet']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Sanija TEST": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Sanija TEST']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "CAT scannn": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='CAT scannn']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "MJE Right Disclosure": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='MJE Right Disclosure']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Itemized Bill": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Itemized Bill']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Matt Disclosure": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Matt Disclosure']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Hard-Copy Offsite": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Hard-Copy Offsite']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Lab Reports": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Lab Reports']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Medication Records": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Medication Records']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Nurse Notes": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Nurse Notes']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Rennick Right Test EDIT": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Rennick Right Test EDIT']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Operative Report": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Operative Report']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Progress Notes": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Progress Notes']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Treatment Plans": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Treatment Plans']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Therapy Notes": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Therapy Notes']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Sanija DEMO": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Sanija DEMO']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "None": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='None']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "HIV/AIDS": {
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='HIV/AIDS']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Mental Health": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Mental Health']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Mental Health']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
-                    "Health": {
+                    "MJE MM": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Health']/input[@type='checkbox']"
-                    },
-                    "TEST 44": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 44']/input[@type='checkbox']"
-                    },
-                    "TEST 5": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 5']/input[@type='checkbox']"
-                    },
-                    "TEST 87": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 87']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='MJE MM']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Genetic Testing": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Genetic Testing']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Genetic Testing']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
                     "Drug Treatment": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Drug Treatment']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='Drug Treatment']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     },
-                    "Blood Test": {
+                    "MJE DNA": {
                         "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='Blood Test']/input[@type='checkbox']"
-                    },
-                    "TEST 66": {
-                        "type": "checkbox",
-                        "locator": "<from-parent-form-xpath> .//label[normalize-space(text())='TEST 66']/input[@type='checkbox']"
+                        "locator": ".//label[normalize-space(text())='MJE DNA']/input[@type='checkbox']",
+                        "locatorType": "xpath"
                     }
                 }
             },
             "EMR Import": {
                 "source": "modules/orders/views/components/order-emr-import.client.view.html",
-                "locator": "<parent-tab> form[name=\"EMR Import\"",
+                "locator": "form[name=\"EMR Import\"",
                 "fields": {
                     "Unknown Patient": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.unknownPatient\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.unknownPatient\"]",
+                        "locatorType": "css"
                     },
                     "Release Type": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.releaseType\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.releaseType\"]",
+                        "locatorType": "css"
                     },
                     "Requester Name": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterName\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterName\"]",
+                        "locatorType": "css"
                     },
                     "Requester Attention to": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterAttentionTo\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterAttentionTo\"]",
+                        "locatorType": "css"
                     },
                     "Requester Address": {
                         "type": "textarea",
-                        "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.emrImport.requesterAddress\"]"
+                        "locator": "textarea[ng-model=\"orderInfo.emrImport.requesterAddress\"]",
+                        "locatorType": "css"
                     },
                     "Requester City": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterCity\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterCity\"]",
+                        "locatorType": "css"
                     },
                     "Requester State": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterState\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterState\"]",
+                        "locatorType": "css"
                     },
                     "Requester Zip": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterZip\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterZip\"]",
+                        "locatorType": "css"
                     },
                     "Requester Phone": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterPhone\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterPhone\"]",
+                        "locatorType": "css"
                     },
                     "Requester Fax": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterFax\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterFax\"]",
+                        "locatorType": "css"
                     },
                     "Requester ID": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requesterId\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterId\"]",
+                        "locatorType": "css"
                     },
                     "Chart Type": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.chartType\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.chartType\"]",
+                        "locatorType": "css"
                     },
                     "Information Requested": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.informationRequested\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.informationRequested\"]",
+                        "locatorType": "css"
                     },
                     "Purpose": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.purpose\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.purpose\"]",
+                        "locatorType": "css"
                     },
                     "Priority": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.priority\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.priority\"]",
+                        "locatorType": "css"
                     },
                     "Date Needed": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.dateNeeded\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.dateNeeded\"]",
+                        "locatorType": "css"
                     },
                     "Requested Format": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.requestedFormat\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requestedFormat\"]",
+                        "locatorType": "css"
                     },
                     "Save as Image File Path": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.saveAsImageFilePath\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.saveAsImageFilePath\"]",
+                        "locatorType": "css"
                     },
                     "Save as Image File Name": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.saveAsImageFileName\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.saveAsImageFileName\"]",
+                        "locatorType": "css"
                     },
                     "Release Status": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.releaseStatus\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.releaseStatus\"]",
+                        "locatorType": "css"
                     },
                     "Processor User ID": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.processorUserId\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.processorUserId\"]",
+                        "locatorType": "css"
                     },
                     "Epic Requester ID": {
                         "type": "text",
-                        "locator": "<from-parent-form-css> input[ng-model=\"orderInfo.emrImport.epicRequesterId\"]"
+                        "locator": "input[ng-model=\"orderInfo.emrImport.epicRequesterId\"]",
+                        "locatorType": "css"
                     },
                     "Comments": {
                         "type": "textarea",
-                        "locator": "<from-parent-form-css> textarea[ng-model=\"orderInfo.emrImport.comments\"]"
+                        "locator": "textarea[ng-model=\"orderInfo.emrImport.comments\"]",
+                        "locatorType": "css"
                     }
                 }
             }
