@@ -52,6 +52,7 @@
 		<commons-io.version>2.6</commons-io.version>
 		<commons-lang3.version>3.9</commons-lang3.version>
 		<commons-text.version>1.8</commons-text.version>
+		<jackson.version>2.9.10</jackson.version>
 		<jmeter-plugins-gherkin.version>1.0.0</jmeter-plugins-gherkin.version>
 		<selenium.version>3.141.59</selenium.version>
 		<slf4j.version>1.7.28</slf4j.version>
@@ -113,6 +114,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>${commons-io.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j.version}</version>
@@ -123,6 +130,12 @@
 			<artifactId>selenium-java</artifactId>
 			<version>${selenium.version}</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>${jackson.version}</version>
+		    <scope>provided</scope>
 		</dependency>
 
 		<dependency>

@@ -26,7 +26,9 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
+import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
@@ -36,11 +38,44 @@ import java.util.function.BiPredicate;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.Select;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
 
 public class AbstractFormData extends ComponentSteps {
+
+	public static class JSON {
+		public static class Field {
+			public String name;
+			public String type;
+			public String locator;
+			public String locatorType;
+			public String value;
+			public Collection<String> options;
+		}
+
+		public static class Form {
+			public String source;
+			public String body;
+			public String title;
+			public String name;
+			public Map<String, Field> fields = new HashMap<>();
+		}
+
+		public static class Group {
+			public String name;
+			public String body;
+			public String title;
+			public Map<String, Form> forms = new HashMap<>();
+		}
+
+		public static class Container {
+			public String name;
+			public String body;
+			public Map<String, Group> groups = new HashMap<>();
+		}
+	}
 
 	private static final Set<String> TRUE;
 	static {
@@ -91,6 +126,12 @@ public class AbstractFormData extends ComponentSteps {
 		return true;
 	}
 
+	protected static boolean selectOption(WebElement element, String option) {
+		Select select = new Select(element);
+		select.deselectByVisibleText(option);
+		return true;
+	}
+
 	protected static boolean applyKeystrokes(WebElement element, String string) {
 		element.sendKeys(string);
 		return true;
@@ -108,8 +149,7 @@ public class AbstractFormData extends ComponentSteps {
 		CHECKBOX(AbstractFormData::selectItem), //
 
 		// Find the child "option" with the correct name, then click() it
-		SELECT() {
-		}, //
+		SELECT(AbstractFormData::selectOption), //
 
 		// These will be ignored (or error out?)
 		FILE, //
@@ -140,13 +180,18 @@ public class AbstractFormData extends ComponentSteps {
 			if (!element.isEnabled()) { return false; }
 			return this.impl.test(element, value);
 		}
+
+		public static final FieldType parse(String type) {
+			if (type == null) { return null; }
+			return FieldType.valueOf(StringUtils.upperCase(type));
+		}
 	}
 
 	protected static class Container {
 
 		public final String name;
-		public final By title;
 		public final By body;
+		public final By title;
 
 		protected Container(String name, By title, By body) {
 			this.name = name;
@@ -183,8 +228,8 @@ public class AbstractFormData extends ComponentSteps {
 	public static class Field {
 
 		public final String label;
-		public final By selector;
 		public final FieldType fieldType;
+		public final By selector;
 
 		public Field(String label, By selector, FieldType fieldType) {
 			this.label = label;
