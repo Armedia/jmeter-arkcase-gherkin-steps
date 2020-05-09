@@ -4,6 +4,7 @@
     	$(root).each(function (tabIndex) {
     		var tabObj = {};
     		var tabName = this.getAttribute("name");
+    		tabObj["name"] = tabName;
     		tabObj["body"] = `ng-form[name="${tabName}"]`;
     		tabObj["title"] = `li[active="tabs.${tabName}TabActive"]`;
 
@@ -30,6 +31,7 @@
     			formObj["source"] = eval(div.attr("ng-include"));
     			formObj["body"] = `panel-view[header="${formName}"] div.panel-body form`;
     			formObj["title"] = `panel-view[header="${formName}"] div.panel-heading`;
+    			formObj["name"] = formName;
     			var fields = {};
     			formObj["fields"] = fields;
     			$(this).find("input, select, textarea").each(function (fieldIndex) {
@@ -81,16 +83,10 @@
     	                // Find the options, get the values and labels
     	                options = [];
     	                $(this).find("option").each(function (optionIndex) {
-    						var value = this.getAttribute("value");
     						var label = this.textContent;
     						if (!label) label = this.getAttribute("label");
-    						if (!label) label = value;
-
-    						var o = {
-    							label: label,
-    							value: value
-    						};
-    						options.push(o);
+    						if (!label) label = this.getAttribute("value");
+    						if (label) options.push(label);
     					});
     					// We avoid select fields with no options
     					if (options.length < 1) return;
@@ -104,6 +100,7 @@
     				if (label == model) label = `FIXME::${label}`;
 
     				var field = {
+    					"name" : label,
     					"type" : type,
     					"locator" : locator,
     					"locatorType" : locatorType
