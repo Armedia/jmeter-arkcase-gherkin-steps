@@ -26,30 +26,37 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
+import com.arkcase.sim.tools.JSON;
 
 public class CreateFormData extends AbstractFormData {
 
-	private static final By TAB_PANE = By.cssSelector("ng-form[name=\"createNewOrderForm\"] div.tab-pane");
-
-	private static final By EXPAND_ALL = By.cssSelector("i.fa-expand");
-
+	private static final String CREATE_FORM_DEFINITIONS = "createNewOrderForm.json";
 	private static final Map<String, FormTab> TABS;
-
 	static {
-		// TODO: Initialize the TAB defintions!
-		Map<String, FormTab> tabs = new LinkedHashMap<>();
-
-		TABS = Collections.unmodifiableMap(tabs);
+		Map<String, FormTab> tabs;
+		try {
+			tabs = JSON.unmarshal((mapper) -> {
+				return mapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class, FormTab.class);
+			}, CreateFormData.CREATE_FORM_DEFINITIONS);
+		} catch (IOException e) {
+			throw new RuntimeException(
+				"Failed to load the form definitions from [" + CreateFormData.CREATE_FORM_DEFINITIONS + "]", e);
+		}
+		if ((tabs == null) || tabs.isEmpty()) {
+			TABS = Collections.emptyMap();
+		} else {
+			TABS = Collections.unmodifiableMap(tabs);
+		}
 	}
 
 	protected FormTab getTab(String tabName) {
@@ -72,7 +79,7 @@ public class CreateFormData extends AbstractFormData {
 			body = wh.findElement(tab.body);
 		}
 
-		WebElement expandAll = body.findElement(CreateFormData.EXPAND_ALL);
+		WebElement expandAll = body.findElement(null);
 		if (wait) {
 			wh.waitForElement(expandAll, WaitType.CLICKABLE);
 		}

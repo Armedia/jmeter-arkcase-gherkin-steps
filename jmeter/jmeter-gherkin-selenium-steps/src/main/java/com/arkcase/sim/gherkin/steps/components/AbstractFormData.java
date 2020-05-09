@@ -360,26 +360,4 @@ public class AbstractFormData extends ComponentSteps {
 			return this.sections.size();
 		}
 	}
-
-	public static class FormDefinitions {
-
-		@JsonProperty("body")
-		public final String body;
-
-		@JsonProperty("groups")
-		public final Map<String, FormTab> tabs;
-
-		public FormDefinitions( //
-			@JsonProperty("body") String body, //
-			@JsonProperty("groups") Map<String, FormTab> tabs //
-		) {
-			this.body = body;
-			if ((tabs != null) && !tabs.isEmpty()) {
-				this.tabs = Collections.unmodifiableMap(new LinkedHashMap<>(tabs));
-			} else {
-				this.tabs = Collections.emptyMap();
-			}
-		}
-
-	}
 }
