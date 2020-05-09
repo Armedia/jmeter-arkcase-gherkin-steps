@@ -39,7 +39,7 @@ public class AbstractFormDataTest {
 
 	@Test
 	public void testUnmarshal() throws IOException {
-		AbstractFormData.JSON.Container container = JSON.unmarshal(AbstractFormData.JSON.Container.class,
+		AbstractFormData.FormDefinitions container = JSON.unmarshal(AbstractFormData.FormDefinitions.class,
 			AbstractFormDataTest.TEST_FORMS);
 		Assertions.assertNotNull(container);
 	}

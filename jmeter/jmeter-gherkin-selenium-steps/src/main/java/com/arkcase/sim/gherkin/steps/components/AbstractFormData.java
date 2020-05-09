@@ -28,54 +28,29 @@ package com.arkcase.sim.gherkin.steps.components;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiPredicate;
+import java.util.function.Function;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.ui.Select;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonValue;
 
 public class AbstractFormData extends ComponentSteps {
-
-	public static class JSON {
-		public static class Field {
-			public String name;
-			public String type;
-			public String locator;
-			public String locatorType;
-			public String value;
-			public Collection<String> options;
-		}
-
-		public static class Form {
-			public String source;
-			public String body;
-			public String title;
-			public String name;
-			public Map<String, Field> fields = new HashMap<>();
-		}
-
-		public static class Group {
-			public String name;
-			public String body;
-			public String title;
-			public Map<String, Form> forms = new HashMap<>();
-		}
-
-		public static class Container {
-			public String name;
-			public String body;
-			public Map<String, Group> groups = new HashMap<>();
-		}
-	}
 
 	private static final Set<String> TRUE;
 	static {
@@ -143,6 +118,7 @@ public class AbstractFormData extends ComponentSteps {
 		TEXT(AbstractFormData::applyKeystrokes), //
 		PASSWORD(AbstractFormData::applyKeystrokes), //
 		TEXTAREA(AbstractFormData::applyKeystrokes), //
+		EMAIL(AbstractFormData::applyKeystrokes), //
 
 		// These are applied via "setSelected()"
 		RADIO(AbstractFormData::selectItem), //
@@ -171,6 +147,11 @@ public class AbstractFormData extends ComponentSteps {
 			this.impl = impl;
 		}
 
+		@JsonValue
+		public final String jsonValue() {
+			return name().toLowerCase();
+		}
+
 		public final boolean apply(WebElement element, String value) {
 			Objects.requireNonNull(element, "Must provide a WebElement to apply the value to");
 			if (this.impl == null) {
@@ -187,16 +168,49 @@ public class AbstractFormData extends ComponentSteps {
 		}
 	}
 
+	public enum LocatorType {
+		//
+		CLASS(By::className), //
+		CSS(By::cssSelector), //
+		ID(By::id), //
+		LINKTEXT(By::linkText), //
+		NAME(By::name), //
+		PARTIALLINKTEXT(By::partialLinkText), //
+		TAGNAME(By::tagName), //
+		XPATH(By::xpath), //
+		;
+
+		@JsonValue
+		public final String jsonValue() {
+			return name().toLowerCase();
+		}
+
+		private final Function<String, By> builder;
+
+		public final By build(String str) {
+			return this.builder.apply(str);
+		}
+
+		private LocatorType(Function<String, By> builder) {
+			this.builder = Objects.requireNonNull(builder, "Must provide a builder function");
+		}
+
+		public static final LocatorType parse(String type) {
+			if (type == null) { return null; }
+			return LocatorType.valueOf(StringUtils.upperCase(type));
+		}
+	}
+
 	protected static class Container {
 
 		public final String name;
 		public final By body;
 		public final By title;
 
-		protected Container(String name, By title, By body) {
+		protected Container(String name, String body, String title) {
 			this.name = name;
-			this.title = title;
-			this.body = body;
+			this.body = By.cssSelector(body);
+			this.title = By.cssSelector(title);
 		}
 
 		private WebElement getElement(WaitHelper wh, By by, WaitType wait) {
@@ -226,23 +240,63 @@ public class AbstractFormData extends ComponentSteps {
 	}
 
 	public static class Field {
-
+		@JsonProperty("name")
 		public final String label;
-		public final FieldType fieldType;
-		public final By selector;
 
-		public Field(String label, By selector, FieldType fieldType) {
-			this.label = label;
-			this.selector = selector;
-			this.fieldType = fieldType;
+		@JsonProperty("type")
+		public final FieldType fieldType;
+
+		@JsonProperty("locatorType")
+		public final LocatorType locatorType;
+
+		@JsonProperty("locator")
+		private final String locatorStr;
+
+		@JsonIgnore
+		public final By locator;
+
+		@JsonProperty("value")
+		public final String value;
+
+		@JsonProperty("options")
+		public final Set<String> options;
+
+		@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+		public Field( //
+			@JsonProperty("name") String name, //
+			@JsonProperty("type") String type, //
+			@JsonProperty("locator") String locator, //
+			@JsonProperty("locatorType") String locatorType, //
+			@JsonProperty("value") String value, //
+			@JsonProperty("options") Collection<String> options //
+		) {
+			this.label = name;
+			this.fieldType = FieldType.parse(type);
+			this.locatorStr = locator;
+			this.locatorType = LocatorType.parse(locatorType);
+			this.locator = this.locatorType.builder.apply(this.locatorStr);
+			this.value = value;
+			if ((options != null) && !options.isEmpty()) {
+				this.options = Collections.unmodifiableSet(new LinkedHashSet<>(options));
+			} else {
+				this.options = Collections.emptySet();
+			}
 		}
 	}
 
-	public static class FieldGroup extends Container {
+	public static class FormSection extends Container {
+
+		@JsonProperty("fields")
 		private final Map<String, Field> fields;
 
-		public FieldGroup(String name, By title, By body, Map<String, Field> fields) {
-			super(name, title, body);
+		public FormSection( //
+			@JsonProperty("name") String name, //
+			@JsonProperty("body") String body, //
+			@JsonProperty("title") String title, //
+			@JsonProperty("source") String source, //
+			@JsonProperty("fields") Map<String, Field> fields //
+		) {
+			super(name, body, title);
 			this.fields = Collections.unmodifiableMap(fields);
 		}
 
@@ -263,31 +317,74 @@ public class AbstractFormData extends ComponentSteps {
 		}
 	}
 
-	public static class FieldGroupContainer extends Container {
+	public static class FormTab extends Container {
+
+		@JsonIgnore
 		public final By expandButton;
-		private final Map<String, FieldGroup> fieldGroups;
 
-		public FieldGroupContainer(String name, By title, By body, By expandButton,
-			Map<String, FieldGroup> fieldGroups) {
-			super(name, title, body);
-			this.expandButton = expandButton;
-			this.fieldGroups = Collections.unmodifiableMap(fieldGroups);
+		@JsonIgnore
+		public final By contractButton;
+
+		@JsonProperty("sections")
+		private final Map<String, FormSection> sections;
+
+		public FormTab( //
+			@JsonProperty("name") String name, //
+			@JsonProperty("body") String body, //
+			@JsonProperty("title") String title, //
+			@JsonProperty("forms") Map<String, FormSection> forms //
+		) {
+			super(name, body, title);
+			this.expandButton = new ByChained(this.body, By.cssSelector("i.fa.fa-expand"));
+			this.contractButton = new ByChained(this.body, By.cssSelector("i.fa.fa-compress"));
+			if ((forms != null) && !forms.isEmpty()) {
+				this.sections = Collections.unmodifiableMap(new LinkedHashMap<>(forms));
+			} else {
+				this.sections = Collections.emptyMap();
+			}
 		}
 
-		public boolean hasFieldGroup(String name) {
-			return this.fieldGroups.containsKey(name);
+		public boolean hasSection(String name) {
+			return this.sections.containsKey(name);
 		}
 
-		public FieldGroup getFieldGroup(String section) {
-			return this.fieldGroups.get(section);
+		public FormSection getSection(String section) {
+			return this.sections.get(section);
 		}
 
-		public Set<String> getFieldGrouNames() {
-			return this.fieldGroups.keySet();
+		public Set<String> getSectionNames() {
+			return this.sections.keySet();
 		}
 
-		public int getFieldGroupCount() {
-			return this.fieldGroups.size();
+		public int getSectionCount() {
+			return this.sections.size();
 		}
+	}
+
+	public static class FormDefinitions {
+
+		@JsonProperty("name")
+		public final String name;
+
+		@JsonProperty("body")
+		public final String body;
+
+		@JsonProperty("groups")
+		public final Map<String, FormTab> tabs;
+
+		public FormDefinitions( //
+			@JsonProperty("name") String name, //
+			@JsonProperty("body") String body, //
+			@JsonProperty("groups") Map<String, FormTab> tabs //
+		) {
+			this.name = name;
+			this.body = body;
+			if ((tabs != null) && !tabs.isEmpty()) {
+				this.tabs = Collections.unmodifiableMap(new LinkedHashMap<>(tabs));
+			} else {
+				this.tabs = Collections.emptyMap();
+			}
+		}
+
 	}
 }

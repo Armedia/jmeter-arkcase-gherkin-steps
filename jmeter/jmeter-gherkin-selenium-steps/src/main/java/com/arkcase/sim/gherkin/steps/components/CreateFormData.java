@@ -43,17 +43,17 @@ public class CreateFormData extends AbstractFormData {
 
 	private static final By EXPAND_ALL = By.cssSelector("i.fa-expand");
 
-	private static final Map<String, FieldGroupContainer> TABS;
+	private static final Map<String, FormTab> TABS;
 
 	static {
 		// TODO: Initialize the TAB defintions!
-		Map<String, FieldGroupContainer> tabs = new LinkedHashMap<>();
+		Map<String, FormTab> tabs = new LinkedHashMap<>();
 
 		TABS = Collections.unmodifiableMap(tabs);
 	}
 
-	protected FieldGroupContainer getTab(String tabName) {
-		final FieldGroupContainer tab = CreateFormData.TABS.get(tabName);
+	protected FormTab getTab(String tabName) {
+		final FormTab tab = CreateFormData.TABS.get(tabName);
 		if (tab == null) { throw new NoSuchElementException(String.format("No tab named [%s]", tabName)); }
 		return tab;
 	}
@@ -62,7 +62,7 @@ public class CreateFormData extends AbstractFormData {
 		return findTab(getTab(tabName), wait);
 	}
 
-	protected WebElement findTab(FieldGroupContainer tab, boolean wait) {
+	protected WebElement findTab(FormTab tab, boolean wait) {
 		WaitHelper wh = getWaitHelper();
 		WebElement body = null;
 		if (wait) {
@@ -81,8 +81,8 @@ public class CreateFormData extends AbstractFormData {
 	}
 
 	protected WebElement findSection(String tabName, String sectionName, boolean wait) {
-		final FieldGroupContainer tab = getTab(tabName);
-		final FieldGroup section = tab.getFieldGroup(sectionName);
+		final FormTab tab = getTab(tabName);
+		final FormSection section = tab.getSection(sectionName);
 		if (section == null) {
 			throw new NoSuchElementException(String.format("No section named [%s] in tab [%s]", tabName, sectionName));
 		}
