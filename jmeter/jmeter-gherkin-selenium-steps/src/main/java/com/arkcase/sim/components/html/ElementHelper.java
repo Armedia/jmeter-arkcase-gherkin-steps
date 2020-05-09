@@ -4,22 +4,22 @@
  * %%
  * Copyright (C) 2020 Armedia, LLC
  * %%
- * This file is part of the ArkCase software. 
- * 
- * If the software was purchased under a paid ArkCase license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the ArkCase software.
+ *
+ * If the software was purchased under a paid ArkCase license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
- * 
+ *
  * ArkCase is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * ArkCase is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -151,22 +151,44 @@ public class ElementHelper extends WaitHelper {
 	}
 
 	public final ExpectedCondition<Boolean> hasClass(By element, String klass) {
+		if (StringUtils.isBlank(klass)) { throw new IllegalArgumentException("Must use a non-blank CSS class"); }
+		return hasClasses(element, klass);
+	}
+
+	public final ExpectedCondition<Boolean> hasClasses(By element, String... klasses) {
+		if (klasses.length < 1) { throw new IllegalArgumentException("Must provide at least one class"); }
+		StringBuilder b = new StringBuilder();
+		boolean first = true;
+		for (String s : klasses) {
+			if (StringUtils.isNotBlank(s)) {
+				if (!first) {
+					b.append('|');
+				}
+				b.append("\\Q").append(s).append("\\E");
+			}
+			first = false;
+		}
+		if (b.length() < 0) { throw new IllegalArgumentException("Must include at least one non-blank CSS class"); }
+		final Pattern p = Pattern.compile("\\b(" + b + ")\\b");
 		return (d) -> {
 			String classes = d.findElement(element).getAttribute("class");
 			if (StringUtils.isBlank(classes)) { return false; }
-			String[] k = classes.split(" ");
-			for (String c : k) {
-				if (StringUtils.equals(c, klass)) { return true; }
-			}
-			return false;
+			return p.matcher(classes).matches();
 		};
 	}
 
-	public final ExpectedCondition<Boolean> hasClassRegex(By element, String klass) {
-		final Pattern p = Pattern.compile("(^|.*\\W)" + klass + "(\\W.*|$)");
+	public final ExpectedCondition<Boolean> hasClassRegex(By element, String regex) {
+		if (StringUtils.isBlank(regex)) {
+			throw new IllegalArgumentException("Must use a non-blank regular expression");
+		}
+		final Pattern p = Pattern.compile(regex);
 		return (d) -> {
-			String classes = getOrDefault(d.findElement(element).getAttribute("class"), "");
-			return p.matcher(classes).matches();
+			String classes = d.findElement(element).getAttribute("class");
+			if (StringUtils.isBlank(classes)) { return false; }
+			for (String c : classes.split("\\s+")) {
+				if (p.matcher(c).matches()) { return true; }
+			}
+			return false;
 		};
 	}
 
