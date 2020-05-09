@@ -39,6 +39,8 @@ import com.arkcase.sim.components.html.WaitHelper;
 
 public class CreateFormData extends AbstractFormData {
 
+	private static final By BASE_FORM = By.cssSelector("ng-form[name=\"createNewOrderForm\"] div.tab-pane ng-form");
+
 	private static final By EXPAND_ALL = By.cssSelector("i.fa-expand");
 
 	private static final Map<String, FieldGroupContainer> TABS;
