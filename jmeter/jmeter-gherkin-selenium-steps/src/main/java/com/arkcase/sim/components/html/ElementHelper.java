@@ -26,8 +26,6 @@
  *******************************************************************************/
 package com.arkcase.sim.components.html;
 
-import java.util.regex.Pattern;
-
 import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -38,6 +36,8 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.arkcase.sim.tools.ByTools;
+import com.arkcase.sim.tools.CssClassMatcher;
+import com.arkcase.sim.tools.CssClassRegexMatcher;
 
 public class ElementHelper extends WaitHelper {
 
@@ -156,40 +156,13 @@ public class ElementHelper extends WaitHelper {
 	}
 
 	public final ExpectedCondition<Boolean> hasClasses(By element, String... klasses) {
-		if (klasses.length < 1) { throw new IllegalArgumentException("Must provide at least one class"); }
-		StringBuilder b = new StringBuilder();
-		boolean first = true;
-		for (String s : klasses) {
-			if (StringUtils.isNotBlank(s)) {
-				if (!first) {
-					b.append('|');
-				}
-				b.append("\\Q").append(s).append("\\E");
-			}
-			first = false;
-		}
-		if (b.length() < 0) { throw new IllegalArgumentException("Must include at least one non-blank CSS class"); }
-		final Pattern p = Pattern.compile("\\b(" + b + ")\\b");
-		return (d) -> {
-			String classes = d.findElement(element).getAttribute("class");
-			if (StringUtils.isBlank(classes)) { return false; }
-			return p.matcher(classes).matches();
-		};
+		final CssClassMatcher matcher = new CssClassMatcher(klasses);
+		return (d) -> matcher.test(d.findElement(element));
 	}
 
 	public final ExpectedCondition<Boolean> hasClassRegex(By element, String regex) {
-		if (StringUtils.isBlank(regex)) {
-			throw new IllegalArgumentException("Must use a non-blank regular expression");
-		}
-		final Pattern p = Pattern.compile(regex);
-		return (d) -> {
-			String classes = d.findElement(element).getAttribute("class");
-			if (StringUtils.isBlank(classes)) { return false; }
-			for (String c : classes.split("\\s+")) {
-				if (p.matcher(c).matches()) { return true; }
-			}
-			return false;
-		};
+		final CssClassRegexMatcher matcher = new CssClassRegexMatcher(regex);
+		return (d) -> matcher.test(d.findElement(element));
 	}
 
 	public final void click(WebElement element) {
