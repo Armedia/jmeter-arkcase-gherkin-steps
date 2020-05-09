@@ -40,7 +40,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JSON {
 
-	private static InputStream findResource(String resource, ClassLoader cl) throws IOException {
+	protected static InputStream findResource(String resource, ClassLoader cl) throws IOException {
 		if (StringUtils.isEmpty(resource)) {
 			throw new IllegalArgumentException("Must provide a non-empty resource name");
 		}

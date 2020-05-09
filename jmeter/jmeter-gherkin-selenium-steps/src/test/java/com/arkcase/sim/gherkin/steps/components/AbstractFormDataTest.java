@@ -27,58 +27,18 @@
 package com.arkcase.sim.gherkin.steps.components;
 
 import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.Charset;
-import java.util.UUID;
 
-import org.apache.commons.io.IOUtils;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import com.arkcase.sim.tools.JSON;
 
 public class AbstractFormDataTest {
 
 	private static final String TEST_FORMS = "testForms.json";
 
-	private InputStream findResource(String resource, ClassLoader cl) {
-		return cl.getResourceAsStream(resource);
-	}
-
 	@Test
-	public void testFindResource() throws Exception {
-		Assertions.assertNull(JSON.findResource(UUID.randomUUID().toString(), null));
-
-		final Charset charset = Charset.defaultCharset();
-		try (InputStream expected = findResource(AbstractFormDataTest.TEST_FORMS,
-			Thread.currentThread().getContextClassLoader())) {
-			try (InputStream actual = JSON.findResource(AbstractFormDataTest.TEST_FORMS, null)) {
-				Assertions.assertEquals(IOUtils.toString(expected, charset), IOUtils.toString(actual, charset));
-			}
-		}
-
-		for (int i = 0; i < 10; i++) {
-			final String expectedName = String.format("resource-%02d", i);
-			final InputStream empty = new InputStream() {
-				@Override
-				public int read() throws IOException {
-					return -1;
-				}
-			};
-			ClassLoader myCl = new ClassLoader(Thread.currentThread().getContextClassLoader()) {
-				@Override
-				public InputStream getResourceAsStream(String name) {
-					Assertions.assertEquals(name, expectedName);
-					return empty;
-				}
-			};
-
-			try (InputStream actual = JSON.findResource(expectedName, myCl)) {
-				Assertions.assertSame(empty, actual);
-			}
-		}
-	}
-
-	@Test
-	public void testLoadString() throws IOException {
+	public void testUnmarshal() throws IOException {
 		AbstractFormData.JSON.Container container = JSON.unmarshal(AbstractFormData.JSON.Container.class,
 			AbstractFormDataTest.TEST_FORMS);
 		Assertions.assertNotNull(container);
