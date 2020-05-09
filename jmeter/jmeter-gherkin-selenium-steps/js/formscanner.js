@@ -4,7 +4,8 @@
     	$(root).each(function (tabIndex) {
     		var tabObj = {};
     		var tabName = this.getAttribute("name");
-    		tabObj["locator"] = `ng-form[name="${tabName}"]`;
+    		tabObj["body"] = `ng-form[name="${tabName}"]`;
+    		tabObj["title"] = `li[active="tabs.${tabName}TabActive"]`;
 
     		var forms = {};
     		tabObj["forms"] = forms;
@@ -23,10 +24,12 @@
 
     		$(this).find('panel-view div.panel-body form').each(function (formIndex) {
     			var formObj = {};
-    			var formName = document.xpath("ancestor::div[@ng-if='collapsible']/div[contains(@class, 'panel-heading')]", this)[0].textContent;
+    			var panelView = document.xpath("ancestor::panel-view", this)[0];
+    			var formName = $(panelView).find("div.panel div.panel-heading").text();
     			var div = $(this).parents("div[ng-include]");
     			formObj["source"] = eval(div.attr("ng-include"));
-    			formObj["locator"] = `form[name="${formName}"`;
+    			formObj["body"] = `panel-view[header="${formName}"] div.panel-body form`;
+    			formObj["title"] = `panel-view[header="${formName}"] div.panel-heading`;
     			var fields = {};
     			formObj["fields"] = fields;
     			$(this).find("input, select, textarea").each(function (fieldIndex) {
