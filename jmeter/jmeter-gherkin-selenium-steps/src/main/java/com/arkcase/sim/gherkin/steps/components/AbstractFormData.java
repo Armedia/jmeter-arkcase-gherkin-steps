@@ -363,9 +363,6 @@ public class AbstractFormData extends ComponentSteps {
 
 	public static class FormDefinitions {
 
-		@JsonProperty("name")
-		public final String name;
-
 		@JsonProperty("body")
 		public final String body;
 
@@ -373,11 +370,9 @@ public class AbstractFormData extends ComponentSteps {
 		public final Map<String, FormTab> tabs;
 
 		public FormDefinitions( //
-			@JsonProperty("name") String name, //
 			@JsonProperty("body") String body, //
 			@JsonProperty("groups") Map<String, FormTab> tabs //
 		) {
-			this.name = name;
 			this.body = body;
 			if ((tabs != null) && !tabs.isEmpty()) {
 				this.tabs = Collections.unmodifiableMap(new LinkedHashMap<>(tabs));

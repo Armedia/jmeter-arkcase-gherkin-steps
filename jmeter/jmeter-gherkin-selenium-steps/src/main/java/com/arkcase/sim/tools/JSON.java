@@ -33,9 +33,11 @@ import java.io.Reader;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.Objects;
+import java.util.function.Function;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JSON {
@@ -98,6 +100,65 @@ public class JSON {
 	public static <T> T unmarshal(Class<T> klazz, Reader r) throws IOException {
 		Objects.requireNonNull(klazz, "Must provide a class to unmarshal");
 		Objects.requireNonNull(r, "Must provide a Reader to read from");
-		return new ObjectMapper().readValue(r, klazz);
+		ObjectMapper mapper = new ObjectMapper();
+		return mapper.readValue(r, klazz);
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, String resource) throws IOException {
+		return JSON.unmarshal(typeMapper, null, resource, null);
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, String resource, Charset charset)
+		throws IOException {
+		return JSON.unmarshal(typeMapper, null, resource, charset);
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, ClassLoader cl, String resource)
+		throws IOException {
+		return JSON.unmarshal(typeMapper, cl, resource, null);
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, ClassLoader cl, String resource,
+		Charset charset) throws IOException {
+		final InputStream in = JSON.findResource(resource, cl);
+		if (in == null) { return null; }
+		try (InputStream i = in) {
+			return JSON.unmarshal(typeMapper, in, charset);
+		}
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, URL url) throws IOException {
+		return JSON.unmarshal(typeMapper, url, null);
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, URL url, Charset charset)
+		throws IOException {
+		Objects.requireNonNull(typeMapper, "Must provide a class to unmarshal");
+		Objects.requireNonNull(url, "Must provide a URL to read from");
+		try (InputStream in = url.openStream()) {
+			return JSON.unmarshal(typeMapper, in, charset);
+		}
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, InputStream in) throws IOException {
+		return JSON.unmarshal(typeMapper, in, null);
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, InputStream in, Charset charset)
+		throws IOException {
+		Objects.requireNonNull(typeMapper, "Must provide a class to unmarshal");
+		Objects.requireNonNull(in, "Must provide an InputStream to read from");
+		if (charset == null) {
+			charset = Charset.defaultCharset();
+		}
+		return JSON.unmarshal(typeMapper, new InputStreamReader(in, charset));
+	}
+
+	public static <T> T unmarshal(Function<ObjectMapper, JavaType> typeMapper, Reader r) throws IOException {
+		Objects.requireNonNull(typeMapper, "Must provide a class to unmarshal");
+		Objects.requireNonNull(r, "Must provide a Reader to read from");
+		ObjectMapper mapper = new ObjectMapper();
+		JavaType type = (typeMapper != null ? typeMapper.apply(mapper) : null);
+		return mapper.readValue(r, type);
 	}
 }

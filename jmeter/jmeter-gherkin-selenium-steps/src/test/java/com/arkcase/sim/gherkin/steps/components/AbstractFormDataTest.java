@@ -27,6 +27,8 @@
 package com.arkcase.sim.gherkin.steps.components;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,8 +41,10 @@ public class AbstractFormDataTest {
 
 	@Test
 	public void testUnmarshal() throws IOException {
-		AbstractFormData.FormDefinitions container = JSON.unmarshal(AbstractFormData.FormDefinitions.class,
-			AbstractFormDataTest.TEST_FORMS);
-		Assertions.assertNotNull(container);
+		Map<String, AbstractFormData.FormTab> map = JSON.unmarshal((mapper) -> {
+			return mapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class,
+				AbstractFormData.FormTab.class);
+		}, AbstractFormDataTest.TEST_FORMS);
+		Assertions.assertNotNull(map);
 	}
 }

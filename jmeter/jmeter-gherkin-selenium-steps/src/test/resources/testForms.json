@@ -1,1361 +1,1357 @@
 {
-	"name" : "createNewOrderForm",
-	"body" : "ng-form[name=\"createNewOrderForm\"] div.tab-pane",
-	"groups" : {
-	    "Create": {
-	        "name": "Create",
-	        "body": "ng-form[name=\"createTabForm\"]",
-	        "title": "li[active=\"tabs.createTabActive\"]",
-	        "forms": {
-	            "Patient Specifics": {
-	                "source": "modules/orders/views/components/patient-info.client.view.html",
-	                "body": "panel-view[header=\"Patient Specifics\"] div.panel-body form",
-	                "title": "panel-view[header=\"Patient Specifics\"] div.panel-heading",
-	                "name": "Patient Specifics",
-	                "fields": {
-	                    "New Patient": {
-	                        "name": "New Patient",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"patientType\"][value=\"new\"]",
-	                        "locatorType": "css",
-	                        "value": "new"
-	                    },
-	                    "Existing Patient": {
-	                        "name": "Existing Patient",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"patientType\"][value=\"existing\"]",
-	                        "locatorType": "css",
-	                        "value": "existing"
-	                    },
-	                    "Last Name": {
-	                        "name": "Last Name",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.patient.familyName\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "First Name": {
-	                        "name": "First Name",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.patient.givenName\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "M.I.": {
-	                        "name": "M.I.",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.patient.middleInitials\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Date of Birth": {
-	                        "name": "Date of Birth",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"dateOfBirth\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "MRN": {
-	                        "name": "MRN",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.patient.medicalRecordNumber\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Gender": {
-	                        "name": "Gender",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.patient.gender\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Select Gender",
-	                            "Male",
-	                            "Female"
-	                        ]
-	                    },
-	                    "Address": {
-	                        "name": "Address",
-	                        "type": "textarea",
-	                        "locator": "textarea[ng-model=\"orderInfo.patient.addresses[0].streetAddress\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "City": {
-	                        "name": "City",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.patient.addresses[0].city\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "State": {
-	                        "name": "State",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.patient.addresses[0].state\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose State",
-	                            "Alabama",
-	                            "Alaska",
-	                            "American Samoa",
-	                            "Arizona",
-	                            "Arkansas",
-	                            "California",
-	                            "Colorado",
-	                            "Connecticut",
-	                            "Delaware",
-	                            "District Of Columbia",
-	                            "Federated States Of Micronesia",
-	                            "Florida",
-	                            "Georgia",
-	                            "Guam",
-	                            "Hawaii",
-	                            "Idaho",
-	                            "Illinois",
-	                            "Indiana",
-	                            "Iowa",
-	                            "Kansas",
-	                            "Kentucky",
-	                            "Louisiana",
-	                            "Maine",
-	                            "Marshall Islands",
-	                            "Maryland",
-	                            "Massachusetts",
-	                            "Michigan",
-	                            "Minnesota",
-	                            "Mississippi",
-	                            "Missouri",
-	                            "Montana",
-	                            "Nebraska",
-	                            "Nevada",
-	                            "New Hampshire",
-	                            "New Jersey",
-	                            "New Mexico",
-	                            "New York",
-	                            "North Carolina",
-	                            "North Dakota",
-	                            "Northern Mariana Islands",
-	                            "Ohio",
-	                            "Oklahoma",
-	                            "Oregon",
-	                            "Palau",
-	                            "Pennsylvania",
-	                            "Puerto Rico",
-	                            "Rhode Island",
-	                            "South Carolina",
-	                            "South Dakota",
-	                            "Tennessee",
-	                            "Texas",
-	                            "Utah",
-	                            "Vermont",
-	                            "Virgin Islands",
-	                            "Virginia",
-	                            "Washington",
-	                            "West Virginia",
-	                            "Wisconsin",
-	                            "Wyoming"
-	                        ]
-	                    },
-	                    "ZIP": {
-	                        "name": "ZIP",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.patient.addresses[0].zip\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Country": {
-	                        "name": "Country",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.patient.addresses[0].country\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Country",
-	                            "United States of America",
-	                            "Canada"
-	                        ]
-	                    },
-	                    "Phone Number": {
-	                        "name": "Phone Number",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.defaultPhone\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Alt Phone Number": {
-	                        "name": "Alt Phone Number",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.phone\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Email Address": {
-	                        "name": "Email Address",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.email\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Certification Type": {
-	                        "name": "Certification Type",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.certificationType\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Certification Type",
-	                            "Driver's License",
-	                            "ID Card",
-	                            "Passport"
-	                        ]
-	                    },
-	                    "Certification Number": {
-	                        "name": "Certification Number",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.certificationNumber\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Expiration Date": {
-	                        "name": "Expiration Date",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"expirationDate\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Custodial Reference": {
-	                        "name": "Custodial Reference",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.custodialReference\"]",
-	                        "locatorType": "css"
-	                    }
-	                }
-	            },
-	            "Request Specifics": {
-	                "source": "modules/orders/views/components/order-details.client.view.html",
-	                "body": "panel-view[header=\"Request Specifics\"] div.panel-body form",
-	                "title": "panel-view[header=\"Request Specifics\"] div.panel-heading",
-	                "name": "Request Specifics",
-	                "fields": {
-	                    "Bill to Requester": {
-	                        "name": "Bill to Requester",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_requester\"]",
-	                        "locatorType": "css",
-	                        "value": "bill_to_requester"
-	                    },
-	                    "Bill to Client": {
-	                        "name": "Bill to Client",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_client\"]",
-	                        "locatorType": "css",
-	                        "value": "bill_to_client"
-	                    },
-	                    "Priority": {
-	                        "name": "Priority",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.priority\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Priority",
-	                            "Urgent",
-	                            "Normal"
-	                        ]
-	                    },
-	                    "Override Status": {
-	                        "name": "Override Status",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.overrideStatus\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Select Override Status",
-	                            "Stat",
-	                            "Review",
-	                            "Logging"
-	                        ]
-	                    },
-	                    "Handling Option": {
-	                        "name": "Handling Option",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.printOption\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Handling Option",
-	                            "Centrally",
-	                            "Field"
-	                        ]
-	                    },
-	                    "Record Type": {
-	                        "name": "Record Type",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.recordType\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Record Type",
-	                            "Billing",
-	                            "Medical",
-	                            "Imaging",
-	                            "No Records",
-	                            "Acquisition Exception",
-	                            "Forms"
-	                        ]
-	                    },
-	                    "Processing Options": {
-	                        "name": "Processing Options",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"selectedProcessingOption\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Processing Options",
-	                            "Notary",
-	                            "Certification",
-	                            "Affidavit",
-	                            "Questionnaire",
-	                            "Film",
-	                            "Studies",
-	                            "Photographs",
-	                            "# Years Searched"
-	                        ]
-	                    },
-	                    "Barcode Validity": {
-	                        "name": "Barcode Validity",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.validBarcodeFlag\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Received Via": {
-	                        "name": "Received Via",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.receivedVia\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Received Via",
-	                            "Fax",
-	                            "Mail",
-	                            "Email",
-	                            "Walk-in"
-	                        ]
-	                    },
-	                    "Received Date": {
-	                        "name": "Received Date",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"receivedDate\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "External System ID": {
-	                        "name": "External System ID",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.externalSystemId\"]",
-	                        "locatorType": "css"
-	                    }
-	                }
-	            },
-	            "Deposit Information": {
-	                "source": "modules/orders/views/components/order-payment.client.view.html",
-	                "body": "panel-view[header=\"Deposit Information\"] div.panel-body form",
-	                "title": "panel-view[header=\"Deposit Information\"] div.panel-heading",
-	                "name": "Deposit Information",
-	                "fields": {
-	                    "Deposit Amount": {
-	                        "name": "Deposit Amount",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.paymentAmount\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Deposit Method": {
-	                        "name": "Deposit Method",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.paymentMethod\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Select Payment Method",
-	                            "Cash",
-	                            "Check",
-	                            "Credit Card",
-	                            "Money Order",
-	                            "Cashier's Check"
-	                        ]
-	                    },
-	                    "Method Number": {
-	                        "name": "Method Number",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.paymentMethodNumber\"]",
-	                        "locatorType": "css"
-	                    }
-	                }
-	            },
-	            "Request Activity": {
-	                "source": "modules/orders/views/components/order-activity.client.view.html",
-	                "body": "panel-view[header=\"Request Activity\"] div.panel-body form",
-	                "title": "panel-view[header=\"Request Activity\"] div.panel-heading",
-	                "name": "Request Activity",
-	                "fields": {
-	                    "Pending State": {
-	                        "name": "Pending State",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.pendingState\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Select Pending State",
-	                            "Approved by Compliance",
-	                            "Approved by HIM",
-	                            "Approved by Legal",
-	                            "Approved by Physician",
-	                            "Approved by Risk",
-	                            "Approved by Supervisor",
-	                            "Attached Anesthesia",
-	                            "Attached Certification",
-	                            "Attached Dictation/Chart Completion",
-	                            "Attached Discharge Summary",
-	                            "Attached EMR Documents",
-	                            "Attached Microfilm",
-	                            "Attached Notarized Documents",
-	                            "Attached Offsite Paper Chart",
-	                            "Attached Other Records",
-	                            "Attached Radiology",
-	                            "Authorization Reviewed for Completeness",
-	                            "Auto Extract Record",
-	                            "Provider Lack of Response-Closed",
-	                            "Provider Provided Invoice has been Paid",
-	                            "Provider Refused to Send Record",
-	                            "Provider sent CNR",
-	                            "Provider sent Invoice",
-	                            "Ready for ROI Specialist",
-	                            "Ready for Team 1",
-	                            "Ready for Team 2",
-	                            "Ready for Team 3",
-	                            "Ready for Team 4",
-	                            "Ready for Team 5",
-	                            "Ready for Team 6",
-	                            "Ready to Process",
-	                            "Request for Anesthesia",
-	                            "Request for Compliant Authorization",
-	                            "Request for Contact Information",
-	                            "Request for Custodian Certification",
-	                            "Request for Dictation/Chart Completion",
-	                            "Request for EMR documents",
-	                            "Request for Future DOS",
-	                            "Request for Management Approval: Compliance",
-	                            "Request for Management Approval: HIM Management",
-	                            "Request for Management Approval: Immediate Supervisor",
-	                            "Request for Management Approval: Legal",
-	                            "Request for Management Approval: Physician",
-	                            "Request for Management Approval: Risk",
-	                            "Request for Microfilm",
-	                            "Request for Notarized Documents",
-	                            "Request for on Premises Paper Chart",
-	                            "Request for Paper Chart offsite storage",
-	                            "Request for Pending Patient Discharge",
-	                            "Request for Radiology",
-	                            "Request for Records-Other",
-	                            "Separated Document"
-	                        ]
-	                    }
-	                }
-	            }
-	        }
-	    },
-	    "Shipping & Billing": {
-	        "name": "Shipping & Billing",
-	        "body": "ng-form[name=\"shippingBillingForm\"]",
-	        "title": "li[active=\"tabs.shippingBillingTabActive\"]",
-	        "forms": {
-	            "Requester Specifics": {
-	                "source": "modules/orders/views/components/requester-info.client.view.html",
-	                "body": "panel-view[header=\"Requester Specifics\"] div.panel-body form",
-	                "title": "panel-view[header=\"Requester Specifics\"] div.panel-heading",
-	                "name": "Requester Specifics",
-	                "fields": {
-	                    "Existing Requester": {
-	                        "name": "Existing Requester",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"requesterType\"][value=\"existing\"]",
-	                        "locatorType": "css",
-	                        "value": "existing"
-	                    },
-	                    "New Requester": {
-	                        "name": "New Requester",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"requesterType\"][value=\"new\"]",
-	                        "locatorType": "css",
-	                        "value": "new"
-	                    },
-	                    "As Patient": {
-	                        "name": "As Patient",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"requesterType\"][value=\"asPatient\"]",
-	                        "locatorType": "css",
-	                        "value": "asPatient"
-	                    },
-	                    "Payment Terms": {
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.paymentTerms\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Select Payment Term",
-	                            "Net 0",
-	                            "Net 30",
-	                            "Net 45",
-	                            "Net 60",
-	                            "Net 90"
-	                        ]
-	                    }
-	                }
-	            },
-	            "Billing Contact Specifics": {
-	                "source": "modules/orders/views/components/billing-info.client.view.html",
-	                "body": "panel-view[header=\"Billing Contact Specifics\"] div.panel-body form",
-	                "title": "panel-view[header=\"Billing Contact Specifics\"] div.panel-heading",
-	                "name": "Billing Contact Specifics",
-	                "fields": {
-	                    "As Requester": {
-	                        "name": "As Requester",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"billingType\"][value=\"asRequester\"]",
-	                        "locatorType": "css",
-	                        "value": "asRequester"
-	                    },
-	                    "Attention": {
-	                        "name": "Attention",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.billingInfo.attention\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Email Address": {
-	                        "name": "Email Address",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.email\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Fax Number": {
-	                        "name": "Fax Number",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.fax\"]",
-	                        "locatorType": "css"
-	                    }
-	                }
-	            },
-	            "Email Notifications": {
-	                "source": "modules/orders/views/components/order-notifications.client.view.html",
-	                "body": "panel-view[header=\"Email Notifications\"] div.panel-body form",
-	                "title": "panel-view[header=\"Email Notifications\"] div.panel-heading",
-	                "name": "Email Notifications",
-	                "fields": {
-	                    "As Requester": {
-	                        "name": "As Requester",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asRequester\"]",
-	                        "locatorType": "css",
-	                        "value": "asRequester"
-	                    },
-	                    "As Patient": {
-	                        "name": "As Patient",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asPatient\"]",
-	                        "locatorType": "css",
-	                        "value": "asPatient"
-	                    },
-	                    "New email": {
-	                        "name": "New email",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"new\"]",
-	                        "locatorType": "css",
-	                        "value": "new"
-	                    },
-	                    "Send Notifications to these addresses?": {
-	                        "name": "Send Notifications to these addresses?",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Send Notifications to these addresses?']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Notification Address": {
-	                        "name": "Notification Address",
-	                        "type": "email",
-	                        "locator": "input[ng-model=\"orderInfo.notificationEmail\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "CC Address": {
-	                        "name": "CC Address",
-	                        "type": "email",
-	                        "locator": "input[ng-model=\"orderInfo.ccNotificationEmail\"]",
-	                        "locatorType": "css"
-	                    }
-	                }
-	            },
-	            "Shipping Specifics": {
-	                "source": "modules/orders/views/components/shipping-info.client.view.html",
-	                "body": "panel-view[header=\"Shipping Specifics\"] div.panel-body form",
-	                "title": "panel-view[header=\"Shipping Specifics\"] div.panel-heading",
-	                "name": "Shipping Specifics",
-	                "fields": {
-	                    "As Requester": {
-	                        "name": "As Requester",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"shippingType\"][value=\"asRequester\"]",
-	                        "locatorType": "css",
-	                        "value": "asRequester"
-	                    },
-	                    "As Patient": {
-	                        "name": "As Patient",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"shippingType\"][value=\"asPatient\"]",
-	                        "locatorType": "css",
-	                        "value": "asPatient"
-	                    },
-	                    "As Location": {
-	                        "name": "As Location",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"shippingType\"][value=\"asClient\"]",
-	                        "locatorType": "css",
-	                        "value": "asClient"
-	                    },
-	                    "New": {
-	                        "name": "New",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"shippingType\"][value=\"new\"]",
-	                        "locatorType": "css",
-	                        "value": "new"
-	                    },
-	                    "As Other Requester": {
-	                        "name": "As Other Requester",
-	                        "type": "radio",
-	                        "locator": "input[ng-model=\"shippingType\"][value=\"asOtherRequester\"]",
-	                        "locatorType": "css",
-	                        "value": "asOtherRequester"
-	                    },
-	                    "Address": {
-	                        "name": "Address",
-	                        "type": "textarea",
-	                        "locator": "textarea[ng-model=\"orderInfo.shippingInfo.addresses[0].streetAddress\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "City": {
-	                        "name": "City",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.shippingInfo.addresses[0].city\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "State": {
-	                        "name": "State",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.shippingInfo.addresses[0].state\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose State",
-	                            "Alabama",
-	                            "Alaska",
-	                            "American Samoa",
-	                            "Arizona",
-	                            "Arkansas",
-	                            "California",
-	                            "Colorado",
-	                            "Connecticut",
-	                            "Delaware",
-	                            "District Of Columbia",
-	                            "Federated States Of Micronesia",
-	                            "Florida",
-	                            "Georgia",
-	                            "Guam",
-	                            "Hawaii",
-	                            "Idaho",
-	                            "Illinois",
-	                            "Indiana",
-	                            "Iowa",
-	                            "Kansas",
-	                            "Kentucky",
-	                            "Louisiana",
-	                            "Maine",
-	                            "Marshall Islands",
-	                            "Maryland",
-	                            "Massachusetts",
-	                            "Michigan",
-	                            "Minnesota",
-	                            "Mississippi",
-	                            "Missouri",
-	                            "Montana",
-	                            "Nebraska",
-	                            "Nevada",
-	                            "New Hampshire",
-	                            "New Jersey",
-	                            "New Mexico",
-	                            "New York",
-	                            "North Carolina",
-	                            "North Dakota",
-	                            "Northern Mariana Islands",
-	                            "Ohio",
-	                            "Oklahoma",
-	                            "Oregon",
-	                            "Palau",
-	                            "Pennsylvania",
-	                            "Puerto Rico",
-	                            "Rhode Island",
-	                            "South Carolina",
-	                            "South Dakota",
-	                            "Tennessee",
-	                            "Texas",
-	                            "Utah",
-	                            "Vermont",
-	                            "Virgin Islands",
-	                            "Virginia",
-	                            "Washington",
-	                            "West Virginia",
-	                            "Wisconsin",
-	                            "Wyoming"
-	                        ]
-	                    },
-	                    "ZIP": {
-	                        "name": "ZIP",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.shippingInfo.addresses[0].zip\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Country": {
-	                        "name": "Country",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.shippingInfo.addresses[0].country\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Country",
-	                            "United States of America",
-	                            "Canada"
-	                        ]
-	                    },
-	                    "Certified Mail": {
-	                        "name": "Certified Mail",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Certified Mail']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Company Name": {
-	                        "name": "Company Name",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.shippingInfo.companyName\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Attention": {
-	                        "name": "Attention",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.shippingInfo.attention\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Phone Number": {
-	                        "name": "Phone Number",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.phone\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Email Address": {
-	                        "name": "Email Address",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.email\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Confirm Email Address": {
-	                        "name": "Confirm Email Address",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.confirmationEmail\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Fax Number": {
-	                        "name": "Fax Number",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"contacts.fax\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Delivery Method": {
-	                        "name": "Delivery Method",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.deliveryMethod\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Delivery Method",
-	                            "Electronic",
-	                            "Pickup",
-	                            "Standard Postage"
-	                        ]
-	                    },
-	                    "eDelivery Method": {
-	                        "name": "eDelivery Method",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.shippingInfo.eDeliveryMethod\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose eDelivery Method",
-	                            "On Demand",
-	                            "Upload to Customer",
-	                            "Secure Email",
-	                            "Patient Portal",
-	                            "Fax"
-	                        ]
-	                    },
-	                    "File Type": {
-	                        "name": "File Type",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.shippingInfo.fileType\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose File Type",
-	                            "PDF",
-	                            "TIFF"
-	                        ]
-	                    },
-	                    "Output Type": {
-	                        "name": "Output Type",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.shippingInfo.outputType\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Output Type",
-	                            "Electronic"
-	                        ]
-	                    }
-	                }
-	            }
-	        }
-	    },
-	    "Details": {
-	        "name": "Details",
-	        "body": "ng-form[name=\"orderDetailsForm\"]",
-	        "title": "li[active=\"tabs.orderTabActive\"]",
-	        "forms": {
-	            "Authorization Specifics": {
-	                "source": "modules/orders/views/components/order-authorization.client.view.html",
-	                "body": "panel-view[header=\"Authorization Specifics\"] div.panel-body form",
-	                "title": "panel-view[header=\"Authorization Specifics\"] div.panel-heading",
-	                "name": "Authorization Specifics",
-	                "fields": {
-	                    "Request Type": {
-	                        "name": "Request Type",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.requestType\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Request Type",
-	                            "Authorization",
-	                            "Subpoena"
-	                        ]
-	                    },
-	                    "Request Subtype": {
-	                        "name": "Request Subtype",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.requestSubType\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Request Subtype"
-	                        ]
-	                    },
-	                    "Due Date": {
-	                        "name": "Due Date",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"dueDate\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Deposition Date": {
-	                        "name": "Deposition Date",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"depositionDate\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Signature Present": {
-	                        "name": "Signature Present",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Signature Present']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Enter Date Signed": {
-	                        "name": "Enter Date Signed",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"signatureDate\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Authorization Type": {
-	                        "name": "Authorization Type",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.authorizationType\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "Choose Authorization",
-	                            "Patient",
-	                            "Parent",
-	                            "Legal Guardian",
-	                            "Spouse",
-	                            "Next of Kin",
-	                            "Adult Child",
-	                            "Power of Attorney"
-	                        ]
-	                    }
-	                }
-	            },
-	            "Validation": {
-	                "source": "modules/orders/views/components/order-validation.client.view.html",
-	                "body": "panel-view[header=\"Validation\"] div.panel-body form",
-	                "title": "panel-view[header=\"Validation\"] div.panel-heading",
-	                "name": "Validation",
-	                "fields": {
-	                    "Verify Patient DOB": {
-	                        "name": "Verify Patient DOB",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Verify Patient DOB']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Verify First Page of Abstract": {
-	                        "name": "Verify First Page of Abstract",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Verify First Page of Abstract']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Verify Last Page of Abstract": {
-	                        "name": "Verify Last Page of Abstract",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Verify Last Page of Abstract']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    }
-	                }
-	            },
-	            "QC Validation": {
-	                "source": "modules/orders/views/components/order-qc-validation.client.view.html",
-	                "body": "panel-view[header=\"QC Validation\"] div.panel-body form",
-	                "title": "panel-view[header=\"QC Validation\"] div.panel-heading",
-	                "name": "QC Validation",
-	                "fields": {
-	                    "Verify": {
-	                        "name": "Verify",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Verify']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    }
-	                }
-	            }
-	        }
-	    },
-	    "Information": {
-	        "name": "Information",
-	        "body": "ng-form[name=\"orderInfoForm\"]",
-	        "title": "li[active=\"tabs.informationTabActive\"]",
-	        "forms": {
-	            "Legacy": {
-	                "source": "modules/orders/views/components/order-legacy.client.view.html",
-	                "body": "panel-view[header=\"Legacy\"] div.panel-body form",
-	                "title": "panel-view[header=\"Legacy\"] div.panel-heading",
-	                "name": "Legacy",
-	                "fields": {
-	                    "Creator/Field Agent": {
-	                        "name": "Creator/Field Agent",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderLegacy.creator\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "RMS Request ID": {
-	                        "name": "RMS Request ID",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderLegacy.requestId\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Record Source": {
-	                        "name": "Record Source",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderLegacy.recordSource\"]",
-	                        "locatorType": "css"
-	                    }
-	                }
-	            },
-	            "Project Specifics": {
-	                "source": "modules/orders/views/components/order-project-specifics.client.view.html",
-	                "body": "panel-view[header=\"Project Specifics\"] div.panel-body form",
-	                "title": "panel-view[header=\"Project Specifics\"] div.panel-heading",
-	                "name": "Project Specifics",
-	                "fields": {
-	                    "Project ID": {
-	                        "name": "Project ID",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.projectId\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Batch #": {
-	                        "name": "Batch #",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.batch.batchNumber\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Reference ID 1": {
-	                        "name": "Reference ID 1",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.requesterCaseNumber1\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Reference ID 2": {
-	                        "name": "Reference ID 2",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.requesterCaseNumber2\"]",
-	                        "locatorType": "css"
-	                    }
-	                }
-	            },
-	            "Disclosures": {
-	                "source": "modules/orders/views/components/order-disclosures.client.view.html",
-	                "body": "panel-view[header=\"Disclosures\"] div.panel-body form",
-	                "title": "panel-view[header=\"Disclosures\"] div.panel-heading",
-	                "name": "Disclosures",
-	                "fields": {
-	                    "Dates of Service": {
-	                        "name": "Dates of Service",
-	                        "type": "select",
-	                        "locator": "select[ng-model=\"orderInfo.disclosureScope\"]",
-	                        "locatorType": "css",
-	                        "options": [
-	                            "? object:null ?",
-	                            "Choose Dates of Service",
-	                            "Entire Chart",
-	                            "Last 12 Months",
-	                            "Last 2 Years",
-	                            "Last 5 Years",
-	                            "Last 100 years",
-	                            "Last 2 Years"
-	                        ]
-	                    },
-	                    "Any and all": {
-	                        "name": "Any and all",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Any and all']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "MJE Left Disclosure": {
-	                        "name": "MJE Left Disclosure",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='MJE Left Disclosure']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Commitment Papers": {
-	                        "name": "Commitment Papers",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Commitment Papers']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Consultation": {
-	                        "name": "Consultation",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Consultation']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Diagnostic Imaging Reports": {
-	                        "name": "Diagnostic Imaging Reports",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Diagnostic Imaging Reports']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Rennick Left Test EDIT": {
-	                        "name": "Rennick Left Test EDIT",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Rennick Left Test EDIT']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Disclosure Summary": {
-	                        "name": "Disclosure Summary",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Disclosure Summary']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Discharge Summary": {
-	                        "name": "Discharge Summary",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Discharge Summary']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Discharge Instructions": {
-	                        "name": "Discharge Instructions",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Discharge Instructions']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Doctor Orders": {
-	                        "name": "Doctor Orders",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Doctor Orders']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Er Record": {
-	                        "name": "Er Record",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Er Record']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "EKC/ECG Tests": {
-	                        "name": "EKC/ECG Tests",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='EKC/ECG Tests']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Facesheet": {
-	                        "name": "Facesheet",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Facesheet']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Sanija TEST": {
-	                        "name": "Sanija TEST",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Sanija TEST']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "CAT scannn": {
-	                        "name": "CAT scannn",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='CAT scannn']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "MJE Right Disclosure": {
-	                        "name": "MJE Right Disclosure",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='MJE Right Disclosure']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Itemized Bill": {
-	                        "name": "Itemized Bill",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Itemized Bill']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Matt Disclosure": {
-	                        "name": "Matt Disclosure",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Matt Disclosure']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Hard-Copy Offsite": {
-	                        "name": "Hard-Copy Offsite",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Hard-Copy Offsite']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Lab Reports": {
-	                        "name": "Lab Reports",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Lab Reports']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Medication Records": {
-	                        "name": "Medication Records",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Medication Records']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Nurse Notes": {
-	                        "name": "Nurse Notes",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Nurse Notes']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Rennick Right Test EDIT": {
-	                        "name": "Rennick Right Test EDIT",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Rennick Right Test EDIT']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Operative Report": {
-	                        "name": "Operative Report",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Operative Report']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Progress Notes": {
-	                        "name": "Progress Notes",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Progress Notes']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Treatment Plans": {
-	                        "name": "Treatment Plans",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Treatment Plans']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Therapy Notes": {
-	                        "name": "Therapy Notes",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Therapy Notes']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Sanija DEMO": {
-	                        "name": "Sanija DEMO",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Sanija DEMO']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "None": {
-	                        "name": "None",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='None']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "HIV/AIDS": {
-	                        "name": "HIV/AIDS",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='HIV/AIDS']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Mental Health": {
-	                        "name": "Mental Health",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Mental Health']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "MJE MM": {
-	                        "name": "MJE MM",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='MJE MM']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Genetic Testing": {
-	                        "name": "Genetic Testing",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Genetic Testing']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "Drug Treatment": {
-	                        "name": "Drug Treatment",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='Drug Treatment']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    },
-	                    "MJE DNA": {
-	                        "name": "MJE DNA",
-	                        "type": "checkbox",
-	                        "locator": ".//label[normalize-space(text())='MJE DNA']/input[@type='checkbox']",
-	                        "locatorType": "xpath"
-	                    }
-	                }
-	            },
-	            "EMR Import": {
-	                "source": "modules/orders/views/components/order-emr-import.client.view.html",
-	                "body": "panel-view[header=\"EMR Import\"] div.panel-body form",
-	                "title": "panel-view[header=\"EMR Import\"] div.panel-heading",
-	                "name": "EMR Import",
-	                "fields": {
-	                    "Unknown Patient": {
-	                        "name": "Unknown Patient",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.unknownPatient\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Release Type": {
-	                        "name": "Release Type",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.releaseType\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester Name": {
-	                        "name": "Requester Name",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterName\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester Attention to": {
-	                        "name": "Requester Attention to",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterAttentionTo\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester Address": {
-	                        "name": "Requester Address",
-	                        "type": "textarea",
-	                        "locator": "textarea[ng-model=\"orderInfo.emrImport.requesterAddress\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester City": {
-	                        "name": "Requester City",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterCity\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester State": {
-	                        "name": "Requester State",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterState\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester Zip": {
-	                        "name": "Requester Zip",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterZip\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester Phone": {
-	                        "name": "Requester Phone",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterPhone\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester Fax": {
-	                        "name": "Requester Fax",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterFax\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requester ID": {
-	                        "name": "Requester ID",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterId\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Chart Type": {
-	                        "name": "Chart Type",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.chartType\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Information Requested": {
-	                        "name": "Information Requested",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.informationRequested\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Purpose": {
-	                        "name": "Purpose",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.purpose\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Priority": {
-	                        "name": "Priority",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.priority\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Date Needed": {
-	                        "name": "Date Needed",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.dateNeeded\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Requested Format": {
-	                        "name": "Requested Format",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.requestedFormat\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Save as Image File Path": {
-	                        "name": "Save as Image File Path",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.saveAsImageFilePath\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Save as Image File Name": {
-	                        "name": "Save as Image File Name",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.saveAsImageFileName\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Release Status": {
-	                        "name": "Release Status",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.releaseStatus\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Processor User ID": {
-	                        "name": "Processor User ID",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.processorUserId\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Epic Requester ID": {
-	                        "name": "Epic Requester ID",
-	                        "type": "text",
-	                        "locator": "input[ng-model=\"orderInfo.emrImport.epicRequesterId\"]",
-	                        "locatorType": "css"
-	                    },
-	                    "Comments": {
-	                        "name": "Comments",
-	                        "type": "textarea",
-	                        "locator": "textarea[ng-model=\"orderInfo.emrImport.comments\"]",
-	                        "locatorType": "css"
-	                    }
-	                }
-	            }
-	        }
-	    }
-	}
+    "Create": {
+        "name": "Create",
+        "body": "ng-form[name=\"createTabForm\"]",
+        "title": "li[active=\"tabs.createTabActive\"]",
+        "forms": {
+            "Patient Specifics": {
+                "source": "modules/orders/views/components/patient-info.client.view.html",
+                "body": "panel-view[header=\"Patient Specifics\"] div.panel-body form",
+                "title": "panel-view[header=\"Patient Specifics\"] div.panel-heading",
+                "name": "Patient Specifics",
+                "fields": {
+                    "New Patient": {
+                        "name": "New Patient",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"patientType\"][value=\"new\"]",
+                        "locatorType": "css",
+                        "value": "new"
+                    },
+                    "Existing Patient": {
+                        "name": "Existing Patient",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"patientType\"][value=\"existing\"]",
+                        "locatorType": "css",
+                        "value": "existing"
+                    },
+                    "Last Name": {
+                        "name": "Last Name",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.patient.familyName\"]",
+                        "locatorType": "css"
+                    },
+                    "First Name": {
+                        "name": "First Name",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.patient.givenName\"]",
+                        "locatorType": "css"
+                    },
+                    "M.I.": {
+                        "name": "M.I.",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.patient.middleInitials\"]",
+                        "locatorType": "css"
+                    },
+                    "Date of Birth": {
+                        "name": "Date of Birth",
+                        "type": "text",
+                        "locator": "input[ng-model=\"dateOfBirth\"]",
+                        "locatorType": "css"
+                    },
+                    "MRN": {
+                        "name": "MRN",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.patient.medicalRecordNumber\"]",
+                        "locatorType": "css"
+                    },
+                    "Gender": {
+                        "name": "Gender",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.patient.gender\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Select Gender",
+                            "Male",
+                            "Female"
+                        ]
+                    },
+                    "Address": {
+                        "name": "Address",
+                        "type": "textarea",
+                        "locator": "textarea[ng-model=\"orderInfo.patient.addresses[0].streetAddress\"]",
+                        "locatorType": "css"
+                    },
+                    "City": {
+                        "name": "City",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.patient.addresses[0].city\"]",
+                        "locatorType": "css"
+                    },
+                    "State": {
+                        "name": "State",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.patient.addresses[0].state\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose State",
+                            "Alabama",
+                            "Alaska",
+                            "American Samoa",
+                            "Arizona",
+                            "Arkansas",
+                            "California",
+                            "Colorado",
+                            "Connecticut",
+                            "Delaware",
+                            "District Of Columbia",
+                            "Federated States Of Micronesia",
+                            "Florida",
+                            "Georgia",
+                            "Guam",
+                            "Hawaii",
+                            "Idaho",
+                            "Illinois",
+                            "Indiana",
+                            "Iowa",
+                            "Kansas",
+                            "Kentucky",
+                            "Louisiana",
+                            "Maine",
+                            "Marshall Islands",
+                            "Maryland",
+                            "Massachusetts",
+                            "Michigan",
+                            "Minnesota",
+                            "Mississippi",
+                            "Missouri",
+                            "Montana",
+                            "Nebraska",
+                            "Nevada",
+                            "New Hampshire",
+                            "New Jersey",
+                            "New Mexico",
+                            "New York",
+                            "North Carolina",
+                            "North Dakota",
+                            "Northern Mariana Islands",
+                            "Ohio",
+                            "Oklahoma",
+                            "Oregon",
+                            "Palau",
+                            "Pennsylvania",
+                            "Puerto Rico",
+                            "Rhode Island",
+                            "South Carolina",
+                            "South Dakota",
+                            "Tennessee",
+                            "Texas",
+                            "Utah",
+                            "Vermont",
+                            "Virgin Islands",
+                            "Virginia",
+                            "Washington",
+                            "West Virginia",
+                            "Wisconsin",
+                            "Wyoming"
+                        ]
+                    },
+                    "ZIP": {
+                        "name": "ZIP",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.patient.addresses[0].zip\"]",
+                        "locatorType": "css"
+                    },
+                    "Country": {
+                        "name": "Country",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.patient.addresses[0].country\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Country",
+                            "United States of America",
+                            "Canada"
+                        ]
+                    },
+                    "Phone Number": {
+                        "name": "Phone Number",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.defaultPhone\"]",
+                        "locatorType": "css"
+                    },
+                    "Alt Phone Number": {
+                        "name": "Alt Phone Number",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.phone\"]",
+                        "locatorType": "css"
+                    },
+                    "Email Address": {
+                        "name": "Email Address",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.email\"]",
+                        "locatorType": "css"
+                    },
+                    "Certification Type": {
+                        "name": "Certification Type",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.certificationType\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Certification Type",
+                            "Driver's License",
+                            "ID Card",
+                            "Passport"
+                        ]
+                    },
+                    "Certification Number": {
+                        "name": "Certification Number",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.certificationNumber\"]",
+                        "locatorType": "css"
+                    },
+                    "Expiration Date": {
+                        "name": "Expiration Date",
+                        "type": "text",
+                        "locator": "input[ng-model=\"expirationDate\"]",
+                        "locatorType": "css"
+                    },
+                    "Custodial Reference": {
+                        "name": "Custodial Reference",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.custodialReference\"]",
+                        "locatorType": "css"
+                    }
+                }
+            },
+            "Request Specifics": {
+                "source": "modules/orders/views/components/order-details.client.view.html",
+                "body": "panel-view[header=\"Request Specifics\"] div.panel-body form",
+                "title": "panel-view[header=\"Request Specifics\"] div.panel-heading",
+                "name": "Request Specifics",
+                "fields": {
+                    "Bill to Requester": {
+                        "name": "Bill to Requester",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_requester\"]",
+                        "locatorType": "css",
+                        "value": "bill_to_requester"
+                    },
+                    "Bill to Client": {
+                        "name": "Bill to Client",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"orderInfo.billTo\"][value=\"bill_to_client\"]",
+                        "locatorType": "css",
+                        "value": "bill_to_client"
+                    },
+                    "Priority": {
+                        "name": "Priority",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.priority\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Priority",
+                            "Urgent",
+                            "Normal"
+                        ]
+                    },
+                    "Override Status": {
+                        "name": "Override Status",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.overrideStatus\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Select Override Status",
+                            "Stat",
+                            "Review",
+                            "Logging"
+                        ]
+                    },
+                    "Handling Option": {
+                        "name": "Handling Option",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.printOption\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Handling Option",
+                            "Centrally",
+                            "Field"
+                        ]
+                    },
+                    "Record Type": {
+                        "name": "Record Type",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.recordType\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Record Type",
+                            "Billing",
+                            "Medical",
+                            "Imaging",
+                            "No Records",
+                            "Acquisition Exception",
+                            "Forms"
+                        ]
+                    },
+                    "Processing Options": {
+                        "name": "Processing Options",
+                        "type": "select",
+                        "locator": "select[ng-model=\"selectedProcessingOption\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Processing Options",
+                            "Notary",
+                            "Certification",
+                            "Affidavit",
+                            "Questionnaire",
+                            "Film",
+                            "Studies",
+                            "Photographs",
+                            "# Years Searched"
+                        ]
+                    },
+                    "Barcode Validity": {
+                        "name": "Barcode Validity",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.validBarcodeFlag\"]",
+                        "locatorType": "css"
+                    },
+                    "Received Via": {
+                        "name": "Received Via",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.receivedVia\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Received Via",
+                            "Fax",
+                            "Mail",
+                            "Email",
+                            "Walk-in"
+                        ]
+                    },
+                    "Received Date": {
+                        "name": "Received Date",
+                        "type": "text",
+                        "locator": "input[ng-model=\"receivedDate\"]",
+                        "locatorType": "css"
+                    },
+                    "External System ID": {
+                        "name": "External System ID",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.externalSystemId\"]",
+                        "locatorType": "css"
+                    }
+                }
+            },
+            "Deposit Information": {
+                "source": "modules/orders/views/components/order-payment.client.view.html",
+                "body": "panel-view[header=\"Deposit Information\"] div.panel-body form",
+                "title": "panel-view[header=\"Deposit Information\"] div.panel-heading",
+                "name": "Deposit Information",
+                "fields": {
+                    "Deposit Amount": {
+                        "name": "Deposit Amount",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.paymentAmount\"]",
+                        "locatorType": "css"
+                    },
+                    "Deposit Method": {
+                        "name": "Deposit Method",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.paymentMethod\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Select Payment Method",
+                            "Cash",
+                            "Check",
+                            "Credit Card",
+                            "Money Order",
+                            "Cashier's Check"
+                        ]
+                    },
+                    "Method Number": {
+                        "name": "Method Number",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.paymentMethodNumber\"]",
+                        "locatorType": "css"
+                    }
+                }
+            },
+            "Request Activity": {
+                "source": "modules/orders/views/components/order-activity.client.view.html",
+                "body": "panel-view[header=\"Request Activity\"] div.panel-body form",
+                "title": "panel-view[header=\"Request Activity\"] div.panel-heading",
+                "name": "Request Activity",
+                "fields": {
+                    "Pending State": {
+                        "name": "Pending State",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.pendingState\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Select Pending State",
+                            "Approved by Compliance",
+                            "Approved by HIM",
+                            "Approved by Legal",
+                            "Approved by Physician",
+                            "Approved by Risk",
+                            "Approved by Supervisor",
+                            "Attached Anesthesia",
+                            "Attached Certification",
+                            "Attached Dictation/Chart Completion",
+                            "Attached Discharge Summary",
+                            "Attached EMR Documents",
+                            "Attached Microfilm",
+                            "Attached Notarized Documents",
+                            "Attached Offsite Paper Chart",
+                            "Attached Other Records",
+                            "Attached Radiology",
+                            "Authorization Reviewed for Completeness",
+                            "Auto Extract Record",
+                            "Provider Lack of Response-Closed",
+                            "Provider Provided Invoice has been Paid",
+                            "Provider Refused to Send Record",
+                            "Provider sent CNR",
+                            "Provider sent Invoice",
+                            "Ready for ROI Specialist",
+                            "Ready for Team 1",
+                            "Ready for Team 2",
+                            "Ready for Team 3",
+                            "Ready for Team 4",
+                            "Ready for Team 5",
+                            "Ready for Team 6",
+                            "Ready to Process",
+                            "Request for Anesthesia",
+                            "Request for Compliant Authorization",
+                            "Request for Contact Information",
+                            "Request for Custodian Certification",
+                            "Request for Dictation/Chart Completion",
+                            "Request for EMR documents",
+                            "Request for Future DOS",
+                            "Request for Management Approval: Compliance",
+                            "Request for Management Approval: HIM Management",
+                            "Request for Management Approval: Immediate Supervisor",
+                            "Request for Management Approval: Legal",
+                            "Request for Management Approval: Physician",
+                            "Request for Management Approval: Risk",
+                            "Request for Microfilm",
+                            "Request for Notarized Documents",
+                            "Request for on Premises Paper Chart",
+                            "Request for Paper Chart offsite storage",
+                            "Request for Pending Patient Discharge",
+                            "Request for Radiology",
+                            "Request for Records-Other",
+                            "Separated Document"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "Shipping & Billing": {
+        "name": "Shipping & Billing",
+        "body": "ng-form[name=\"shippingBillingForm\"]",
+        "title": "li[active=\"tabs.shippingBillingTabActive\"]",
+        "forms": {
+            "Requester Specifics": {
+                "source": "modules/orders/views/components/requester-info.client.view.html",
+                "body": "panel-view[header=\"Requester Specifics\"] div.panel-body form",
+                "title": "panel-view[header=\"Requester Specifics\"] div.panel-heading",
+                "name": "Requester Specifics",
+                "fields": {
+                    "Existing Requester": {
+                        "name": "Existing Requester",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"requesterType\"][value=\"existing\"]",
+                        "locatorType": "css",
+                        "value": "existing"
+                    },
+                    "New Requester": {
+                        "name": "New Requester",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"requesterType\"][value=\"new\"]",
+                        "locatorType": "css",
+                        "value": "new"
+                    },
+                    "As Patient": {
+                        "name": "As Patient",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"requesterType\"][value=\"asPatient\"]",
+                        "locatorType": "css",
+                        "value": "asPatient"
+                    },
+                    "Payment Terms": {
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.paymentTerms\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Select Payment Term",
+                            "Net 0",
+                            "Net 30",
+                            "Net 45",
+                            "Net 60",
+                            "Net 90"
+                        ]
+                    }
+                }
+            },
+            "Billing Contact Specifics": {
+                "source": "modules/orders/views/components/billing-info.client.view.html",
+                "body": "panel-view[header=\"Billing Contact Specifics\"] div.panel-body form",
+                "title": "panel-view[header=\"Billing Contact Specifics\"] div.panel-heading",
+                "name": "Billing Contact Specifics",
+                "fields": {
+                    "As Requester": {
+                        "name": "As Requester",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"billingType\"][value=\"asRequester\"]",
+                        "locatorType": "css",
+                        "value": "asRequester"
+                    },
+                    "Attention": {
+                        "name": "Attention",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.billingInfo.attention\"]",
+                        "locatorType": "css"
+                    },
+                    "Email Address": {
+                        "name": "Email Address",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.email\"]",
+                        "locatorType": "css"
+                    },
+                    "Fax Number": {
+                        "name": "Fax Number",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.fax\"]",
+                        "locatorType": "css"
+                    }
+                }
+            },
+            "Email Notifications": {
+                "source": "modules/orders/views/components/order-notifications.client.view.html",
+                "body": "panel-view[header=\"Email Notifications\"] div.panel-body form",
+                "title": "panel-view[header=\"Email Notifications\"] div.panel-heading",
+                "name": "Email Notifications",
+                "fields": {
+                    "As Requester": {
+                        "name": "As Requester",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asRequester\"]",
+                        "locatorType": "css",
+                        "value": "asRequester"
+                    },
+                    "As Patient": {
+                        "name": "As Patient",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"asPatient\"]",
+                        "locatorType": "css",
+                        "value": "asPatient"
+                    },
+                    "New email": {
+                        "name": "New email",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"orderInfo.notificationEmailType\"][value=\"new\"]",
+                        "locatorType": "css",
+                        "value": "new"
+                    },
+                    "Send Notifications to these addresses?": {
+                        "name": "Send Notifications to these addresses?",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Send Notifications to these addresses?']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Notification Address": {
+                        "name": "Notification Address",
+                        "type": "email",
+                        "locator": "input[ng-model=\"orderInfo.notificationEmail\"]",
+                        "locatorType": "css"
+                    },
+                    "CC Address": {
+                        "name": "CC Address",
+                        "type": "email",
+                        "locator": "input[ng-model=\"orderInfo.ccNotificationEmail\"]",
+                        "locatorType": "css"
+                    }
+                }
+            },
+            "Shipping Specifics": {
+                "source": "modules/orders/views/components/shipping-info.client.view.html",
+                "body": "panel-view[header=\"Shipping Specifics\"] div.panel-body form",
+                "title": "panel-view[header=\"Shipping Specifics\"] div.panel-heading",
+                "name": "Shipping Specifics",
+                "fields": {
+                    "As Requester": {
+                        "name": "As Requester",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"asRequester\"]",
+                        "locatorType": "css",
+                        "value": "asRequester"
+                    },
+                    "As Patient": {
+                        "name": "As Patient",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"asPatient\"]",
+                        "locatorType": "css",
+                        "value": "asPatient"
+                    },
+                    "As Location": {
+                        "name": "As Location",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"asClient\"]",
+                        "locatorType": "css",
+                        "value": "asClient"
+                    },
+                    "New": {
+                        "name": "New",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"new\"]",
+                        "locatorType": "css",
+                        "value": "new"
+                    },
+                    "As Other Requester": {
+                        "name": "As Other Requester",
+                        "type": "radio",
+                        "locator": "input[ng-model=\"shippingType\"][value=\"asOtherRequester\"]",
+                        "locatorType": "css",
+                        "value": "asOtherRequester"
+                    },
+                    "Address": {
+                        "name": "Address",
+                        "type": "textarea",
+                        "locator": "textarea[ng-model=\"orderInfo.shippingInfo.addresses[0].streetAddress\"]",
+                        "locatorType": "css"
+                    },
+                    "City": {
+                        "name": "City",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.shippingInfo.addresses[0].city\"]",
+                        "locatorType": "css"
+                    },
+                    "State": {
+                        "name": "State",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.shippingInfo.addresses[0].state\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose State",
+                            "Alabama",
+                            "Alaska",
+                            "American Samoa",
+                            "Arizona",
+                            "Arkansas",
+                            "California",
+                            "Colorado",
+                            "Connecticut",
+                            "Delaware",
+                            "District Of Columbia",
+                            "Federated States Of Micronesia",
+                            "Florida",
+                            "Georgia",
+                            "Guam",
+                            "Hawaii",
+                            "Idaho",
+                            "Illinois",
+                            "Indiana",
+                            "Iowa",
+                            "Kansas",
+                            "Kentucky",
+                            "Louisiana",
+                            "Maine",
+                            "Marshall Islands",
+                            "Maryland",
+                            "Massachusetts",
+                            "Michigan",
+                            "Minnesota",
+                            "Mississippi",
+                            "Missouri",
+                            "Montana",
+                            "Nebraska",
+                            "Nevada",
+                            "New Hampshire",
+                            "New Jersey",
+                            "New Mexico",
+                            "New York",
+                            "North Carolina",
+                            "North Dakota",
+                            "Northern Mariana Islands",
+                            "Ohio",
+                            "Oklahoma",
+                            "Oregon",
+                            "Palau",
+                            "Pennsylvania",
+                            "Puerto Rico",
+                            "Rhode Island",
+                            "South Carolina",
+                            "South Dakota",
+                            "Tennessee",
+                            "Texas",
+                            "Utah",
+                            "Vermont",
+                            "Virgin Islands",
+                            "Virginia",
+                            "Washington",
+                            "West Virginia",
+                            "Wisconsin",
+                            "Wyoming"
+                        ]
+                    },
+                    "ZIP": {
+                        "name": "ZIP",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.shippingInfo.addresses[0].zip\"]",
+                        "locatorType": "css"
+                    },
+                    "Country": {
+                        "name": "Country",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.shippingInfo.addresses[0].country\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Country",
+                            "United States of America",
+                            "Canada"
+                        ]
+                    },
+                    "Certified Mail": {
+                        "name": "Certified Mail",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Certified Mail']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Company Name": {
+                        "name": "Company Name",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.shippingInfo.companyName\"]",
+                        "locatorType": "css"
+                    },
+                    "Attention": {
+                        "name": "Attention",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.shippingInfo.attention\"]",
+                        "locatorType": "css"
+                    },
+                    "Phone Number": {
+                        "name": "Phone Number",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.phone\"]",
+                        "locatorType": "css"
+                    },
+                    "Email Address": {
+                        "name": "Email Address",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.email\"]",
+                        "locatorType": "css"
+                    },
+                    "Confirm Email Address": {
+                        "name": "Confirm Email Address",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.confirmationEmail\"]",
+                        "locatorType": "css"
+                    },
+                    "Fax Number": {
+                        "name": "Fax Number",
+                        "type": "text",
+                        "locator": "input[ng-model=\"contacts.fax\"]",
+                        "locatorType": "css"
+                    },
+                    "Delivery Method": {
+                        "name": "Delivery Method",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.deliveryMethod\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Delivery Method",
+                            "Electronic",
+                            "Pickup",
+                            "Standard Postage"
+                        ]
+                    },
+                    "eDelivery Method": {
+                        "name": "eDelivery Method",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.shippingInfo.eDeliveryMethod\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose eDelivery Method",
+                            "On Demand",
+                            "Upload to Customer",
+                            "Secure Email",
+                            "Patient Portal",
+                            "Fax"
+                        ]
+                    },
+                    "File Type": {
+                        "name": "File Type",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.shippingInfo.fileType\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose File Type",
+                            "PDF",
+                            "TIFF"
+                        ]
+                    },
+                    "Output Type": {
+                        "name": "Output Type",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.shippingInfo.outputType\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Output Type",
+                            "Electronic"
+                        ]
+                    }
+                }
+            }
+        }
+    },
+    "Details": {
+        "name": "Details",
+        "body": "ng-form[name=\"orderDetailsForm\"]",
+        "title": "li[active=\"tabs.orderTabActive\"]",
+        "forms": {
+            "Authorization Specifics": {
+                "source": "modules/orders/views/components/order-authorization.client.view.html",
+                "body": "panel-view[header=\"Authorization Specifics\"] div.panel-body form",
+                "title": "panel-view[header=\"Authorization Specifics\"] div.panel-heading",
+                "name": "Authorization Specifics",
+                "fields": {
+                    "Request Type": {
+                        "name": "Request Type",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.requestType\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Request Type",
+                            "Authorization",
+                            "Subpoena"
+                        ]
+                    },
+                    "Request Subtype": {
+                        "name": "Request Subtype",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.requestSubType\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Request Subtype"
+                        ]
+                    },
+                    "Due Date": {
+                        "name": "Due Date",
+                        "type": "text",
+                        "locator": "input[ng-model=\"dueDate\"]",
+                        "locatorType": "css"
+                    },
+                    "Deposition Date": {
+                        "name": "Deposition Date",
+                        "type": "text",
+                        "locator": "input[ng-model=\"depositionDate\"]",
+                        "locatorType": "css"
+                    },
+                    "Signature Present": {
+                        "name": "Signature Present",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Signature Present']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Enter Date Signed": {
+                        "name": "Enter Date Signed",
+                        "type": "text",
+                        "locator": "input[ng-model=\"signatureDate\"]",
+                        "locatorType": "css"
+                    },
+                    "Authorization Type": {
+                        "name": "Authorization Type",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.authorizationType\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Choose Authorization",
+                            "Patient",
+                            "Parent",
+                            "Legal Guardian",
+                            "Spouse",
+                            "Next of Kin",
+                            "Adult Child",
+                            "Power of Attorney"
+                        ]
+                    }
+                }
+            },
+            "Validation": {
+                "source": "modules/orders/views/components/order-validation.client.view.html",
+                "body": "panel-view[header=\"Validation\"] div.panel-body form",
+                "title": "panel-view[header=\"Validation\"] div.panel-heading",
+                "name": "Validation",
+                "fields": {
+                    "Verify Patient DOB": {
+                        "name": "Verify Patient DOB",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Verify Patient DOB']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Verify First Page of Abstract": {
+                        "name": "Verify First Page of Abstract",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Verify First Page of Abstract']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Verify Last Page of Abstract": {
+                        "name": "Verify Last Page of Abstract",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Verify Last Page of Abstract']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    }
+                }
+            },
+            "QC Validation": {
+                "source": "modules/orders/views/components/order-qc-validation.client.view.html",
+                "body": "panel-view[header=\"QC Validation\"] div.panel-body form",
+                "title": "panel-view[header=\"QC Validation\"] div.panel-heading",
+                "name": "QC Validation",
+                "fields": {
+                    "Verify": {
+                        "name": "Verify",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Verify']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    }
+                }
+            }
+        }
+    },
+    "Information": {
+        "name": "Information",
+        "body": "ng-form[name=\"orderInfoForm\"]",
+        "title": "li[active=\"tabs.informationTabActive\"]",
+        "forms": {
+            "Legacy": {
+                "source": "modules/orders/views/components/order-legacy.client.view.html",
+                "body": "panel-view[header=\"Legacy\"] div.panel-body form",
+                "title": "panel-view[header=\"Legacy\"] div.panel-heading",
+                "name": "Legacy",
+                "fields": {
+                    "Creator/Field Agent": {
+                        "name": "Creator/Field Agent",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderLegacy.creator\"]",
+                        "locatorType": "css"
+                    },
+                    "RMS Request ID": {
+                        "name": "RMS Request ID",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderLegacy.requestId\"]",
+                        "locatorType": "css"
+                    },
+                    "Record Source": {
+                        "name": "Record Source",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderLegacy.recordSource\"]",
+                        "locatorType": "css"
+                    }
+                }
+            },
+            "Project Specifics": {
+                "source": "modules/orders/views/components/order-project-specifics.client.view.html",
+                "body": "panel-view[header=\"Project Specifics\"] div.panel-body form",
+                "title": "panel-view[header=\"Project Specifics\"] div.panel-heading",
+                "name": "Project Specifics",
+                "fields": {
+                    "Project ID": {
+                        "name": "Project ID",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.projectId\"]",
+                        "locatorType": "css"
+                    },
+                    "Batch #": {
+                        "name": "Batch #",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.batch.batchNumber\"]",
+                        "locatorType": "css"
+                    },
+                    "Reference ID 1": {
+                        "name": "Reference ID 1",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.requesterCaseNumber1\"]",
+                        "locatorType": "css"
+                    },
+                    "Reference ID 2": {
+                        "name": "Reference ID 2",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.requesterCaseNumber2\"]",
+                        "locatorType": "css"
+                    }
+                }
+            },
+            "Disclosures": {
+                "source": "modules/orders/views/components/order-disclosures.client.view.html",
+                "body": "panel-view[header=\"Disclosures\"] div.panel-body form",
+                "title": "panel-view[header=\"Disclosures\"] div.panel-heading",
+                "name": "Disclosures",
+                "fields": {
+                    "Dates of Service": {
+                        "name": "Dates of Service",
+                        "type": "select",
+                        "locator": "select[ng-model=\"orderInfo.disclosureScope\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "? object:null ?",
+                            "Choose Dates of Service",
+                            "Entire Chart",
+                            "Last 12 Months",
+                            "Last 2 Years",
+                            "Last 5 Years",
+                            "Last 100 years",
+                            "Last 2 Years"
+                        ]
+                    },
+                    "Any and all": {
+                        "name": "Any and all",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Any and all']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "MJE Left Disclosure": {
+                        "name": "MJE Left Disclosure",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='MJE Left Disclosure']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Commitment Papers": {
+                        "name": "Commitment Papers",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Commitment Papers']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Consultation": {
+                        "name": "Consultation",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Consultation']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Diagnostic Imaging Reports": {
+                        "name": "Diagnostic Imaging Reports",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Diagnostic Imaging Reports']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Rennick Left Test EDIT": {
+                        "name": "Rennick Left Test EDIT",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Rennick Left Test EDIT']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Disclosure Summary": {
+                        "name": "Disclosure Summary",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Disclosure Summary']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Discharge Summary": {
+                        "name": "Discharge Summary",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Discharge Summary']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Discharge Instructions": {
+                        "name": "Discharge Instructions",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Discharge Instructions']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Doctor Orders": {
+                        "name": "Doctor Orders",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Doctor Orders']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Er Record": {
+                        "name": "Er Record",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Er Record']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "EKC/ECG Tests": {
+                        "name": "EKC/ECG Tests",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='EKC/ECG Tests']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Facesheet": {
+                        "name": "Facesheet",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Facesheet']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Sanija TEST": {
+                        "name": "Sanija TEST",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Sanija TEST']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "CAT scannn": {
+                        "name": "CAT scannn",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='CAT scannn']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "MJE Right Disclosure": {
+                        "name": "MJE Right Disclosure",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='MJE Right Disclosure']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Itemized Bill": {
+                        "name": "Itemized Bill",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Itemized Bill']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Matt Disclosure": {
+                        "name": "Matt Disclosure",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Matt Disclosure']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Hard-Copy Offsite": {
+                        "name": "Hard-Copy Offsite",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Hard-Copy Offsite']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Lab Reports": {
+                        "name": "Lab Reports",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Lab Reports']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Medication Records": {
+                        "name": "Medication Records",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Medication Records']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Nurse Notes": {
+                        "name": "Nurse Notes",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Nurse Notes']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Rennick Right Test EDIT": {
+                        "name": "Rennick Right Test EDIT",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Rennick Right Test EDIT']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Operative Report": {
+                        "name": "Operative Report",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Operative Report']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Progress Notes": {
+                        "name": "Progress Notes",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Progress Notes']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Treatment Plans": {
+                        "name": "Treatment Plans",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Treatment Plans']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Therapy Notes": {
+                        "name": "Therapy Notes",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Therapy Notes']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Sanija DEMO": {
+                        "name": "Sanija DEMO",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Sanija DEMO']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "None": {
+                        "name": "None",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='None']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "HIV/AIDS": {
+                        "name": "HIV/AIDS",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='HIV/AIDS']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Mental Health": {
+                        "name": "Mental Health",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Mental Health']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "MJE MM": {
+                        "name": "MJE MM",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='MJE MM']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Genetic Testing": {
+                        "name": "Genetic Testing",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Genetic Testing']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Drug Treatment": {
+                        "name": "Drug Treatment",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Drug Treatment']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "MJE DNA": {
+                        "name": "MJE DNA",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='MJE DNA']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    }
+                }
+            },
+            "EMR Import": {
+                "source": "modules/orders/views/components/order-emr-import.client.view.html",
+                "body": "panel-view[header=\"EMR Import\"] div.panel-body form",
+                "title": "panel-view[header=\"EMR Import\"] div.panel-heading",
+                "name": "EMR Import",
+                "fields": {
+                    "Unknown Patient": {
+                        "name": "Unknown Patient",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.unknownPatient\"]",
+                        "locatorType": "css"
+                    },
+                    "Release Type": {
+                        "name": "Release Type",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.releaseType\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester Name": {
+                        "name": "Requester Name",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterName\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester Attention to": {
+                        "name": "Requester Attention to",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterAttentionTo\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester Address": {
+                        "name": "Requester Address",
+                        "type": "textarea",
+                        "locator": "textarea[ng-model=\"orderInfo.emrImport.requesterAddress\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester City": {
+                        "name": "Requester City",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterCity\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester State": {
+                        "name": "Requester State",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterState\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester Zip": {
+                        "name": "Requester Zip",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterZip\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester Phone": {
+                        "name": "Requester Phone",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterPhone\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester Fax": {
+                        "name": "Requester Fax",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterFax\"]",
+                        "locatorType": "css"
+                    },
+                    "Requester ID": {
+                        "name": "Requester ID",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requesterId\"]",
+                        "locatorType": "css"
+                    },
+                    "Chart Type": {
+                        "name": "Chart Type",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.chartType\"]",
+                        "locatorType": "css"
+                    },
+                    "Information Requested": {
+                        "name": "Information Requested",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.informationRequested\"]",
+                        "locatorType": "css"
+                    },
+                    "Purpose": {
+                        "name": "Purpose",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.purpose\"]",
+                        "locatorType": "css"
+                    },
+                    "Priority": {
+                        "name": "Priority",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.priority\"]",
+                        "locatorType": "css"
+                    },
+                    "Date Needed": {
+                        "name": "Date Needed",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.dateNeeded\"]",
+                        "locatorType": "css"
+                    },
+                    "Requested Format": {
+                        "name": "Requested Format",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.requestedFormat\"]",
+                        "locatorType": "css"
+                    },
+                    "Save as Image File Path": {
+                        "name": "Save as Image File Path",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.saveAsImageFilePath\"]",
+                        "locatorType": "css"
+                    },
+                    "Save as Image File Name": {
+                        "name": "Save as Image File Name",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.saveAsImageFileName\"]",
+                        "locatorType": "css"
+                    },
+                    "Release Status": {
+                        "name": "Release Status",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.releaseStatus\"]",
+                        "locatorType": "css"
+                    },
+                    "Processor User ID": {
+                        "name": "Processor User ID",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.processorUserId\"]",
+                        "locatorType": "css"
+                    },
+                    "Epic Requester ID": {
+                        "name": "Epic Requester ID",
+                        "type": "text",
+                        "locator": "input[ng-model=\"orderInfo.emrImport.epicRequesterId\"]",
+                        "locatorType": "css"
+                    },
+                    "Comments": {
+                        "name": "Comments",
+                        "type": "textarea",
+                        "locator": "textarea[ng-model=\"orderInfo.emrImport.comments\"]",
+                        "locatorType": "css"
+                    }
+                }
+            }
+        }
+    }
 }
