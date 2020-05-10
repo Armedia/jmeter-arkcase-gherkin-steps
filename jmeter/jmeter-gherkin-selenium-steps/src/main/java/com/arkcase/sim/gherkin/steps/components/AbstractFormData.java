@@ -416,6 +416,7 @@ public class AbstractFormData extends ComponentSteps {
 
 			public void setValue(String value) {
 				// Wait until the field is visible and enabled
+				this.helper.scrollTo(this.element);
 				waitUntil(WaitType.ENABLED);
 				this.field.fieldType.apply(this.element, value);
 			}
