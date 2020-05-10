@@ -110,7 +110,7 @@ public class AbstractFormData extends ComponentSteps {
 
 	protected static boolean selectItem(WebElement element, String string) {
 		if (AbstractFormData.isTrue(string)) {
-			element.click();
+			element.sendKeys(" ");
 		}
 		return true;
 	}
