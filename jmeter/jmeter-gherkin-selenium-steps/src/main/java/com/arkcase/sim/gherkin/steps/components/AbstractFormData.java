@@ -385,12 +385,16 @@ public class AbstractFormData extends ComponentSteps {
 				return this.section;
 			}
 
-			public void waitUntil(WaitType type) {
-				this.helper.waitForElement(this.element, type);
-			}
-
 			public String getName() {
 				return this.field.label;
+			}
+
+			public WebElement getElement() {
+				return this.element;
+			}
+
+			public boolean waitUntil(WaitType type) {
+				return this.helper.waitForElement(this.element, type);
 			}
 
 			public FieldType getFieldType() {
@@ -410,6 +414,8 @@ public class AbstractFormData extends ComponentSteps {
 			}
 
 			public void setValue(String value) {
+				// Wait until the field is visible and enabled
+				waitUntil(WaitType.ENABLED);
 				this.field.fieldType.apply(this.element, value);
 			}
 		}
@@ -441,12 +447,20 @@ public class AbstractFormData extends ComponentSteps {
 				return this.section.name;
 			}
 
-			public void waitUntilBody(WaitType type) {
-				this.helper.waitForElement(this.body, type);
+			public WebElement getTitle() {
+				return this.title;
 			}
 
-			public void waitUntilTitle(WaitType type) {
-				this.helper.waitForElement(this.title, type);
+			public boolean waitUntilTitle(WaitType type) {
+				return this.helper.waitForElement(this.title, type);
+			}
+
+			public WebElement getBody() {
+				return this.body;
+			}
+
+			public boolean waitUntilBody(WaitType type) {
+				return this.helper.waitForElement(this.body, type);
 			}
 
 			public boolean isExpanded() {
@@ -533,16 +547,24 @@ public class AbstractFormData extends ComponentSteps {
 				this.collapse = this.body.findElement(Tab.BTN_COMPRESS);
 			}
 
-			public void waitUntilBody(WaitType type) {
-				this.helper.waitForElement(this.body, type);
-			}
-
-			public void waitUntilTitle(WaitType type) {
-				this.helper.waitForElement(this.title, type);
-			}
-
 			public String getName() {
 				return this.tab.name;
+			}
+
+			public WebElement getTitle() {
+				return this.title;
+			}
+
+			public boolean waitUntilTitle(WaitType type) {
+				return this.helper.waitForElement(this.title, type);
+			}
+
+			public WebElement getBody() {
+				return this.body;
+			}
+
+			public boolean waitUntilBody(WaitType type) {
+				return this.helper.waitForElement(this.body, type);
 			}
 
 			public void expandAll() {
