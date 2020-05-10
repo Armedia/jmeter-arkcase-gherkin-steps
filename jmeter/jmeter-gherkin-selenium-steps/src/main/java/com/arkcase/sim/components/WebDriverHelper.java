@@ -41,6 +41,7 @@ import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.interactions.MoveTargetOutOfBoundsException;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -50,6 +51,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WebDriverHelper {
+
+	private static final String SCROLL_SCRIPT = "arguments[0].scrollIntoView(true);";
 
 	public static final Supplier<String> NO_MESSAGE = null;
 
@@ -617,6 +620,10 @@ public class WebDriverHelper {
 	}
 
 	public final void scrollTo(WebElement element) {
-		newActions().moveToElement(element).perform();
+		try {
+			newActions().moveToElement(element).perform();
+		} catch (MoveTargetOutOfBoundsException e) {
+			runJavaScript(WebDriverHelper.SCROLL_SCRIPT, element);
+		}
 	}
 }
