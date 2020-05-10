@@ -161,13 +161,19 @@ public class AbstractFormData extends ComponentSteps {
 		;
 
 		private final BiPredicate<WebElement, String> impl;
+		private final Function<String, String> generator;
 
 		private FieldType() {
-			this(null);
+			this(null, null);
 		}
 
 		private FieldType(BiPredicate<WebElement, String> impl) {
+			this(impl, null);
+		}
+
+		private FieldType(BiPredicate<WebElement, String> impl, Function<String, String> generator) {
 			this.impl = impl;
+			this.generator = generator;
 		}
 
 		@JsonValue
@@ -183,6 +189,11 @@ public class AbstractFormData extends ComponentSteps {
 			}
 			if (!element.isEnabled()) { return false; }
 			return this.impl.test(element, value);
+		}
+
+		public final String generate(String spec) {
+			if (this.generator == null) { return spec; }
+			return this.generator.apply(spec);
 		}
 
 		public static final FieldType parse(String type) {
