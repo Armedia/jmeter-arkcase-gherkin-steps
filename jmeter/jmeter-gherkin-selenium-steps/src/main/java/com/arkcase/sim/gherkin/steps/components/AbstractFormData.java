@@ -344,7 +344,7 @@ public class AbstractFormData extends ComponentSteps {
 
 	public static class Live {
 		private static class Element {
-			public final WaitHelper helper;
+			protected final WaitHelper helper;
 
 			private Element(WaitHelper helper) {
 				this.helper = Objects.requireNonNull(helper, "Must provide a WaitHelper instance");
@@ -353,6 +353,10 @@ public class AbstractFormData extends ComponentSteps {
 			private Element(Element element) {
 				this.helper = Objects.requireNonNull(element,
 					"Must provide a non-null Element from which to extract the WaitHelper").helper;
+			}
+
+			public WaitHelper getHelper() {
+				return this.helper;
 			}
 
 			protected final WebElement getElement(By by) {
@@ -365,9 +369,9 @@ public class AbstractFormData extends ComponentSteps {
 		}
 
 		public static final class Field extends Element {
-			public final Section section;
-			public final Persistent.Field field;
-			public final WebElement element;
+			private final Section section;
+			private final Persistent.Field field;
+			private final WebElement element;
 
 			private Field(Section section, Persistent.Field field) {
 				super(section);
@@ -375,6 +379,10 @@ public class AbstractFormData extends ComponentSteps {
 				this.section = section;
 
 				this.element = section.body.findElement(field.locator);
+			}
+
+			public Section getSection() {
+				return this.section;
 			}
 
 			public void waitUntil(WaitType type) {
@@ -461,6 +469,16 @@ public class AbstractFormData extends ComponentSteps {
 				this.helper.waitForElement(this.title, WaitType.CLICKABLE);
 				this.title.click();
 				this.helper.waitForElement(this.body, WaitType.HIDDEN);
+			}
+
+			public boolean toggle() {
+				boolean state = isExpanded();
+				if (state) {
+					collapse();
+				} else {
+					expand();
+				}
+				return !state;
 			}
 
 			public boolean hasField(String field) {
