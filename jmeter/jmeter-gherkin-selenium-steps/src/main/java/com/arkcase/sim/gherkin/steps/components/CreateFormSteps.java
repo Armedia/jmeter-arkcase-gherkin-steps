@@ -231,34 +231,30 @@ public class CreateFormSteps extends AbstractFormData {
 		}
 	}
 
-	@When("populating the section with: $values")
-	@Aliases(values = {
-		"filling the section with: $values", //
-		"filling in the section with: $values", //
-	})
-	public void fillInFields(@Named("values") ExamplesTable values) {
-		setFieldValues(section(), values);
+	@When("setting the $section $field field to $value")
+	@Alias("setting the $section $field field to [$value]")
+	public void fillInField(@Named("section") String section, @Named("field") String field,
+		@Named("value") String value) {
+		setFieldValue(section(section), field, value);
 	}
 
-	@Then("populate the section with: $values")
-	@Aliases(values = {
-		"fill the section with: $values", //
-		"fill in the section with: $values", //
-	})
-	public void fillInFields2(@Named("values") ExamplesTable values) {
-		fillInFields(values);
-	}
-
-	@When("setting the field $field to $value")
-	@Alias("setting the field $field to [$value]")
+	@When("setting the $field field to $value")
+	@Alias("setting the $field field to [$value]")
 	public void fillInField(@Named("field") String field, @Named("value") String value) {
-		setFieldValue(section(), field, value);
+		fillInField(null, field, value);
 	}
 
-	@Then("set the field $field to $value")
-	@Alias("set the field $field to [$value]")
+	@Then("set the $section $field field to $value")
+	@Alias("set the $section $field field to [$value]")
+	public void fillInField2(@Named("section") String section, @Named("field") String field,
+		@Named("value") String value) {
+		fillInField(section, field, value);
+	}
+
+	@Then("set the $field field to $value")
+	@Alias("set the $field field to [$value]")
 	public void fillInField2(@Named("field") String field, @Named("value") String value) {
-		fillInField(field, value);
+		fillInField(null, field, value);
 	}
 
 	@When("populating the $section section with: $values")
@@ -270,6 +266,15 @@ public class CreateFormSteps extends AbstractFormData {
 		setFieldValues(section(section), values);
 	}
 
+	@When("populating the section with: $values")
+	@Aliases(values = {
+		"filling the section with: $values", //
+		"filling in the section with: $values", //
+	})
+	public void fillInFields(@Named("values") ExamplesTable values) {
+		fillInFields(null, values);
+	}
+
 	@Then("populate the $section section with: $values")
 	@Aliases(values = {
 		"fill the $section section with: $values", //
@@ -279,28 +284,23 @@ public class CreateFormSteps extends AbstractFormData {
 		fillInFields(section, values);
 	}
 
-	@When("setting the $section field $field to $value")
-	@Alias("setting the $section field $field to [$value]")
-	public void fillInField(@Named("section") String section, @Named("field") String field,
-		@Named("value") String value) {
-		setFieldValue(section(section), field, value);
+	@Then("populate the section with: $values")
+	@Aliases(values = {
+		"fill the section with: $values", //
+		"fill in the section with: $values", //
+	})
+	public void fillInFields2(@Named("values") ExamplesTable values) {
+		fillInFields(null, values);
 	}
 
-	@Then("set the $section field $field to $value")
-	@Alias("set the $section field $field to [$value]")
-	public void fillInField2(@Named("section") String section, @Named("field") String field,
-		@Named("value") String value) {
-		fillInField(section, field, value);
-	}
-
-	@When("clearing the $section field $field")
-	@Then("clear the $section field $field")
+	@When("clearing the $section $field field")
+	@Then("clear the $section $field field")
 	public void clearField(@Named("section") String section, @Named("field") String field) {
 		setFieldValue(section(section), field, null);
 	}
 
-	@When("clearing the field $field")
-	@Then("clear the field $field")
+	@When("clearing the $field field")
+	@Then("clear the $field field")
 	public void clearField(@Named("field") String field) {
 		clearField(null, field);
 	}
