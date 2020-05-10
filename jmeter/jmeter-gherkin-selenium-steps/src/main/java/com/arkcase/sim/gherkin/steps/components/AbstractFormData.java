@@ -129,7 +129,9 @@ public class AbstractFormData extends ComponentSteps {
 
 	protected static boolean setString(WebElement element, String string) {
 		element.clear();
-		element.sendKeys(string);
+		if (StringUtils.isNotEmpty(string)) {
+			element.sendKeys(string);
+		}
 		return true;
 	}
 
