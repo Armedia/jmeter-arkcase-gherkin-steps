@@ -38,9 +38,12 @@ import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 public class CreateFormSteps extends AbstractFormData {
 
+	private static final By ROOT_LOCATOR = By.cssSelector("ng-form[name=\"createNewOrderForm\"]");
 	private static final String CREATE_FORM_DEFINITIONS = "createNewOrderForm.json";
 
 	// We do it like this so we only load the data once...
@@ -54,6 +57,7 @@ public class CreateFormSteps extends AbstractFormData {
 		}
 	}
 
+	private WebElement root = null;
 	private Live.Tab currentTab = null;
 	private Live.Section currentSection = null;
 
@@ -65,9 +69,16 @@ public class CreateFormSteps extends AbstractFormData {
 		return tab(null);
 	}
 
+	private WebElement root() {
+		if (this.root == null) {
+			this.root = getWaitHelper().findElement(CreateFormSteps.ROOT_LOCATOR);
+		}
+		return this.root;
+	}
+
 	private Live.Tab tab(String name) {
 		if (name != null) {
-			Live.Tab tab = getTab(name);
+			Live.Tab tab = getTab(name, root());
 			if (tab == null) { throw new RuntimeException("No tab named [" + name + "] was found"); }
 			this.currentTab = tab;
 		}
