@@ -242,28 +242,28 @@ public class CreateFormSteps extends AbstractFormData {
 		}
 	}
 
-	@When("setting the $section $field field to $value")
-	@Alias("setting the $section $field field to [$value]")
+	@When("setting the $section field $field to [$value]")
+	@Alias("setting the $section field $field to $value")
 	public void fillInField(@Named("section") String section, @Named("field") String field,
 		@Named("value") String value) {
 		setFieldValue(section(section), field, value);
 	}
 
-	@When("setting the $field field to $value")
-	@Alias("setting the $field field to [$value]")
+	@When("setting the $field field to [$value]")
+	@Alias("setting the $field field to $value")
 	public void fillInField(@Named("field") String field, @Named("value") String value) {
 		fillInField(null, field, value);
 	}
 
-	@Then("set the $section $field field to $value")
-	@Alias("set the $section $field field to [$value]")
+	@Then("set the $section field $field to [$value]")
+	@Alias("set the $section field $field to $value")
 	public void fillInField2(@Named("section") String section, @Named("field") String field,
 		@Named("value") String value) {
 		fillInField(section, field, value);
 	}
 
-	@Then("set the $field field to $value")
-	@Alias("set the $field field to [$value]")
+	@Then("set the $field field to [$value]")
+	@Alias("set the $field field to $value")
 	public void fillInField2(@Named("field") String field, @Named("value") String value) {
 		fillInField(null, field, value);
 	}
@@ -304,8 +304,8 @@ public class CreateFormSteps extends AbstractFormData {
 		fillInFields(null, values);
 	}
 
-	@When("clearing the $section $field field")
-	@Then("clear the $section $field field")
+	@When("clearing the $section field $field")
+	@Then("clear the $section field $field")
 	public void clearField(@Named("section") String section, @Named("field") String field) {
 		setFieldValue(section(section), field, null);
 	}
