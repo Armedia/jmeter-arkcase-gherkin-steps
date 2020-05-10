@@ -377,6 +377,10 @@ public class AbstractFormData extends ComponentSteps {
 				this.element = section.body.findElement(field.locator);
 			}
 
+			public void waitUntil(WaitType type) {
+				this.helper.waitForElement(this.element, type);
+			}
+
 			public String getName() {
 				return this.field.label;
 			}
@@ -427,6 +431,14 @@ public class AbstractFormData extends ComponentSteps {
 
 			public String getName() {
 				return this.section.name;
+			}
+
+			public void waitUntilBody(WaitType type) {
+				this.helper.waitForElement(this.body, type);
+			}
+
+			public void waitUntilTitle(WaitType type) {
+				this.helper.waitForElement(this.title, type);
 			}
 
 			public boolean isExpanded() {
@@ -501,6 +513,14 @@ public class AbstractFormData extends ComponentSteps {
 				}
 				this.expand = this.body.findElement(Tab.BTN_EXPAND);
 				this.collapse = this.body.findElement(Tab.BTN_COMPRESS);
+			}
+
+			public void waitUntilBody(WaitType type) {
+				this.helper.waitForElement(this.body, type);
+			}
+
+			public void waitUntilTitle(WaitType type) {
+				this.helper.waitForElement(this.title, type);
 			}
 
 			public String getName() {
