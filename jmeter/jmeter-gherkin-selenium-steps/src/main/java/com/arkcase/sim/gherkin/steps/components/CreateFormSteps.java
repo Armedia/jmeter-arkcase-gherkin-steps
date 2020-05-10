@@ -27,6 +27,7 @@
 package com.arkcase.sim.gherkin.steps.components;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,7 @@ public class CreateFormSteps extends AbstractFormData {
 	private WebElement root = null;
 	private Live.Tab currentTab = null;
 	private Live.Section currentSection = null;
+	private final Map<String, Live.Tab> tabs = new HashMap<>();
 
 	public CreateFormSteps() {
 		super(CreateFormSteps.TABS);
@@ -78,9 +80,11 @@ public class CreateFormSteps extends AbstractFormData {
 
 	private Live.Tab tab(String name) {
 		if (name != null) {
-			Live.Tab tab = getTab(name, root());
-			if (tab == null) { throw new RuntimeException("No tab named [" + name + "] was found"); }
-			this.currentTab = tab;
+			this.currentTab = this.tabs.computeIfAbsent(name, (n) -> {
+				Live.Tab tab = getTab(name, root());
+				if (tab == null) { throw new RuntimeException("No tab named [" + name + "] was found"); }
+				return tab;
+			});
 		}
 		if (this.currentTab == null) { throw new RuntimeException("No tab is currently selected for work!"); }
 		return this.currentTab;
@@ -102,8 +106,10 @@ public class CreateFormSteps extends AbstractFormData {
 
 	@BeforeStory
 	protected void resetState() {
+		this.root = null;
 		this.currentTab = null;
 		this.currentSection = null;
+		this.tabs.clear();
 	}
 
 	@Given("the $tab tab is active")
