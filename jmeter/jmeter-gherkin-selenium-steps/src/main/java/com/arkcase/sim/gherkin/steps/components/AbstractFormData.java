@@ -127,7 +127,8 @@ public class AbstractFormData extends ComponentSteps {
 		return true;
 	}
 
-	protected static boolean applyKeystrokes(WebElement element, String string) {
+	protected static boolean setString(WebElement element, String string) {
+		element.clear();
 		element.sendKeys(string);
 		return true;
 	}
@@ -135,10 +136,10 @@ public class AbstractFormData extends ComponentSteps {
 	public enum FieldType {
 		//
 		// These are applied via setText()
-		TEXT(AbstractFormData::applyKeystrokes), //
-		PASSWORD(AbstractFormData::applyKeystrokes), //
-		TEXTAREA(AbstractFormData::applyKeystrokes), //
-		EMAIL(AbstractFormData::applyKeystrokes), //
+		TEXT(AbstractFormData::setString), //
+		PASSWORD(AbstractFormData::setString), //
+		TEXTAREA(AbstractFormData::setString), //
+		EMAIL(AbstractFormData::setString), //
 
 		// These are applied via "setSelected()"
 		RADIO(AbstractFormData::selectItem), //
