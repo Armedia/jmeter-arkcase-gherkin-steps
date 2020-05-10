@@ -485,7 +485,7 @@ public class AbstractFormData extends ComponentSteps {
 		}
 
 		public static final class Tab extends Element {
-			private static final CssClassMatcher ACTIVE = new CssClassMatcher("active");
+			private static final CssClassMatcher SELECTED = new CssClassMatcher("active");
 			private static final By BTN_EXPAND = By.cssSelector("i.fa.fa-expand");
 			private static final By BTN_COMPRESS = By.cssSelector("i.fa.fa-compress");
 
@@ -535,15 +535,15 @@ public class AbstractFormData extends ComponentSteps {
 				this.collapse.click();
 			}
 
-			public void activate() {
-				if (isActive()) { return; }
+			public void select() {
+				if (isSelected()) { return; }
 				this.helper.waitForElement(this.title, WaitType.CLICKABLE);
 				this.title.click();
 				this.helper.waitForElement(this.body, WaitType.VISIBLE);
 			}
 
-			public boolean isActive() {
-				return Tab.ACTIVE.test(this.title);
+			public boolean isSelected() {
+				return Tab.SELECTED.test(this.title);
 			}
 
 			public boolean hasSection(String section) {
