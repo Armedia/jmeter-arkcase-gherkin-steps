@@ -390,6 +390,10 @@ public class AbstractFormData extends ComponentSteps {
 				return this.field.label;
 			}
 
+			public FieldType getType() {
+				return this.field.fieldType;
+			}
+
 			public WebElement getElement() {
 				return this.element;
 			}

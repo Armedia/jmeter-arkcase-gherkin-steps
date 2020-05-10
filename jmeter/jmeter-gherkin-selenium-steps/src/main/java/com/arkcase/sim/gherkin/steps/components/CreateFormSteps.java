@@ -219,7 +219,7 @@ public class CreateFormSteps extends AbstractFormData {
 		section().toggle();
 	}
 
-	protected String renderValue(String value) {
+	protected String renderValue(FieldType type, String value) {
 		// TODO: Add code to detect if we want to render a random string,
 		// etc...
 		return value;
@@ -231,7 +231,7 @@ public class CreateFormSteps extends AbstractFormData {
 			throw new RuntimeException("No field named [" + name + "] in section [" + section.getName() + "] from tab ["
 				+ section.getTab().getName() + "]");
 		}
-		field.setValue(renderValue(value));
+		field.setValue(renderValue(field.getType(), value));
 	}
 
 	private void setFieldValues(Live.Section section, ExamplesTable values) {
