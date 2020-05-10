@@ -229,13 +229,13 @@ public class CreateFormSteps extends AbstractFormData {
 	}
 
 	private void setFieldValues(Live.Section section, ExamplesTable values) {
-		final int rows = values.getRowCount();
-		for (int i = 0; i < rows; i++) {
-			Map<String, String> row = values.getRow(rows);
+		int rowNumber = 0;
+		for (Map<String, String> row : values.getRows()) {
+			rowNumber++;
 			String field = row.get("name");
 			if (field == null) {
 				// No field name... warn and skip? Or explode?
-				throw new RuntimeException("No field name given for row # " + i + " = " + row);
+				throw new RuntimeException("No field name given for row # " + rowNumber + " = " + row);
 			}
 			String value = row.get("value");
 			setFieldValue(section, field, value);
