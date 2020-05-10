@@ -98,7 +98,6 @@ public class PDFTronSteps extends BasicWebDriverSteps {
 						break;
 					}
 				}
-				"".hashCode();
 			}
 		} finally {
 			// Important cleanup
