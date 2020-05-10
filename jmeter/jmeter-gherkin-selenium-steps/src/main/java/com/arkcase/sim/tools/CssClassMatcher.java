@@ -115,7 +115,7 @@ public class CssClassMatcher {
 	 *         created to search for, {@code false} otherwise.
 	 */
 	public boolean test(String classes) {
-		return (!StringUtils.isBlank(classes) && this.pattern.matcher(classes).matches());
+		return (!StringUtils.isBlank(classes) && this.pattern.matcher(classes).find());
 	}
 
 	/**
