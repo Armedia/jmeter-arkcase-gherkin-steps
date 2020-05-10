@@ -45,6 +45,7 @@ import java.util.function.Function;
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.ui.Select;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
@@ -518,8 +519,15 @@ public class AbstractFormData extends ComponentSteps {
 
 		public static final class Tab extends Element {
 			private static final CssClassMatcher SELECTED = new CssClassMatcher("active");
-			private static final By BTN_EXPAND = By.cssSelector("i.fa.fa-expand");
-			private static final By BTN_COMPRESS = By.cssSelector("i.fa.fa-compress");
+			private static final By PRECEDING_SIBLING = By.xpath("preceding-sibling::div");
+			private static final By BTN_EXPAND = new ByChained( //
+				Tab.PRECEDING_SIBLING, //
+				By.cssSelector("i.fa.fa-expand") //
+			);
+			private static final By BTN_COMPRESS = new ByChained( //
+				Tab.PRECEDING_SIBLING, //
+				By.cssSelector("i.fa.fa-compress") //
+			);
 
 			private final Persistent.Tab tab;
 			private final WebElement expand;
