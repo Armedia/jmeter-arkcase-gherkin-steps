@@ -26,8 +26,13 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.Reader;
+import java.nio.charset.Charset;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -44,10 +49,15 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
+import com.arkcase.sim.gherkin.steps.components.AbstractFormData.Persistent.Tab;
+import com.arkcase.sim.tools.CssClassMatcher;
+import com.arkcase.sim.tools.JSON;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.MapType;
 
 public class AbstractFormData extends ComponentSteps {
 
@@ -56,10 +66,12 @@ public class AbstractFormData extends ComponentSteps {
 		Set<String> t = new HashSet<>();
 		String[] s = {
 			"active", //
+			"checked", //
 			"marked", //
 			"on", //
 			"selected", //
 			"set", //
+			"ticked", //
 			"true", //
 			"yes", //
 		};
@@ -78,10 +90,12 @@ public class AbstractFormData extends ComponentSteps {
 	 * </p>
 	 * <ul>
 	 * <li>active</li>
+	 * <li>checked</li>
 	 * <li>marked</li>
 	 * <li>on</li>
 	 * <li>selected</li>
 	 * <li>set</li>
+	 * <li>ticked</li>
 	 * <li>true</li>
 	 * <li>yes</li>
 	 * </ul>
@@ -95,6 +109,13 @@ public class AbstractFormData extends ComponentSteps {
 
 	protected static boolean selectItem(WebElement element, String string) {
 		if (AbstractFormData.isTrue(string)) {
+			element.click();
+		}
+		return true;
+	}
+
+	protected static boolean checkItem(WebElement element, String string) {
+		if (AbstractFormData.isTrue(string) != element.isSelected()) {
 			element.click();
 		}
 		return true;
@@ -120,7 +141,7 @@ public class AbstractFormData extends ComponentSteps {
 
 		// These are applied via "setSelected()"
 		RADIO(AbstractFormData::selectItem), //
-		CHECKBOX(AbstractFormData::selectItem), //
+		CHECKBOX(AbstractFormData::checkItem), //
 
 		// Find the child "option" with the correct name, then click() it
 		SELECT(AbstractFormData::selectOption), //
@@ -199,154 +220,363 @@ public class AbstractFormData extends ComponentSteps {
 		}
 	}
 
-	protected static class Container {
+	public static class Persistent {
 
-		public final String name;
-		public final By body;
-		public final By title;
+		public static abstract class Container {
 
-		protected Container(String name, String body, String title) {
-			this.name = name;
-			this.body = By.cssSelector(body);
-			this.title = By.cssSelector(title);
+			public final String name;
+			public final By body;
+			public final By title;
+
+			private Container(String name, String body, String title) {
+				this.name = name;
+				this.body = By.cssSelector(body);
+				this.title = By.cssSelector(title);
+			}
 		}
 
-		private WebElement getElement(WaitHelper wh, By by, WaitType wait) {
-			return wh.waitForElement(by, wait);
+		public static class Field {
+			@JsonProperty("name")
+			public final String label;
+
+			@JsonProperty("type")
+			public final FieldType fieldType;
+
+			@JsonProperty("locatorType")
+			public final LocatorType locatorType;
+
+			@JsonProperty("locator")
+			private final String locatorStr;
+
+			@JsonIgnore
+			public final By locator;
+
+			@JsonProperty("value")
+			public final String value;
+
+			@JsonProperty("options")
+			public final Set<String> options;
+
+			@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+			public Field( //
+				@JsonProperty("name") String name, //
+				@JsonProperty("type") String type, //
+				@JsonProperty("locator") String locator, //
+				@JsonProperty("locatorType") String locatorType, //
+				@JsonProperty("value") String value, //
+				@JsonProperty("options") Collection<String> options //
+			) {
+				this.label = name;
+				this.fieldType = FieldType.parse(type);
+				this.locatorStr = locator;
+				this.locatorType = LocatorType.parse(locatorType);
+				this.locator = this.locatorType.builder.apply(this.locatorStr);
+				this.value = value;
+				if ((options != null) && !options.isEmpty()) {
+					this.options = Collections.unmodifiableSet(new LinkedHashSet<>(options));
+				} else {
+					this.options = Collections.emptySet();
+				}
+			}
 		}
 
-		public WebElement activate(WaitHelper wh) {
-			getTitle(wh, WaitType.CLICKABLE).click();
-			return getBody(wh, WaitType.VISIBLE);
+		public static class Section extends Container {
+			@JsonProperty("fields")
+			private final Map<String, Field> fields;
+
+			public Section( //
+				@JsonProperty("name") String name, //
+				@JsonProperty("body") String body, //
+				@JsonProperty("title") String title, //
+				@JsonProperty("source") String source, //
+				@JsonProperty("fields") Map<String, Field> fields //
+			) {
+				super(name, body, title);
+				this.fields = Collections.unmodifiableMap(fields);
+			}
 		}
 
-		public WebElement getTitle(WaitHelper wh) {
-			return getTitle(wh, null);
-		}
+		public static class Tab extends Container {
+			@JsonProperty("sections")
+			private final Map<String, Section> sections;
 
-		public WebElement getTitle(WaitHelper wh, WaitType wait) {
-			return getElement(wh, this.title, wait);
-		}
-
-		public WebElement getBody(WaitHelper wh) {
-			return getBody(wh, null);
-		}
-
-		public WebElement getBody(WaitHelper wh, WaitType wait) {
-			return getElement(wh, this.body, wait);
-		}
-	}
-
-	public static class Field {
-		@JsonProperty("name")
-		public final String label;
-
-		@JsonProperty("type")
-		public final FieldType fieldType;
-
-		@JsonProperty("locatorType")
-		public final LocatorType locatorType;
-
-		@JsonProperty("locator")
-		private final String locatorStr;
-
-		@JsonIgnore
-		public final By locator;
-
-		@JsonProperty("value")
-		public final String value;
-
-		@JsonProperty("options")
-		public final Set<String> options;
-
-		@JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-		public Field( //
-			@JsonProperty("name") String name, //
-			@JsonProperty("type") String type, //
-			@JsonProperty("locator") String locator, //
-			@JsonProperty("locatorType") String locatorType, //
-			@JsonProperty("value") String value, //
-			@JsonProperty("options") Collection<String> options //
-		) {
-			this.label = name;
-			this.fieldType = FieldType.parse(type);
-			this.locatorStr = locator;
-			this.locatorType = LocatorType.parse(locatorType);
-			this.locator = this.locatorType.builder.apply(this.locatorStr);
-			this.value = value;
-			if ((options != null) && !options.isEmpty()) {
-				this.options = Collections.unmodifiableSet(new LinkedHashSet<>(options));
-			} else {
-				this.options = Collections.emptySet();
+			public Tab( //
+				@JsonProperty("name") String name, //
+				@JsonProperty("body") String body, //
+				@JsonProperty("title") String title, //
+				@JsonProperty("forms") Map<String, Section> forms //
+			) {
+				super(name, body, title);
+				if ((forms != null) && !forms.isEmpty()) {
+					this.sections = Collections.unmodifiableMap(new LinkedHashMap<>(forms));
+				} else {
+					this.sections = Collections.emptyMap();
+				}
 			}
 		}
 	}
 
-	public static class FormSection extends Container {
-
-		@JsonProperty("fields")
-		private final Map<String, Field> fields;
-
-		public FormSection( //
-			@JsonProperty("name") String name, //
-			@JsonProperty("body") String body, //
-			@JsonProperty("title") String title, //
-			@JsonProperty("source") String source, //
-			@JsonProperty("fields") Map<String, Field> fields //
-		) {
-			super(name, body, title);
-			this.fields = Collections.unmodifiableMap(fields);
-		}
-
-		public boolean hasField(String name) {
-			return this.fields.containsKey(name);
-		}
-
-		public Field getField(String name) {
-			return this.fields.get(name);
-		}
-
-		public Set<String> getFieldNames() {
-			return this.fields.keySet();
-		}
-
-		public int getFieldCount() {
-			return this.fields.size();
-		}
+	private static MapType buildMapType(ObjectMapper mapper) {
+		return mapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class, Tab.class);
 	}
 
-	public static class FormTab extends Container {
-		@JsonProperty("sections")
-		private final Map<String, FormSection> sections;
+	protected static Map<String, Tab> loadTabs(String resource) throws IOException {
+		final Map<String, Tab> tabs = JSON.unmarshal(AbstractFormData::buildMapType, resource);
+		if ((tabs == null) || tabs.isEmpty()) { return Collections.emptyMap(); }
+		return Collections.unmodifiableMap(tabs);
+	}
 
-		public FormTab( //
-			@JsonProperty("name") String name, //
-			@JsonProperty("body") String body, //
-			@JsonProperty("title") String title, //
-			@JsonProperty("forms") Map<String, FormSection> forms //
-		) {
-			super(name, body, title);
-			if ((forms != null) && !forms.isEmpty()) {
-				this.sections = Collections.unmodifiableMap(new LinkedHashMap<>(forms));
-			} else {
-				this.sections = Collections.emptyMap();
+	protected static Map<String, Tab> loadTabs(Reader r) throws IOException {
+		final Map<String, Tab> tabs = JSON.unmarshal(AbstractFormData::buildMapType, r);
+		if ((tabs == null) || tabs.isEmpty()) { return Collections.emptyMap(); }
+		return Collections.unmodifiableMap(tabs);
+	}
+
+	protected static Map<String, Tab> loadTabs(InputStream in) throws IOException {
+		return AbstractFormData.loadTabs(in, null);
+	}
+
+	protected static Map<String, Tab> loadTabs(InputStream in, Charset c) throws IOException {
+		final Map<String, Tab> tabs = JSON.unmarshal(AbstractFormData::buildMapType, in, c);
+		if ((tabs == null) || tabs.isEmpty()) { return Collections.emptyMap(); }
+		return Collections.unmodifiableMap(tabs);
+	}
+
+	public static class Live {
+		private static class Element {
+			public final WaitHelper helper;
+
+			private Element(WaitHelper helper) {
+				this.helper = Objects.requireNonNull(helper, "Must provide a WaitHelper instance");
+			}
+
+			private Element(Element element) {
+				this.helper = Objects.requireNonNull(element,
+					"Must provide a non-null Element from which to extract the WaitHelper").helper;
+			}
+
+			protected final WebElement getElement(By by) {
+				return getElement(by, null);
+			}
+
+			protected final WebElement getElement(By by, WaitType wait) {
+				return (wait != null ? this.helper.waitForElement(by, wait) : this.helper.findElement(by));
 			}
 		}
 
-		public boolean hasSection(String name) {
-			return this.sections.containsKey(name);
+		public static final class Field extends Element {
+			public final Section section;
+			public final Persistent.Field field;
+			public final WebElement element;
+
+			private Field(Section section, Persistent.Field field) {
+				super(section);
+				this.field = Objects.requireNonNull(field, "Must provide a Persistent.Field to wrap around");
+				this.section = section;
+
+				this.element = section.body.findElement(field.locator);
+			}
+
+			public String getName() {
+				return this.field.label;
+			}
+
+			public FieldType getFieldType() {
+				return this.field.fieldType;
+			}
+
+			public LocatorType getLocatorType() {
+				return this.field.locatorType;
+			}
+
+			public String getValue() {
+				return this.field.value;
+			}
+
+			public Set<String> getOptions() {
+				return this.field.options;
+			}
+
+			public void setValue(String value) {
+				this.field.fieldType.apply(this.element, value);
+			}
 		}
 
-		public FormSection getSection(String section) {
-			return this.sections.get(section);
+		public static final class Section extends Element {
+			private static final CssClassMatcher COLLAPSED = new CssClassMatcher("collapse");
+
+			private final Tab tab;
+			private final Persistent.Section section;
+			private final WebElement title;
+			private final WebElement body;
+
+			private final Map<String, Live.Field> fields = new HashMap<>();
+
+			private Section(Tab tab, Persistent.Section section) {
+				super(tab);
+				this.section = Objects.requireNonNull(section, "Must provide a Persistent.Section to wrap around");
+				this.tab = tab;
+
+				this.title = tab.body.findElement(section.title);
+				this.body = tab.body.findElement(section.body);
+			}
+
+			public Live.Tab getTab() {
+				return this.tab;
+			}
+
+			public String getName() {
+				return this.section.name;
+			}
+
+			public boolean isExpanded() {
+				return !Section.COLLAPSED.test(this.body);
+			}
+
+			public boolean isCollapsed() {
+				return !isExpanded();
+			}
+
+			public void expand() {
+				if (isExpanded()) { return; }
+				this.helper.waitForElement(this.title, WaitType.CLICKABLE);
+				this.title.click();
+				this.helper.waitForElement(this.body, WaitType.VISIBLE);
+			}
+
+			public void collapse() {
+				if (isCollapsed()) { return; }
+				this.helper.waitForElement(this.title, WaitType.CLICKABLE);
+				this.title.click();
+				this.helper.waitForElement(this.body, WaitType.HIDDEN);
+			}
+
+			public boolean hasField(String field) {
+				return this.section.fields.containsKey(field);
+			}
+
+			public Live.Field getField(String field) {
+				return this.fields.computeIfAbsent(field, (f) -> {
+					Persistent.Field pf = this.section.fields.get(f);
+					if (pf == null) { return null; }
+					return new Live.Field(this, pf);
+				});
+			}
+
+			public Set<String> getFieldNames() {
+				return this.section.fields.keySet();
+			}
+
+			public int getFieldCount() {
+				return this.section.fields.size();
+			}
 		}
 
-		public Set<String> getSectionNames() {
-			return this.sections.keySet();
-		}
+		public static final class Tab extends Element {
+			private static final CssClassMatcher ACTIVE = new CssClassMatcher("active");
+			private static final By BTN_EXPAND = By.cssSelector("i.fa.fa-expand");
+			private static final By BTN_COMPRESS = By.cssSelector("i.fa.fa-compress");
 
-		public int getSectionCount() {
-			return this.sections.size();
+			private final Persistent.Tab tab;
+			private final WebElement expand;
+			private final WebElement collapse;
+			private final WebElement title;
+			private final WebElement body;
+
+			private final Map<String, Live.Section> sections = new HashMap<>();
+
+			private Tab(WaitHelper helper, Persistent.Tab tab) {
+				this(helper, null, tab);
+			}
+
+			private Tab(WaitHelper helper, WebElement root, Persistent.Tab tab) {
+				super(helper);
+				this.tab = Objects.requireNonNull(tab, "Must provide a Persistent.Tab to wrap around");
+				if (root != null) {
+					this.title = root.findElement(tab.title);
+					this.body = root.findElement(tab.body);
+				} else {
+					this.title = getElement(tab.title, WaitType.PRESENT);
+					this.body = getElement(tab.body, WaitType.PRESENT);
+				}
+				this.expand = this.body.findElement(Tab.BTN_EXPAND);
+				this.collapse = this.body.findElement(Tab.BTN_COMPRESS);
+			}
+
+			public String getName() {
+				return this.tab.name;
+			}
+
+			public void expandAll() {
+				this.expand.click();
+			}
+
+			public void collapseAll() {
+				this.collapse.click();
+			}
+
+			public void activate() {
+				if (isActive()) { return; }
+				this.helper.waitForElement(this.title, WaitType.CLICKABLE);
+				this.title.click();
+				this.helper.waitForElement(this.body, WaitType.VISIBLE);
+			}
+
+			public boolean isActive() {
+				return Tab.ACTIVE.test(this.title);
+			}
+
+			public boolean hasSection(String section) {
+				return this.tab.sections.containsKey(section);
+			}
+
+			public Live.Section getSection(String section) {
+				return this.sections.computeIfAbsent(section, (s) -> {
+					Persistent.Section ps = this.tab.sections.get(section);
+					if (ps == null) { return null; }
+					return new Live.Section(this, ps);
+				});
+			}
+
+			public Set<String> getSectionNames() {
+				return this.tab.sections.keySet();
+			}
+
+			public int getSectionCount() {
+				return this.tab.sections.size();
+			}
 		}
+	}
+
+	private final Map<String, Persistent.Tab> tabs;
+
+	protected AbstractFormData(Map<String, Persistent.Tab> tabs) {
+		this.tabs = Objects.requireNonNull(tabs, "Must provide the tabs' structure");
+	}
+
+	protected AbstractFormData(String resource) throws IOException {
+		this.tabs = AbstractFormData.loadTabs(resource);
+	}
+
+	protected AbstractFormData(InputStream resource) throws IOException {
+		this(resource, null);
+	}
+
+	protected AbstractFormData(InputStream resource, Charset charset) throws IOException {
+		this.tabs = AbstractFormData.loadTabs(resource, charset);
+	}
+
+	protected AbstractFormData(Reader resource) throws IOException {
+		this.tabs = AbstractFormData.loadTabs(resource);
+	}
+
+	protected final Live.Tab getTab(String name) {
+		return getTab(name, null);
+	}
+
+	protected final Live.Tab getTab(String name, WebElement container) {
+		Persistent.Tab tab = this.tabs.get(name);
+		if (tab == null) { return null; }
+		return new Live.Tab(getWaitHelper(), container, tab);
 	}
 }

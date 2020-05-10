@@ -41,9 +41,9 @@ public class AbstractFormDataTest {
 
 	@Test
 	public void testUnmarshal() throws IOException {
-		Map<String, AbstractFormData.FormTab> map = JSON.unmarshal((mapper) -> {
+		Map<String, AbstractFormData.Persistent.Tab> map = JSON.unmarshal((mapper) -> {
 			return mapper.getTypeFactory().constructMapType(LinkedHashMap.class, String.class,
-				AbstractFormData.FormTab.class);
+				AbstractFormData.Persistent.Tab.class);
 		}, AbstractFormDataTest.TEST_FORMS);
 		Assertions.assertNotNull(map);
 	}

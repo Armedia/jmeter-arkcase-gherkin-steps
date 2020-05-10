@@ -26,6 +26,9 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.BeforeStory;
 import org.jbehave.core.annotations.Given;
@@ -35,13 +38,32 @@ import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.openqa.selenium.WebElement;
 
-public class CreateFormSteps extends CreateFormData {
+public class CreateFormSteps extends AbstractFormData {
 
-	private String currentTab = null;
+	private static final String CREATE_FORM_DEFINITIONS = "createNewOrderForm.json";
+
+	// We do it like this so we only load the data once...
+	private static final Map<String, Persistent.Tab> TABS;
+	static {
+		try {
+			TABS = AbstractFormData.loadTabs(CreateFormSteps.CREATE_FORM_DEFINITIONS);
+		} catch (IOException e) {
+			throw new RuntimeException(
+				"Failed to load the form definitions from [" + CreateFormSteps.CREATE_FORM_DEFINITIONS + "]", e);
+		}
+	}
+
+	private Live.Tab currentTab = null;
+	private Live.Section currentSection = null;
+
+	public CreateFormSteps() {
+		super(CreateFormSteps.TABS);
+	}
 
 	@BeforeStory
 	protected void resetState() {
 		this.currentTab = null;
+		this.currentSection = null;
 	}
 
 	@Given("the $tab tab is active")
@@ -56,12 +78,6 @@ public class CreateFormSteps extends CreateFormData {
 	}
 
 	private void setFieldValue(String sectionName, WebElement section, String label, String value) {
-		WebElement field = findField(section, label);
-		if (field == null) {
-			throw new IllegalArgumentException(
-				"No field named [" + label + "] was found in section [" + sectionName + "]");
-		}
-
 		// What fieldType of field is it? Set the value accordingly
 		// TODO: Convert the value to the field's required format, and set it
 		// TODO: Explode if the value is not convertable
