@@ -4,28 +4,30 @@
  * %%
  * Copyright (C) 2020 Armedia, LLC
  * %%
- * This file is part of the ArkCase software. 
- * 
- * If the software was purchased under a paid ArkCase license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the ArkCase software.
+ *
+ * If the software was purchased under a paid ArkCase license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
- * 
+ *
  * ArkCase is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * ArkCase is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  *******************************************************************************/
 package com.arkcase.sim.tools;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -105,4 +107,59 @@ public class ByTools {
 		};
 	}
 
+	/**
+	 * <p>
+	 * Will succeed when at least one element is found for each of the search conditions given.
+	 * </p>
+	 */
+	public static By byOneEach(By... locators) {
+		Objects.requireNonNull(locators, "Must provide a non-null array of By instances");
+		final List<By> finalLocators = Arrays.asList(locators);
+		finalLocators.removeIf(Objects::isNull);
+		if (finalLocators.isEmpty()) {
+			throw new IllegalArgumentException("Must provide at least one non-null By instance");
+		}
+		return new By() {
+			@Override
+			public List<WebElement> findElements(SearchContext context) {
+				List<WebElement> ret = null;
+				int matches = 0;
+				for (By by : finalLocators) {
+					List<WebElement> l = by.findElements(context);
+					if (!l.isEmpty()) {
+						if (ret == null) {
+							ret = new ArrayList<>();
+						}
+						ret.addAll(l);
+						matches++;
+					}
+				}
+				return (matches == finalLocators.size() ? ret : Collections.emptyList());
+			}
+		};
+	}
+
+	/**
+	 * <p>
+	 * Will succeed when any of the given locators returns at least one element.
+	 * </p>
+	 */
+	public static By firstOf(By... locators) {
+		Objects.requireNonNull(locators, "Must provide a non-null array of By instances");
+		final List<By> finalLocators = Arrays.asList(locators);
+		finalLocators.removeIf(Objects::isNull);
+		if (finalLocators.isEmpty()) {
+			throw new IllegalArgumentException("Must provide at least one non-null By instance");
+		}
+		return new By() {
+			@Override
+			public List<WebElement> findElements(SearchContext context) {
+				for (By by : finalLocators) {
+					List<WebElement> l = by.findElements(context);
+					if (!l.isEmpty()) { return l; }
+				}
+				return Collections.emptyList();
+			}
+		};
+	}
 }

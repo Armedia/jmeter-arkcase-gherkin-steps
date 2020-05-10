@@ -38,11 +38,13 @@ import org.openqa.selenium.WebElement;
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
+import com.arkcase.sim.tools.ByTools;
 
 public class PDFTronSteps extends BasicWebDriverSteps {
 
 	private static final By IFRAME = By.cssSelector("ark-document-viewer iframe");
-	private static final By DOCVIEWER = By.id("DocumentViewer");
+	private static final By PAGE_CONTAINER = By.cssSelector("div.pageContainer");
+	private static final By PAGE_THUMBNAIL = By.cssSelector("div.thumbContainer");
 
 	@Given("PDFTron is ready")
 	@Aliases(values = {
@@ -56,7 +58,8 @@ public class PDFTronSteps extends BasicWebDriverSteps {
 		// Switch to the iframe
 		WebDriver browser = getBrowser();
 		browser.switchTo().frame(iframe);
-		WebElement docViewer = wh.findElement(PDFTronSteps.DOCVIEWER);
+		WebElement docViewer = wh.waitForElement(
+			ByTools.byOneEach(PDFTronSteps.PAGE_CONTAINER, PDFTronSteps.PAGE_THUMBNAIL), WaitType.PRESENT);
 		if (!docViewer.isDisplayed()) { throw new RuntimeException("PDFTron is not ready"); }
 		browser.switchTo().parentFrame();
 	}
@@ -69,7 +72,8 @@ public class PDFTronSteps extends BasicWebDriverSteps {
 		// Switch to the iframe
 		WebDriver browser = getBrowser();
 		browser.switchTo().frame(iframe);
-		wh.waitForElement(PDFTronSteps.DOCVIEWER, WaitType.VISIBLE);
+		wh.waitForElement(ByTools.byOneEach(PDFTronSteps.PAGE_CONTAINER, PDFTronSteps.PAGE_THUMBNAIL),
+			WaitType.VISIBLE);
 		browser.switchTo().parentFrame();
 	}
 
