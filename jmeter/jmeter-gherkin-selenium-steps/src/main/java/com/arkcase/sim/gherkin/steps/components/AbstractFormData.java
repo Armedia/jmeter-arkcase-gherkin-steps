@@ -305,11 +305,11 @@ public class AbstractFormData extends ComponentSteps {
 				@JsonProperty("name") String name, //
 				@JsonProperty("body") String body, //
 				@JsonProperty("title") String title, //
-				@JsonProperty("forms") Map<String, Section> forms //
+				@JsonProperty("sections") Map<String, Section> sections //
 			) {
 				super(name, body, title);
-				if ((forms != null) && !forms.isEmpty()) {
-					this.sections = Collections.unmodifiableMap(new LinkedHashMap<>(forms));
+				if ((sections != null) && !sections.isEmpty()) {
+					this.sections = Collections.unmodifiableMap(new LinkedHashMap<>(sections));
 				} else {
 					this.sections = Collections.emptyMap();
 				}

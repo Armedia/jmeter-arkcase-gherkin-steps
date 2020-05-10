@@ -3,10 +3,10 @@
         "name": "Create",
         "body": "ng-form[name=\"createTabForm\"]",
         "title": "li[active=\"tabs.createTabActive\"]",
-        "forms": {
+        "sections": {
             "Patient Specifics": {
                 "source": "modules/orders/views/components/patient-info.client.view.html",
-                "body": "panel-view[header=\"Patient Specifics\"] div.panel-body form",
+                "body": "panel-view[header=\"Patient Specifics\"] div.panel-body",
                 "title": "panel-view[header=\"Patient Specifics\"] div.panel-heading",
                 "name": "Patient Specifics",
                 "fields": {
@@ -214,7 +214,7 @@
             },
             "Request Specifics": {
                 "source": "modules/orders/views/components/order-details.client.view.html",
-                "body": "panel-view[header=\"Request Specifics\"] div.panel-body form",
+                "body": "panel-view[header=\"Request Specifics\"] div.panel-body",
                 "title": "panel-view[header=\"Request Specifics\"] div.panel-heading",
                 "name": "Request Specifics",
                 "fields": {
@@ -333,7 +333,7 @@
             },
             "Deposit Information": {
                 "source": "modules/orders/views/components/order-payment.client.view.html",
-                "body": "panel-view[header=\"Deposit Information\"] div.panel-body form",
+                "body": "panel-view[header=\"Deposit Information\"] div.panel-body",
                 "title": "panel-view[header=\"Deposit Information\"] div.panel-heading",
                 "name": "Deposit Information",
                 "fields": {
@@ -367,7 +367,7 @@
             },
             "Request Activity": {
                 "source": "modules/orders/views/components/order-activity.client.view.html",
-                "body": "panel-view[header=\"Request Activity\"] div.panel-body form",
+                "body": "panel-view[header=\"Request Activity\"] div.panel-body",
                 "title": "panel-view[header=\"Request Activity\"] div.panel-heading",
                 "name": "Request Activity",
                 "fields": {
@@ -440,10 +440,10 @@
         "name": "Shipping & Billing",
         "body": "ng-form[name=\"shippingBillingForm\"]",
         "title": "li[active=\"tabs.shippingBillingTabActive\"]",
-        "forms": {
+        "sections": {
             "Requester Specifics": {
                 "source": "modules/orders/views/components/requester-info.client.view.html",
-                "body": "panel-view[header=\"Requester Specifics\"] div.panel-body form",
+                "body": "panel-view[header=\"Requester Specifics\"] div.panel-body",
                 "title": "panel-view[header=\"Requester Specifics\"] div.panel-heading",
                 "name": "Requester Specifics",
                 "fields": {
@@ -485,7 +485,7 @@
             },
             "Billing Contact Specifics": {
                 "source": "modules/orders/views/components/billing-info.client.view.html",
-                "body": "panel-view[header=\"Billing Contact Specifics\"] div.panel-body form",
+                "body": "panel-view[header=\"Billing Contact Specifics\"] div.panel-body",
                 "title": "panel-view[header=\"Billing Contact Specifics\"] div.panel-heading",
                 "name": "Billing Contact Specifics",
                 "fields": {
@@ -518,7 +518,7 @@
             },
             "Email Notifications": {
                 "source": "modules/orders/views/components/order-notifications.client.view.html",
-                "body": "panel-view[header=\"Email Notifications\"] div.panel-body form",
+                "body": "panel-view[header=\"Email Notifications\"] div.panel-body",
                 "title": "panel-view[header=\"Email Notifications\"] div.panel-heading",
                 "name": "Email Notifications",
                 "fields": {
@@ -565,7 +565,7 @@
             },
             "Shipping Specifics": {
                 "source": "modules/orders/views/components/shipping-info.client.view.html",
-                "body": "panel-view[header=\"Shipping Specifics\"] div.panel-body form",
+                "body": "panel-view[header=\"Shipping Specifics\"] div.panel-body",
                 "title": "panel-view[header=\"Shipping Specifics\"] div.panel-heading",
                 "name": "Shipping Specifics",
                 "fields": {
@@ -798,10 +798,10 @@
         "name": "Details",
         "body": "ng-form[name=\"orderDetailsForm\"]",
         "title": "li[active=\"tabs.orderTabActive\"]",
-        "forms": {
+        "sections": {
             "Authorization Specifics": {
                 "source": "modules/orders/views/components/order-authorization.client.view.html",
-                "body": "panel-view[header=\"Authorization Specifics\"] div.panel-body form",
+                "body": "panel-view[header=\"Authorization Specifics\"] div.panel-body",
                 "title": "panel-view[header=\"Authorization Specifics\"] div.panel-heading",
                 "name": "Authorization Specifics",
                 "fields": {
@@ -869,7 +869,7 @@
             },
             "Validation": {
                 "source": "modules/orders/views/components/order-validation.client.view.html",
-                "body": "panel-view[header=\"Validation\"] div.panel-body form",
+                "body": "panel-view[header=\"Validation\"] div.panel-body",
                 "title": "panel-view[header=\"Validation\"] div.panel-heading",
                 "name": "Validation",
                 "fields": {
@@ -895,7 +895,7 @@
             },
             "QC Validation": {
                 "source": "modules/orders/views/components/order-qc-validation.client.view.html",
-                "body": "panel-view[header=\"QC Validation\"] div.panel-body form",
+                "body": "panel-view[header=\"QC Validation\"] div.panel-body",
                 "title": "panel-view[header=\"QC Validation\"] div.panel-heading",
                 "name": "QC Validation",
                 "fields": {
@@ -913,10 +913,10 @@
         "name": "Information",
         "body": "ng-form[name=\"orderInfoForm\"]",
         "title": "li[active=\"tabs.informationTabActive\"]",
-        "forms": {
+        "sections": {
             "Legacy": {
                 "source": "modules/orders/views/components/order-legacy.client.view.html",
-                "body": "panel-view[header=\"Legacy\"] div.panel-body form",
+                "body": "panel-view[header=\"Legacy\"] div.panel-body",
                 "title": "panel-view[header=\"Legacy\"] div.panel-heading",
                 "name": "Legacy",
                 "fields": {
@@ -942,7 +942,7 @@
             },
             "Project Specifics": {
                 "source": "modules/orders/views/components/order-project-specifics.client.view.html",
-                "body": "panel-view[header=\"Project Specifics\"] div.panel-body form",
+                "body": "panel-view[header=\"Project Specifics\"] div.panel-body",
                 "title": "panel-view[header=\"Project Specifics\"] div.panel-heading",
                 "name": "Project Specifics",
                 "fields": {
@@ -974,7 +974,7 @@
             },
             "Disclosures": {
                 "source": "modules/orders/views/components/order-disclosures.client.view.html",
-                "body": "panel-view[header=\"Disclosures\"] div.panel-body form",
+                "body": "panel-view[header=\"Disclosures\"] div.panel-body",
                 "title": "panel-view[header=\"Disclosures\"] div.panel-heading",
                 "name": "Disclosures",
                 "fields": {
@@ -1208,7 +1208,7 @@
             },
             "EMR Import": {
                 "source": "modules/orders/views/components/order-emr-import.client.view.html",
-                "body": "panel-view[header=\"EMR Import\"] div.panel-body form",
+                "body": "panel-view[header=\"EMR Import\"] div.panel-body",
                 "title": "panel-view[header=\"EMR Import\"] div.panel-heading",
                 "name": "EMR Import",
                 "fields": {

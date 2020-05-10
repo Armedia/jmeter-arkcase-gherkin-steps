@@ -1,6 +1,6 @@
 (function(document) {
     document.scanAcmForm = function(root, targetName) {
-    	var fieldData = {};
+    	var tabs = {};
     	$(root).each(function (tabIndex) {
     		var tabObj = {};
     		var tabName = this.getAttribute("name");
@@ -8,8 +8,8 @@
     		tabObj["body"] = `ng-form[name="${tabName}"]`;
     		tabObj["title"] = `li[active="tabs.${tabName}TabActive"]`;
 
-    		var forms = {};
-    		tabObj["forms"] = forms;
+    		var sections = {};
+    		tabObj["sections"] = sections;
 
     		var normalize = function(str) {
     			if (!str) return null;
@@ -23,17 +23,17 @@
 	            return (labelTag ? labelTag[0] : null);
     		};
 
-    		$(this).find('panel-view div.panel-body form').each(function (formIndex) {
-    			var formObj = {};
+    		$(this).find('panel-view div.panel-body').each(function (formIndex) {
+    			var sectionObj = {};
     			var panelView = document.xpath("ancestor::panel-view", this)[0];
-    			var formName = $(panelView).find("div.panel div.panel-heading").text();
+    			var sectionName = $(panelView).find("div.panel div.panel-heading").text();
     			var div = $(this).parents("div[ng-include]");
-    			formObj["source"] = eval(div.attr("ng-include"));
-    			formObj["body"] = `panel-view[header="${formName}"] div.panel-body form`;
-    			formObj["title"] = `panel-view[header="${formName}"] div.panel-heading`;
-    			formObj["name"] = formName;
+    			sectionObj["source"] = eval(div.attr("ng-include"));
+    			sectionObj["body"] = `panel-view[header="${sectionName}"] div.panel-body form`;
+    			sectionObj["title"] = `panel-view[header="${sectionName}"] div.panel-heading`;
+    			sectionObj["name"] = sectionName;
     			var fields = {};
-    			formObj["fields"] = fields;
+    			sectionObj["fields"] = fields;
     			$(this).find("input, select, textarea").each(function (fieldIndex) {
     				// Store the ng-model attribute
     				var model = this.getAttribute("ng-model");
@@ -110,16 +110,16 @@
     				fields[label] = field;
     			});
     			if (!jQuery.isEmptyObject(fields)) {
-    				forms[formName] = formObj;
+    				sections[sectionName] = sectionObj;
     			}
     		});
     		if (!jQuery.isEmptyObject(forms)) {
-    			fieldData[tabName] = tabObj;
+    			tabs[tabName] = tabObj;
     		}
     	});
-    	if (!jQuery.isEmptyObject(fieldData)) {
-    		if (!targetName) targetName = "fields.json";
-    		console.save(fieldData, targetName);
+    	if (!jQuery.isEmptyObject(tabs)) {
+    		if (!targetName) targetName = "tabs.json";
+    		console.save(tabs, targetName);
     	}
     }
 })(document);
