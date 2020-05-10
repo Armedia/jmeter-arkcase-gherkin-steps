@@ -474,16 +474,18 @@ public class AbstractFormData extends ComponentSteps {
 
 			public void expand() {
 				if (isExpanded()) { return; }
-				this.helper.waitForElement(this.title, WaitType.CLICKABLE);
+				this.helper.scrollTo(this.title);
+				waitUntilTitle(WaitType.CLICKABLE);
 				this.title.click();
-				this.helper.waitForElement(this.body, WaitType.VISIBLE);
+				waitUntilBody(WaitType.VISIBLE);
 			}
 
 			public void collapse() {
 				if (isCollapsed()) { return; }
-				this.helper.waitForElement(this.title, WaitType.CLICKABLE);
+				this.helper.scrollTo(this.title);
+				waitUntilTitle(WaitType.CLICKABLE);
 				this.title.click();
-				this.helper.waitForElement(this.body, WaitType.HIDDEN);
+				waitUntilBody(WaitType.HIDDEN);
 			}
 
 			public boolean toggle() {
@@ -585,6 +587,7 @@ public class AbstractFormData extends ComponentSteps {
 
 			public void select() {
 				if (isSelected()) { return; }
+				this.helper.scrollTo(this.title);
 				this.helper.waitForElement(this.title, WaitType.CLICKABLE);
 				this.title.click();
 				this.helper.waitForElement(this.body, WaitType.VISIBLE);

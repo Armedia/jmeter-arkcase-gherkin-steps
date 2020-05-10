@@ -4,22 +4,22 @@
  * %%
  * Copyright (C) 2020 Armedia, LLC
  * %%
- * This file is part of the ArkCase software. 
- * 
- * If the software was purchased under a paid ArkCase license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the ArkCase software.
+ *
+ * If the software was purchased under a paid ArkCase license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
- * 
+ *
  * ArkCase is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * ArkCase is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -34,11 +34,11 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.arkcase.sim.components.AngularHelper;
+import com.arkcase.sim.components.WebDriverHelper;
 
 public class WaitHelper extends AngularHelper {
 
@@ -74,7 +74,7 @@ public class WaitHelper extends AngularHelper {
 			return e;
 		};
 		return waitUntil(c, wait, pollTime,
-			getOrDefaultSupplier(message, WaitHelper.DEFAULT_WAIT_FOR_ELEMENT_HAVE_TEXT_MESSAGE));
+			WebDriverHelper.getOrDefaultSupplier(message, WaitHelper.DEFAULT_WAIT_FOR_ELEMENT_HAVE_TEXT_MESSAGE));
 	}
 
 	public final Boolean waitForElementToBeOptionallyPresent(By by) {
@@ -98,14 +98,10 @@ public class WaitHelper extends AngularHelper {
 		WebElement element = null;
 		try {
 			element = waitUntil(ExpectedConditions.presenceOfElementLocated(by), wait, pollTime,
-				nullableSupplier(message));
+				WebDriverHelper.nullableSupplier(message));
 		} catch (TimeoutException e) {
 			// Ignore it
 		}
 		return (element != null);
-	}
-
-	protected final Actions newActions() {
-		return new Actions(this.browser);
 	}
 }
