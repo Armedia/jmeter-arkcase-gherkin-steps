@@ -86,11 +86,7 @@ public class PDFTronSteps extends BasicWebDriverSteps {
 				WaitType.VISIBLE);
 			if (pages > 1) {
 				WebElement counter = wh.waitForElement(PDFTronSteps.PAGE_COUNTER, WaitType.VISIBLE);
-				String text = StringUtils.strip(counter.getText().substring(1));
-				final int totalPages = Integer.valueOf(text);
-				if (pages > totalPages) {
-					pages = totalPages;
-				}
+				pages = Math.min(pages, Integer.valueOf(StringUtils.strip(counter.getText().substring(1))));
 				while (true) {
 					List<WebElement> thumbnails = wh
 						.waitUntil(ExpectedConditions.presenceOfAllElementsLocatedBy(PDFTronSteps.PAGE_THUMBNAIL));
