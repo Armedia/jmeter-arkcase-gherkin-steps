@@ -27,7 +27,6 @@
 package com.arkcase.sim.gherkin.steps.components;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -42,6 +41,7 @@ import org.jbehave.core.model.ExamplesTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
+import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
 import com.arkcase.sim.gherkin.steps.components.FormData.FieldType;
 import com.arkcase.sim.gherkin.steps.components.FormData.Live;
@@ -63,34 +63,23 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 		}
 	}
 
-	private WebElement root = null;
+	private FormData formData = null;
 	private Live.Tab currentTab = null;
 	private Live.Section currentSection = null;
-	private final Map<String, Live.Tab> tabs = new HashMap<>();
-	private final FormData formData;
-
-	public CreateFormSteps() {
-		this.formData = new FormData(CreateFormSteps.TABS);
-	}
 
 	private Live.Tab tab() {
 		return tab(null);
 	}
 
-	private WebElement root() {
-		if (this.root == null) {
-			this.root = getWaitHelper().findElement(CreateFormSteps.ROOT_LOCATOR);
-		}
-		return this.root;
-	}
-
 	private Live.Tab tab(String name) {
+		if (this.formData == null) {
+			WaitHelper wh = getWaitHelper();
+			WebElement root = wh.findElement(CreateFormSteps.ROOT_LOCATOR);
+			this.formData = new FormData(wh, root, CreateFormSteps.TABS);
+		}
 		if (name != null) {
-			this.currentTab = this.tabs.computeIfAbsent(name, (n) -> {
-				Live.Tab tab = this.formData.getTab(name, root());
-				if (tab == null) { throw new RuntimeException("No tab named [" + name + "] was found"); }
-				return tab;
-			});
+			this.currentTab = this.formData.getTab(name);
+			if (this.currentTab == null) { throw new RuntimeException("No tab named [" + name + "] was found"); }
 		}
 		if (this.currentTab == null) { throw new RuntimeException("No tab is currently selected for work!"); }
 		return this.currentTab;
@@ -112,10 +101,13 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 
 	@BeforeStory
 	protected void resetState() {
-		this.root = null;
 		this.currentTab = null;
 		this.currentSection = null;
-		this.tabs.clear();
+		try {
+			this.formData.close();
+		} finally {
+			this.formData = null;
+		}
 	}
 
 	@Given("the $tab tab is active")

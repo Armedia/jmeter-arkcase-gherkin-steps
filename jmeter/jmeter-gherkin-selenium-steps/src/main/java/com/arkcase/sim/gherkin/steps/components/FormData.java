@@ -26,6 +26,7 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -50,7 +51,6 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
-import com.arkcase.sim.gherkin.steps.WebDriverClient;
 import com.arkcase.sim.gherkin.steps.components.FormData.Persistent.Tab;
 import com.arkcase.sim.tools.CssClassMatcher;
 import com.arkcase.sim.tools.JSON;
@@ -62,7 +62,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.google.common.base.Predicate;
 
-public class FormData extends WebDriverClient {
+public class FormData implements Closeable {
 
 	private static final Set<String> TRUE;
 	static {
@@ -333,7 +333,11 @@ public class FormData extends WebDriverClient {
 	}
 
 	protected static Map<String, Tab> loadTabs(String resource) throws IOException {
-		final Map<String, Tab> tabs = JSON.unmarshal(FormData::buildMapType, resource);
+		return FormData.loadTabs(resource, null);
+	}
+
+	protected static Map<String, Tab> loadTabs(String resource, Charset charset) throws IOException {
+		final Map<String, Tab> tabs = JSON.unmarshal(FormData::buildMapType, resource, charset);
 		if ((tabs == null) || tabs.isEmpty()) { return Collections.emptyMap(); }
 		return Collections.unmodifiableMap(tabs);
 	}
@@ -443,7 +447,7 @@ public class FormData extends WebDriverClient {
 			}
 		}
 
-		public static final class Section extends Element {
+		public static final class Section extends Element implements Closeable {
 			private static final CssClassMatcher COLLAPSED = new CssClassMatcher("collapse");
 			private static final CssClassMatcher MISSING_DATA = new CssClassMatcher("bactes-panel-warning");
 			private static final By PANEL_VIEW = By.xpath("ancestor::panel-view");
@@ -560,9 +564,14 @@ public class FormData extends WebDriverClient {
 				Predicate<Field> p = Field::isInvalid;
 				return fields().filter(p.negate());
 			}
+
+			@Override
+			public void close() {
+				this.fields.clear();
+			}
 		}
 
-		public static final class Tab extends Element {
+		public static final class Tab extends Element implements Closeable {
 			private static final CssClassMatcher SELECTED = new CssClassMatcher("active");
 			private static final CssClassMatcher MISSING_DATA = new CssClassMatcher("text-danger");
 			private static final By TAB_LABEL = By.cssSelector("a.ng-binding tab-heading.ng-scope span.ng-binding");
@@ -680,63 +689,99 @@ public class FormData extends WebDriverClient {
 				Predicate<Section> p = Section::hasMissingData;
 				return sections().filter(p.negate());
 			}
+
+			@Override
+			public void close() {
+				this.sections.values().forEach(Section::close);
+				this.sections.clear();
+			}
 		}
 	}
 
-	private final Map<String, Persistent.Tab> tabs;
+	public static class Builder {
 
-	protected FormData(Map<String, Persistent.Tab> tabs) {
-		this.tabs = Objects.requireNonNull(tabs, "Must provide the tabs' structure");
+		private WaitHelper waitHelper = null;
+		private WebElement root = null;
+		private Map<String, Persistent.Tab> tabs = null;
+		private String resource = null;
+		private InputStream stream = null;
+		private Charset charset = null;
+		private Reader reader = null;
+
+		public Builder withWaitHelper(WaitHelper waitHelper) {
+			this.waitHelper = Objects.requireNonNull(waitHelper, "Must provide a non-null WaitHelper instance");
+			return this;
+		}
+
+		public WaitHelper waitHelper() {
+			return this.waitHelper;
+		}
+
+		public FormData build() throws IOException {
+			Objects.requireNonNull(this.waitHelper, "Must provide a non-null WaitHelper instance");
+
+			// If we have no loaded data already, load it!
+			if (this.tabs == null) {
+				if (this.reader != null) {
+					this.tabs = FormData.loadTabs(this.reader);
+				} else if (this.stream != null) {
+					this.tabs = FormData.loadTabs(this.stream, this.charset);
+				} else if (StringUtils.isNotEmpty(this.resource)) {
+					this.tabs = FormData.loadTabs(this.resource, this.charset);
+				}
+			}
+
+			if (this.tabs == null) {
+				throw new IllegalStateException(
+					"Must provide a tabs Map, a resource name, an InputStream, or a Reader to read the data from");
+			}
+			return new FormData(this.waitHelper, this.root, this.tabs);
+		}
 	}
 
-	protected FormData(String resource) throws IOException {
-		this.tabs = FormData.loadTabs(resource);
-	}
+	private final Map<String, Persistent.Tab> persistentTabs;
+	private final WaitHelper waitHelper;
+	private final WebElement root;
+	private final Map<String, Live.Tab> liveTabs = new HashMap<>();
 
-	protected FormData(InputStream resource) throws IOException {
-		this(resource, null);
-	}
-
-	protected FormData(InputStream resource, Charset charset) throws IOException {
-		this.tabs = FormData.loadTabs(resource, charset);
-	}
-
-	protected FormData(Reader resource) throws IOException {
-		this.tabs = FormData.loadTabs(resource);
+	protected FormData(WaitHelper waitHelper, WebElement root, Map<String, Persistent.Tab> tabs) {
+		this.waitHelper = Objects.requireNonNull(waitHelper, "Must provide a non-null WaitHelper instance");
+		this.persistentTabs = Objects.requireNonNull(tabs, "Must provide the tabs' structure");
+		this.root = root;
 	}
 
 	public final Live.Tab getTab(String name) {
-		return getTab(name, null);
+		return this.liveTabs.computeIfAbsent(name, (n) -> {
+			Persistent.Tab tab = this.persistentTabs.get(name);
+			if (tab == null) { return null; }
+			return new Live.Tab(this.waitHelper, this.root, tab);
+		});
 	}
 
-	public final Live.Tab getTab(String name, WebElement container) {
-		Persistent.Tab tab = this.tabs.get(name);
-		if (tab == null) { return null; }
-		return new Live.Tab(getWaitHelper(), container, tab);
+	public final Set<String> getTabNames() {
+		return new LinkedHashSet<>(this.persistentTabs.keySet());
+	}
+
+	public final int getTabCount() {
+		return this.persistentTabs.size();
 	}
 
 	public final Stream<Live.Tab> tabs() {
-		return tabs(null);
-	}
-
-	public final Stream<Live.Tab> tabs(WebElement container) {
-		return this.tabs.keySet().stream().map((t) -> getTab(t, container));
+		return this.persistentTabs.keySet().stream().map(this::getTab);
 	}
 
 	public final Stream<Live.Tab> pendingTabs() {
-		return pendingTabs(null);
-	}
-
-	public final Stream<Live.Tab> pendingTabs(WebElement container) {
-		return tabs(container).filter(Live.Tab::hasMissingData);
+		return tabs().filter(Live.Tab::hasMissingData);
 	}
 
 	public final Stream<Live.Tab> readyTabs() {
-		return pendingTabs(null);
+		Predicate<Live.Tab> p = Live.Tab::hasMissingData;
+		return tabs().filter(p.negate());
 	}
 
-	public final Stream<Live.Tab> readyTabs(WebElement container) {
-		Predicate<Live.Tab> p = Live.Tab::hasMissingData;
-		return tabs(container).filter(p.negate());
+	@Override
+	public void close() {
+		this.liveTabs.values().forEach(Live.Tab::close);
+		this.liveTabs.clear();
 	}
 }
