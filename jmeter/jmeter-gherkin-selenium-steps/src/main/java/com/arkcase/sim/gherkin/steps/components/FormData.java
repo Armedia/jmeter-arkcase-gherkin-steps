@@ -60,6 +60,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
+import com.google.common.base.Predicate;
 
 public class FormData extends WebDriverClient {
 
@@ -550,6 +551,15 @@ public class FormData extends WebDriverClient {
 			public Stream<Field> fields() {
 				return this.section.fields.keySet().stream().map(this::getField);
 			}
+
+			public Stream<Field> pendingFields() {
+				return fields().filter(Field::isInvalid);
+			}
+
+			public Stream<Field> readyFields() {
+				Predicate<Field> p = Field::isInvalid;
+				return fields().filter(p.negate());
+			}
 		}
 
 		public static final class Tab extends Element {
@@ -610,7 +620,7 @@ public class FormData extends WebDriverClient {
 				return this.body;
 			}
 
-			public boolean hasMissngData() {
+			public boolean hasMissingData() {
 				return Tab.MISSING_DATA.test(this.tabLabel);
 			}
 
@@ -661,6 +671,15 @@ public class FormData extends WebDriverClient {
 			public Stream<Section> sections() {
 				return this.tab.sections.keySet().stream().map(this::getSection);
 			}
+
+			public Stream<Section> pendingSections() {
+				return sections().filter(Section::hasMissingData);
+			}
+
+			public Stream<Section> readySections() {
+				Predicate<Section> p = Section::hasMissingData;
+				return sections().filter(p.negate());
+			}
 		}
 	}
 
@@ -702,5 +721,22 @@ public class FormData extends WebDriverClient {
 
 	public final Stream<Live.Tab> tabs(WebElement container) {
 		return this.tabs.keySet().stream().map((t) -> getTab(t, container));
+	}
+
+	public final Stream<Live.Tab> pendingTabs() {
+		return pendingTabs(null);
+	}
+
+	public final Stream<Live.Tab> pendingTabs(WebElement container) {
+		return tabs(container).filter(Live.Tab::hasMissingData);
+	}
+
+	public final Stream<Live.Tab> readyTabs() {
+		return pendingTabs(null);
+	}
+
+	public final Stream<Live.Tab> readyTabs(WebElement container) {
+		Predicate<Live.Tab> p = Live.Tab::hasMissingData;
+		return tabs(container).filter(p.negate());
 	}
 }
