@@ -38,7 +38,7 @@ public class AbstractFormDataTest {
 
 	@Test
 	public void testUnmarshal() throws IOException {
-		Map<String, AbstractFormData.Persistent.Tab> map = AbstractFormData.loadTabs(AbstractFormDataTest.TEST_FORMS);
+		Map<String, FormData.Persistent.Tab> map = FormData.loadTabs(AbstractFormDataTest.TEST_FORMS);
 		Assertions.assertNotNull(map);
 		Assertions.assertFalse(map.isEmpty());
 	}

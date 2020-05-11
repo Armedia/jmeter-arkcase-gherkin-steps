@@ -40,6 +40,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
@@ -49,7 +50,8 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
-import com.arkcase.sim.gherkin.steps.components.AbstractFormData.Persistent.Tab;
+import com.arkcase.sim.gherkin.steps.WebDriverClient;
+import com.arkcase.sim.gherkin.steps.components.FormData.Persistent.Tab;
 import com.arkcase.sim.tools.CssClassMatcher;
 import com.arkcase.sim.tools.JSON;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -59,7 +61,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.MapType;
 
-public class AbstractFormData extends ComponentSteps {
+public class FormData extends WebDriverClient {
 
 	private static final Set<String> TRUE;
 	static {
@@ -109,18 +111,18 @@ public class AbstractFormData extends ComponentSteps {
 	 * @return
 	 */
 	private static boolean isTrue(String str) {
-		return AbstractFormData.TRUE.contains(StringUtils.lowerCase(StringUtils.trim(str)));
+		return FormData.TRUE.contains(StringUtils.lowerCase(StringUtils.trim(str)));
 	}
 
 	protected static boolean selectItem(WebElement element, Persistent.Field field, String string) {
-		if (AbstractFormData.isTrue(string)) {
+		if (FormData.isTrue(string)) {
 			element.sendKeys(" ");
 		}
 		return true;
 	}
 
 	protected static boolean checkItem(WebElement element, Persistent.Field field, String string) {
-		if (AbstractFormData.isTrue(string) != element.isSelected()) {
+		if (FormData.isTrue(string) != element.isSelected()) {
 			element.sendKeys(" ");
 		}
 		return true;
@@ -142,17 +144,17 @@ public class AbstractFormData extends ComponentSteps {
 	public enum FieldType {
 		//
 		// These are applied via setText()
-		TEXT(AbstractFormData::setString), //
-		PASSWORD(AbstractFormData::setString), //
-		TEXTAREA(AbstractFormData::setString), //
-		EMAIL(AbstractFormData::setString), //
+		TEXT(FormData::setString), //
+		PASSWORD(FormData::setString), //
+		TEXTAREA(FormData::setString), //
+		EMAIL(FormData::setString), //
 
 		// These are applied via "setSelected()"
-		RADIO(AbstractFormData::selectItem), //
-		CHECKBOX(AbstractFormData::checkItem), //
+		RADIO(FormData::selectItem), //
+		CHECKBOX(FormData::checkItem), //
 
 		// Find the child "option" with the correct name, then click() it
-		SELECT(AbstractFormData::selectOption), //
+		SELECT(FormData::selectOption), //
 
 		// These will be ignored (or error out?)
 		FILE, //
@@ -330,23 +332,23 @@ public class AbstractFormData extends ComponentSteps {
 	}
 
 	protected static Map<String, Tab> loadTabs(String resource) throws IOException {
-		final Map<String, Tab> tabs = JSON.unmarshal(AbstractFormData::buildMapType, resource);
+		final Map<String, Tab> tabs = JSON.unmarshal(FormData::buildMapType, resource);
 		if ((tabs == null) || tabs.isEmpty()) { return Collections.emptyMap(); }
 		return Collections.unmodifiableMap(tabs);
 	}
 
 	protected static Map<String, Tab> loadTabs(Reader r) throws IOException {
-		final Map<String, Tab> tabs = JSON.unmarshal(AbstractFormData::buildMapType, r);
+		final Map<String, Tab> tabs = JSON.unmarshal(FormData::buildMapType, r);
 		if ((tabs == null) || tabs.isEmpty()) { return Collections.emptyMap(); }
 		return Collections.unmodifiableMap(tabs);
 	}
 
 	protected static Map<String, Tab> loadTabs(InputStream in) throws IOException {
-		return AbstractFormData.loadTabs(in, null);
+		return FormData.loadTabs(in, null);
 	}
 
 	protected static Map<String, Tab> loadTabs(InputStream in, Charset c) throws IOException {
-		final Map<String, Tab> tabs = JSON.unmarshal(AbstractFormData::buildMapType, in, c);
+		final Map<String, Tab> tabs = JSON.unmarshal(FormData::buildMapType, in, c);
 		if ((tabs == null) || tabs.isEmpty()) { return Collections.emptyMap(); }
 		return Collections.unmodifiableMap(tabs);
 	}
@@ -378,6 +380,8 @@ public class AbstractFormData extends ComponentSteps {
 		}
 
 		public static final class Field extends Element {
+			private static CssClassMatcher INVALID_CLASS = new CssClassMatcher("ng-invalid-required");
+
 			private final Section section;
 			private final Persistent.Field field;
 			private final WebElement element;
@@ -400,6 +404,10 @@ public class AbstractFormData extends ComponentSteps {
 
 			public FieldType getType() {
 				return this.field.fieldType;
+			}
+
+			public boolean isInvalid() {
+				return Field.INVALID_CLASS.test(this.element);
 			}
 
 			public WebElement getElement() {
@@ -436,13 +444,16 @@ public class AbstractFormData extends ComponentSteps {
 
 		public static final class Section extends Element {
 			private static final CssClassMatcher COLLAPSED = new CssClassMatcher("collapse");
+			private static final CssClassMatcher MISSING_DATA = new CssClassMatcher("bactes-panel-warning");
+			private static final By PANEL_VIEW = By.xpath("ancestor::panel-view");
 
 			private final Tab tab;
 			private final Persistent.Section section;
+			private final WebElement panelView;
 			private final WebElement title;
 			private final WebElement body;
 
-			private final Map<String, Live.Field> fields = new HashMap<>();
+			private final Map<String, Field> fields = new HashMap<>();
 
 			private Section(Tab tab, Persistent.Section section) {
 				super(tab);
@@ -451,6 +462,7 @@ public class AbstractFormData extends ComponentSteps {
 
 				this.title = tab.body.findElement(section.title);
 				this.body = tab.body.findElement(section.body);
+				this.panelView = this.body.findElement(Section.PANEL_VIEW);
 			}
 
 			public Live.Tab getTab() {
@@ -463,6 +475,10 @@ public class AbstractFormData extends ComponentSteps {
 
 			public WebElement getTitle() {
 				return this.title;
+			}
+
+			public boolean hasMissingData() {
+				return Section.MISSING_DATA.test(this.panelView);
 			}
 
 			public boolean waitUntilTitle(WaitType type) {
@@ -515,11 +531,11 @@ public class AbstractFormData extends ComponentSteps {
 				return this.section.fields.containsKey(field);
 			}
 
-			public Live.Field getField(String field) {
+			public Field getField(String field) {
 				return this.fields.computeIfAbsent(field, (f) -> {
 					Persistent.Field pf = this.section.fields.get(f);
 					if (pf == null) { return null; }
-					return new Live.Field(this, pf);
+					return new Field(this, pf);
 				});
 			}
 
@@ -530,10 +546,16 @@ public class AbstractFormData extends ComponentSteps {
 			public int getFieldCount() {
 				return this.section.fields.size();
 			}
+
+			public Stream<Field> fields() {
+				return this.section.fields.keySet().stream().map(this::getField);
+			}
 		}
 
 		public static final class Tab extends Element {
 			private static final CssClassMatcher SELECTED = new CssClassMatcher("active");
+			private static final CssClassMatcher MISSING_DATA = new CssClassMatcher("text-danger");
+			private static final By TAB_LABEL = By.cssSelector("a.ng-binding tab-heading.ng-scope span.ng-binding");
 			private static final By PRECEDING_SIBLING = By.xpath("preceding-sibling::div");
 			private static final By BTN_EXPAND = new ByChained( //
 				Tab.PRECEDING_SIBLING, //
@@ -549,8 +571,9 @@ public class AbstractFormData extends ComponentSteps {
 			private final WebElement collapse;
 			private final WebElement title;
 			private final WebElement body;
+			private final WebElement tabLabel;
 
-			private final Map<String, Live.Section> sections = new HashMap<>();
+			private final Map<String, Section> sections = new HashMap<>();
 
 			private Tab(WaitHelper helper, Persistent.Tab tab) {
 				this(helper, null, tab);
@@ -568,6 +591,7 @@ public class AbstractFormData extends ComponentSteps {
 				}
 				this.expand = this.body.findElement(Tab.BTN_EXPAND);
 				this.collapse = this.body.findElement(Tab.BTN_COMPRESS);
+				this.tabLabel = this.title.findElement(Tab.TAB_LABEL);
 			}
 
 			public String getName() {
@@ -584,6 +608,10 @@ public class AbstractFormData extends ComponentSteps {
 
 			public WebElement getBody() {
 				return this.body;
+			}
+
+			public boolean hasMissngData() {
+				return Tab.MISSING_DATA.test(this.tabLabel);
 			}
 
 			public boolean waitUntilBody(WaitType type) {
@@ -614,11 +642,11 @@ public class AbstractFormData extends ComponentSteps {
 				return this.tab.sections.containsKey(section);
 			}
 
-			public Live.Section getSection(String section) {
+			public Section getSection(String section) {
 				return this.sections.computeIfAbsent(section, (s) -> {
 					Persistent.Section ps = this.tab.sections.get(section);
 					if (ps == null) { return null; }
-					return new Live.Section(this, ps);
+					return new Section(this, ps);
 				});
 			}
 
@@ -629,38 +657,50 @@ public class AbstractFormData extends ComponentSteps {
 			public int getSectionCount() {
 				return this.tab.sections.size();
 			}
+
+			public Stream<Section> sections() {
+				return this.tab.sections.keySet().stream().map(this::getSection);
+			}
 		}
 	}
 
 	private final Map<String, Persistent.Tab> tabs;
 
-	protected AbstractFormData(Map<String, Persistent.Tab> tabs) {
+	protected FormData(Map<String, Persistent.Tab> tabs) {
 		this.tabs = Objects.requireNonNull(tabs, "Must provide the tabs' structure");
 	}
 
-	protected AbstractFormData(String resource) throws IOException {
-		this.tabs = AbstractFormData.loadTabs(resource);
+	protected FormData(String resource) throws IOException {
+		this.tabs = FormData.loadTabs(resource);
 	}
 
-	protected AbstractFormData(InputStream resource) throws IOException {
+	protected FormData(InputStream resource) throws IOException {
 		this(resource, null);
 	}
 
-	protected AbstractFormData(InputStream resource, Charset charset) throws IOException {
-		this.tabs = AbstractFormData.loadTabs(resource, charset);
+	protected FormData(InputStream resource, Charset charset) throws IOException {
+		this.tabs = FormData.loadTabs(resource, charset);
 	}
 
-	protected AbstractFormData(Reader resource) throws IOException {
-		this.tabs = AbstractFormData.loadTabs(resource);
+	protected FormData(Reader resource) throws IOException {
+		this.tabs = FormData.loadTabs(resource);
 	}
 
-	protected final Live.Tab getTab(String name) {
+	public final Live.Tab getTab(String name) {
 		return getTab(name, null);
 	}
 
-	protected final Live.Tab getTab(String name, WebElement container) {
+	public final Live.Tab getTab(String name, WebElement container) {
 		Persistent.Tab tab = this.tabs.get(name);
 		if (tab == null) { return null; }
 		return new Live.Tab(getWaitHelper(), container, tab);
+	}
+
+	public final Stream<Live.Tab> tabs() {
+		return tabs(null);
+	}
+
+	public final Stream<Live.Tab> tabs(WebElement container) {
+		return this.tabs.keySet().stream().map((t) -> getTab(t, container));
 	}
 }

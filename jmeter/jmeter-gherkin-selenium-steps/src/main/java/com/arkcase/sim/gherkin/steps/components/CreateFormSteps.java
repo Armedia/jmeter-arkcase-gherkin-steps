@@ -42,7 +42,12 @@ import org.jbehave.core.model.ExamplesTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
-public class CreateFormSteps extends AbstractFormData {
+import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
+import com.arkcase.sim.gherkin.steps.components.FormData.FieldType;
+import com.arkcase.sim.gherkin.steps.components.FormData.Live;
+import com.arkcase.sim.gherkin.steps.components.FormData.Persistent;
+
+public class CreateFormSteps extends BasicWebDriverSteps {
 
 	private static final By ROOT_LOCATOR = By.cssSelector("ng-form[name=\"createNewOrderForm\"]");
 	private static final String CREATE_FORM_DEFINITIONS = "createNewOrderForm.json";
@@ -51,7 +56,7 @@ public class CreateFormSteps extends AbstractFormData {
 	private static final Map<String, Persistent.Tab> TABS;
 	static {
 		try {
-			TABS = AbstractFormData.loadTabs(CreateFormSteps.CREATE_FORM_DEFINITIONS);
+			TABS = FormData.loadTabs(CreateFormSteps.CREATE_FORM_DEFINITIONS);
 		} catch (IOException e) {
 			throw new RuntimeException(
 				"Failed to load the form definitions from [" + CreateFormSteps.CREATE_FORM_DEFINITIONS + "]", e);
@@ -62,9 +67,10 @@ public class CreateFormSteps extends AbstractFormData {
 	private Live.Tab currentTab = null;
 	private Live.Section currentSection = null;
 	private final Map<String, Live.Tab> tabs = new HashMap<>();
+	private final FormData formData;
 
 	public CreateFormSteps() {
-		super(CreateFormSteps.TABS);
+		this.formData = new FormData(CreateFormSteps.TABS);
 	}
 
 	private Live.Tab tab() {
@@ -81,7 +87,7 @@ public class CreateFormSteps extends AbstractFormData {
 	private Live.Tab tab(String name) {
 		if (name != null) {
 			this.currentTab = this.tabs.computeIfAbsent(name, (n) -> {
-				Live.Tab tab = getTab(name, root());
+				Live.Tab tab = this.formData.getTab(name, root());
 				if (tab == null) { throw new RuntimeException("No tab named [" + name + "] was found"); }
 				return tab;
 			});
