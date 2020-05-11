@@ -146,42 +146,57 @@ public class ButtonSteps extends ComponentSteps {
 		BUTTONS = Collections.unmodifiableMap(buttonLocators);
 	}
 
-	private By getButtonLocator(String name) {
-		By by = ButtonSteps.BUTTONS.get(StringUtils.lowerCase(name));
-		if (by == null) {
-			throw new IllegalArgumentException(String.format("No button with the alias [%s] was found", name));
-		}
-		return by;
-	}
-
 	private WebElement getButton(String name) {
 		return getButton(name, true);
 	}
 
 	private WebElement getButton(String name, boolean required) {
-		By by = getButtonLocator(name);
+
+		// First, sanitize the name
+		String normalizedName = StringUtils.lowerCase(name);
+		// And normalize spaces
+		normalizedName = normalizedName.trim().replaceAll("\\s+", " ");
+
 		WebDriver browser = getBrowser();
-		try {
-			return browser.findElement(by);
-		} catch (final NoSuchElementException e) {
-			WebElement element = getButtonByTitleOrLabel(name);
-			if (element != null) { return element; }
-			if (!required) { return null; }
-			throw e;
+
+		By by = ButtonSteps.BUTTONS.get(normalizedName);
+		List<WebElement> matches = null;
+
+		// First, try the ones we specifically saved locators for...
+		if ((matches == null) && (by != null)) {
+			matches = browser.findElements(by);
 		}
+
+		// If we didn't have a locator, or we couldn't find it, we try by name
+		if ((matches == null) || matches.isEmpty()) {
+			matches = getButtonByTitleOrLabel(normalizedName);
+		}
+
+		// No matches...
+		if (matches.isEmpty()) {
+			if (!required) { return null; }
+			throw new NoSuchElementException(String.format("Failed to find a button named [%s]", name));
+		}
+		if (matches.size() > 1) {
+			throw new RuntimeException(String.format("Found %d buttons named [%s]", matches.size(), name));
+		}
+		return matches.get(0);
 	}
 
-	private WebElement getButtonByTitleOrLabel(String label) {
+	private List<WebElement> getButtonByTitleOrLabel(String label) {
 		WebDriver browser = getBrowser();
+
+		// Escape double quotes on the label...
+		label = label.replace("\"", "\\\"");
 
 		// First, find by title
 		List<WebElement> elements = browser
-			.findElements(By.xpath("//button[normalize-space(@title) = \"" + label + "\"]"));
-		if ((elements != null) && !elements.isEmpty()) { return elements.get(0); }
+			.findElements(By.xpath("//button[lower-case(normalize-space(@title)) = \"" + label + "\"]"));
+		if ((elements != null) && !elements.isEmpty()) { return elements; }
 
 		// No luck by title? Try the text
-		elements = browser.findElements(By.xpath("//button[normalize-space(.) = \"" + label + "\"]"));
-		if ((elements != null) && !elements.isEmpty()) { return elements.get(0); }
+		elements = browser.findElements(By.xpath("//button[lower-case(normalize-space(.)) = \"" + label + "\"]"));
+		if ((elements != null) && !elements.isEmpty()) { return elements; }
 
 		// No winners? Return null...
 		return null;
@@ -243,28 +258,30 @@ public class ButtonSteps extends ComponentSteps {
 	@Then("wait for the $name button to be visible")
 	@When("the $name button is visible")
 	public WebElement waitForButtonToBeVisible(@Named("name") String name) {
-		By by = getButtonLocator(name);
-		return getWaitHelper().waitForElement(by, WaitType.VISIBLE);
+		WebElement button = getButton(name);
+		getWaitHelper().waitForElement(button, WaitType.VISIBLE);
+		return button;
 	}
 
 	@Then("wait for the $name button to be hidden")
 	@When("the $name button is not visible")
 	public void waitForButtonToBeHidden(@Named("name") String name) {
-		By by = getButtonLocator(name);
-		getWaitHelper().waitForElement(by, WaitType.VISIBLE);
+		WebElement button = getButton(name);
+		getWaitHelper().waitForElement(button, WaitType.VISIBLE);
 	}
 
 	@Then("wait for the $name button to be clickable")
 	@When("the $name button is clickable")
 	public WebElement waitForButtonToBeClickable(@Named("name") String name) {
-		By by = getButtonLocator(name);
-		return getWaitHelper().waitForElement(by, WaitType.VISIBLE);
+		WebElement button = getButton(name);
+		getWaitHelper().waitForElement(button, WaitType.VISIBLE);
+		return button;
 	}
 
 	@Then("wait for the $name button to not be clickable")
 	@When("the $name button is not clickable")
 	public void waitForButtonToNotBeClickable(@Named("name") String name) {
-		By by = getButtonLocator(name);
-		getWaitHelper().waitUntil(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(by)));
+		WebElement button = getButton(name);
+		getWaitHelper().waitUntil(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(button)));
 	}
 }
