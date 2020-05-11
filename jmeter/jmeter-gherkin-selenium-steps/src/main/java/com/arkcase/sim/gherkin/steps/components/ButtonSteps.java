@@ -164,18 +164,27 @@ public class ButtonSteps extends ComponentSteps {
 		try {
 			return browser.findElement(by);
 		} catch (final NoSuchElementException e) {
-			WebElement element = getButtonByLabel(name);
+			WebElement element = getButtonByTitleOrLabel(name);
 			if (element != null) { return element; }
 			if (!required) { return null; }
 			throw e;
 		}
 	}
 
-	private WebElement getButtonByLabel(String label) {
+	private WebElement getButtonByTitleOrLabel(String label) {
 		WebDriver browser = getBrowser();
-		List<WebElement> elements = browser.findElements(By.xpath("//button[normalize-space(.) = \"" + label + "\"]"));
-		if ((elements == null) || elements.isEmpty()) { return null; }
-		return elements.get(0);
+
+		// First, find by title
+		List<WebElement> elements = browser
+			.findElements(By.xpath("//button[normalize-space(@title) = \"" + label + "\"]"));
+		if ((elements != null) && !elements.isEmpty()) { return elements.get(0); }
+
+		// No luck by title? Try the text
+		elements = browser.findElements(By.xpath("//button[normalize-space(.) = \"" + label + "\"]"));
+		if ((elements != null) && !elements.isEmpty()) { return elements.get(0); }
+
+		// No winners? Return null...
+		return null;
 	}
 
 	@Given("the $name button is visible")
