@@ -74,9 +74,6 @@
     						return;
     				}
 
-    				// Finally: what's the field's label?
-    				// $(this).find( ... );
-
     				var label = model;
     	            var labelTag = findLabelTag(this);
     	            if (labelTag) label = normalize(labelTag.textContent);
