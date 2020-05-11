@@ -1,15 +1,23 @@
 (function(document) {
-    document.scanAcmForm = function(root, targetName) {
-    	var tabs = {};
-    	$(root).each(function (tabIndex) {
-    		var tabObj = {};
+    document.scanAcmTabs = function(root, tabs) {
+    	if (!tabs) tabs = {};
+
+    	// Root is the outermost container, so find div.tab-pane and ng-form within
+    	$(root).find("div.tab-pane ng-form").each(function (tabIndex) {
     		var tabName = this.getAttribute("name");
+
+    		var tabObj = tabs[tabName];
+    		if (!tabObj) tabObj = {};
+
     		tabObj["name"] = tabName;
     		tabObj["body"] = `ng-form[name="${tabName}"]`;
     		tabObj["title"] = `li[active="tabs.${tabName}TabActive"]`;
 
-    		var sections = {};
-    		tabObj["sections"] = sections;
+    		var sections = tabObj["sections"];
+    		if (!sections) {
+    			sections = {};
+        		tabObj["sections"] = sections;
+    		}
 
     		var normalize = function(str) {
     			if (!str) return null;
@@ -24,16 +32,24 @@
     		};
 
     		$(this).find('panel-view div.panel-body').each(function (formIndex) {
-    			var sectionObj = {};
-    			var panelView = document.xpath("ancestor::panel-view", this)[0];
     			var sectionName = $(panelView).find("div.panel div.panel-heading").text();
+    			var sectionObj = sections[sectionName];
+    			if (!sectionObj) sectionObj = {};
+
+
+    			var panelView = document.xpath("ancestor::panel-view", this)[0];
     			var div = $(this).parents("div[ng-include]");
     			sectionObj["source"] = eval(div.attr("ng-include"));
     			sectionObj["body"] = `panel-view[header="${sectionName}"] div.panel-body form`;
     			sectionObj["title"] = `panel-view[header="${sectionName}"] div.panel-heading`;
     			sectionObj["name"] = sectionName;
-    			var fields = {};
-    			sectionObj["fields"] = fields;
+
+    			var fields = sectionObj["fields"];
+    			if (!fields) {
+    				fields = {};
+        			sectionObj["fields"] = fields;
+    			}
+
     			$(this).find("input, select, textarea").each(function (fieldIndex) {
     				// Store the ng-model attribute
     				var model = this.getAttribute("ng-model");
@@ -113,13 +129,10 @@
     				sections[sectionName] = sectionObj;
     			}
     		});
-    		if (!jQuery.isEmptyObject(forms)) {
+    		if (!jQuery.isEmptyObject(sections)) {
     			tabs[tabName] = tabObj;
     		}
     	});
-    	if (!jQuery.isEmptyObject(tabs)) {
-    		if (!targetName) targetName = "tabs.json";
-    		console.save(tabs, targetName);
-    	}
+    	return tabs;
     }
 })(document);
