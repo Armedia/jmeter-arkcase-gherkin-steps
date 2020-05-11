@@ -39,7 +39,6 @@ import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
-import java.util.function.BiPredicate;
 import java.util.function.Function;
 
 import org.codehaus.plexus.util.StringUtils;
@@ -85,6 +84,11 @@ public class AbstractFormData extends ComponentSteps {
 		TRUE = Collections.unmodifiableSet(t);
 	}
 
+	@FunctionalInterface
+	private interface FieldValueSetter {
+		public boolean set(WebElement element, Persistent.Field fieldDef, String value);
+	}
+
 	/**
 	 * <p>
 	 * Returns {@code true} if the string is any of the following (case-insensitive):
@@ -108,26 +112,26 @@ public class AbstractFormData extends ComponentSteps {
 		return AbstractFormData.TRUE.contains(StringUtils.lowerCase(StringUtils.trim(str)));
 	}
 
-	protected static boolean selectItem(WebElement element, String string) {
+	protected static boolean selectItem(WebElement element, Persistent.Field field, String string) {
 		if (AbstractFormData.isTrue(string)) {
 			element.sendKeys(" ");
 		}
 		return true;
 	}
 
-	protected static boolean checkItem(WebElement element, String string) {
+	protected static boolean checkItem(WebElement element, Persistent.Field field, String string) {
 		if (AbstractFormData.isTrue(string) != element.isSelected()) {
 			element.sendKeys(" ");
 		}
 		return true;
 	}
 
-	protected static boolean selectOption(WebElement element, String option) {
+	protected static boolean selectOption(WebElement element, Persistent.Field field, String option) {
 		new Select(element).selectByVisibleText(option);
 		return true;
 	}
 
-	protected static boolean setString(WebElement element, String string) {
+	protected static boolean setString(WebElement element, Persistent.Field field, String string) {
 		element.clear();
 		if (StringUtils.isNotEmpty(string)) {
 			element.sendKeys(string);
@@ -160,20 +164,14 @@ public class AbstractFormData extends ComponentSteps {
 		//
 		;
 
-		private final BiPredicate<WebElement, String> impl;
-		private final Function<String, String> generator;
+		private final FieldValueSetter setter;
 
 		private FieldType() {
-			this(null, null);
+			this(null);
 		}
 
-		private FieldType(BiPredicate<WebElement, String> impl) {
-			this(impl, null);
-		}
-
-		private FieldType(BiPredicate<WebElement, String> impl, Function<String, String> generator) {
-			this.impl = impl;
-			this.generator = generator;
+		private FieldType(FieldValueSetter setter) {
+			this.setter = setter;
 		}
 
 		@JsonValue
@@ -181,19 +179,15 @@ public class AbstractFormData extends ComponentSteps {
 			return name().toLowerCase();
 		}
 
-		public final boolean apply(WebElement element, String value) {
+		public final boolean apply(WebElement element, Persistent.Field field, String value) {
 			Objects.requireNonNull(element, "Must provide a WebElement to apply the value to");
-			if (this.impl == null) {
+			Objects.requireNonNull(field, "Must provide the Field definition");
+			if (this.setter == null) {
 				throw new UnsupportedOperationException(String
 					.format("Can't apply the value [%s] to an element of fieldType %s (%s)", value, name(), element));
 			}
 			if (!element.isEnabled()) { return false; }
-			return this.impl.test(element, value);
-		}
-
-		public final String generate(String spec) {
-			if (this.generator == null) { return spec; }
-			return this.generator.apply(spec);
+			return this.setter.set(element, field, value);
 		}
 
 		public static final FieldType parse(String type) {
@@ -436,7 +430,7 @@ public class AbstractFormData extends ComponentSteps {
 				// Wait until the field is visible and enabled
 				this.helper.scrollTo(this.element);
 				waitUntil(WaitType.ENABLED);
-				this.field.fieldType.apply(this.element, value);
+				this.field.fieldType.apply(this.element, this.field, value);
 			}
 		}
 
