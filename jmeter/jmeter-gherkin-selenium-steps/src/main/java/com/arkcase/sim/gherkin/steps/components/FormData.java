@@ -779,6 +779,10 @@ public class FormData implements Closeable {
 		return tabs().filter(p.negate());
 	}
 
+	public final boolean hasMissingData() {
+		return tabs().anyMatch(Live.Tab::hasMissingData);
+	}
+
 	@Override
 	public void close() {
 		this.liveTabs.values().forEach(Live.Tab::close);
