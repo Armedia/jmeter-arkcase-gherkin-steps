@@ -112,6 +112,9 @@
     				// someone know!
     				if (label == model) label = `FIXME::${label}`;
 
+    				// TODO: If an existing field with this label exists, merge the two
+    				// TODO: What if when merging, the fields have different types?
+
     				var field = {
     					"name" : label,
     					"type" : type,
