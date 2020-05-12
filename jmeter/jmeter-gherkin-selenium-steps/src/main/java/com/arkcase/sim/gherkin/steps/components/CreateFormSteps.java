@@ -39,6 +39,8 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.jbehave.core.model.ExamplesTable;
 import org.openqa.selenium.By;
+import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
 import com.arkcase.sim.components.html.WaitHelper;
@@ -79,9 +81,9 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 		}
 		if (name != null) {
 			this.currentTab = this.formData.getTab(name);
-			if (this.currentTab == null) { throw new RuntimeException("No tab named [" + name + "] was found"); }
+			if (this.currentTab == null) { throw new NoSuchElementException("No tab named [" + name + "] was found"); }
 		}
-		if (this.currentTab == null) { throw new RuntimeException("No tab is currently selected for work!"); }
+		if (this.currentTab == null) { throw new NoSuchElementException("No tab is currently selected for work!"); }
 		return this.currentTab;
 	}
 
@@ -92,10 +94,15 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	private Live.Section section(String name) {
 		if (name != null) {
 			Live.Section section = tab().getSection(name);
-			if (section == null) { throw new RuntimeException("No section named [" + name + "] was found"); }
+			if (section == null) {
+				throw new NoSuchElementException(
+					"No section named [" + name + "] was found in tab [" + tab().getName() + "]");
+			}
 			this.currentSection = section;
 		}
-		if (this.currentSection == null) { throw new RuntimeException("No section is currently selected for work!"); }
+		if (this.currentSection == null) {
+			throw new NoSuchElementException("No section is currently selected for work!");
+		}
 		return this.currentSection;
 	}
 
@@ -113,7 +120,7 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	@Given("the $tab tab is active")
 	@Alias("the $tab tab is selected")
 	public void checkTabIsActive(@Named("tab") String tab) {
-		if (!tab(tab).isSelected()) { throw new RuntimeException("The [" + tab + "] tab is not active"); }
+		if (!tab(tab).isSelected()) { throw new ElementNotVisibleException("The [" + tab + "] tab is not active"); }
 	}
 
 	@When("activating the $tab tab")
@@ -135,7 +142,7 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	})
 	public void checkSectionIsExpanded(@Named("section") String section) {
 		if (!section(section).isExpanded()) {
-			throw new RuntimeException("The [" + section + "] section is not expanded");
+			throw new ElementNotVisibleException("The [" + section + "] section is not expanded");
 		}
 	}
 
@@ -154,7 +161,9 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 		"the $section section is hidden", //
 	})
 	public void checkSectionIsCollapsed(@Named("section") String section) {
-		if (section(section).isExpanded()) { throw new RuntimeException("The section [" + section + "] is expanded"); }
+		if (section(section).isExpanded()) {
+			throw new IllegalStateException("The section [" + section + "] is expanded");
+		}
 	}
 
 	@Given("the section is collapsed")
@@ -232,8 +241,8 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	private void setFieldValue(Live.Section section, String name, String value) {
 		Live.Field field = section.getField(name);
 		if (field == null) {
-			throw new RuntimeException("No field named [" + name + "] in section [" + section.getName() + "] from tab ["
-				+ section.getTab().getName() + "]");
+			throw new NoSuchElementException("No field named [" + name + "] in section [" + section.getName()
+				+ "] from tab [" + section.getTab().getName() + "]");
 		}
 		field.setValue(renderValue(field.getType(), value));
 	}
@@ -245,7 +254,7 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 			String field = row.get("name");
 			if (field == null) {
 				// No field name... warn and skip? Or explode?
-				throw new RuntimeException("No field name given for row # " + rowNumber + " = " + row);
+				throw new IllegalArgumentException("No field name given for row # " + rowNumber + " = " + row);
 			}
 			String value = row.get("value");
 			setFieldValue(section, field, value);
