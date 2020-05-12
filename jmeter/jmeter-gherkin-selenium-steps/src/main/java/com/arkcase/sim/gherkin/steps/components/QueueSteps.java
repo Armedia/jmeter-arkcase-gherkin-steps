@@ -63,7 +63,7 @@ public class QueueSteps extends ComponentSteps {
 		public RequestQueue(WebElement entry, WebElement link) {
 			this.entry = entry;
 			this.link = link;
-			this.name = link.getAttribute("tooltip");
+			this.name = normalize(link.getAttribute("tooltip"));
 		}
 
 		public boolean isActive() {
@@ -116,12 +116,19 @@ public class QueueSteps extends ComponentSteps {
 			}
 			this.queues = queues;
 		}
-		RequestQueue queue = this.queues.get(name);
+		RequestQueue queue = this.queues.get(normalize(name));
 		if (queue == null) {
 			throw new NoSuchElementException(
 				"No queue named [" + name + "] was found (valid = " + this.queues.keySet() + ")");
 		}
 		return queue;
+	}
+
+	private String normalize(String str) {
+		if (str == null) { return str; }
+		str = StringUtils.strip(StringUtils.lowerCase(str));
+		str = str.replaceAll("\\s+", " ");
+		return str;
 	}
 
 	@Given("the queue list is ready")
