@@ -43,12 +43,14 @@ import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
 
+// TODO: There are multiple search dialogs, support them all as one? or separately?
 public class SearchDialogSteps extends BasicWebDriverSteps {
 
 	private static final By ROOT_LOCATOR = By.cssSelector("div.modal-dialog div.modal-content div.modal-search");
 	private static final By SEARCH_FIELD = By.cssSelector("div.input-group input[ng-model=\"searchQuery\"]");
 	private static final By SEARCH_BUTTON = By.cssSelector("div.input-group button.btn-primary");
 	private static final By NO_RESULTS = By.cssSelector("div[ng-if=\"showNoData\"]");
+	// TODO: Also support showNoDataResult, which seems to appear in one dialog instance
 
 	private WebElement root = null;
 	private AngularTable results = null;

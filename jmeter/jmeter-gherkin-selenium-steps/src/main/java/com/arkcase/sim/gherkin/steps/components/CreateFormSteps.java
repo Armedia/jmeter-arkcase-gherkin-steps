@@ -233,6 +233,8 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	}
 
 	protected String renderValue(FieldType type, String value) {
+		// Is this value a rendered value?
+		// Syntax will be: $gen(type[,param1,param2,...,paramN])
 		// TODO: Add code to detect if we want to render a random string,
 		// etc...
 		return value;
