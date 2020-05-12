@@ -33,7 +33,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.lang3.StringUtils;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
@@ -135,7 +134,7 @@ public class ButtonSteps extends ComponentSteps {
 		for (Object[] o : buttons) {
 			By by = By.class.cast(o[0]);
 			for (int i = 1; i < o.length; i++) {
-				String key = StringUtils.lowerCase(o[i].toString());
+				String key = o[i].toString();
 				By existing = buttonLocators.put(key, by);
 				if (existing != null) {
 					throw new RuntimeException(
