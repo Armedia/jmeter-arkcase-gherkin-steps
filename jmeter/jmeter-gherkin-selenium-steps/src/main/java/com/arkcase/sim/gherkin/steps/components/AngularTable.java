@@ -132,6 +132,7 @@ public class AngularTable {
 	private static final By GRID_HEADER_CELLS = By.cssSelector("div.ui-grid-header-cell");
 	private static final By GRID_HEADER_CELL_TITLE = By.cssSelector("span.ui-grid-header-cell-label");
 	private static final By GRID_HEADER_CELL_SORTER = By.cssSelector("i.ui-grid-icon-angle-down");
+	private static final By GRID_HEADER_FILTER = By.cssSelector("input.ui-grid-filter-input");
 
 	private static final By GRID_DATA = By.cssSelector("div.ui-grid-contents-wrapper div.ui-grid-viewport");
 	private static final By GRID_ROW = By.cssSelector("div.ui-grid-row");
@@ -323,6 +324,20 @@ public class AngularTable {
 		}
 	}
 
+	private class ColumnHeader {
+		private final int position;
+		private final String title;
+		private final WebElement sorter;
+		private final WebElement filter;
+
+		private ColumnHeader(int position, String title, WebElement sorter, WebElement filter) {
+			this.position = position;
+			this.title = title;
+			this.sorter = sorter;
+			this.filter = filter;
+		}
+	}
+
 	private final WaitHelper waitHelper;
 
 	private final LazyWebElement root;
@@ -335,8 +350,8 @@ public class AngularTable {
 
 	private final LazyWebElement gridData;
 
-	private final Map<Integer, Pair<String, WebElement>> headersByPosition;
-	private final Map<String, Pair<Integer, WebElement>> headersByName;
+	private final Map<Integer, ColumnHeader> headersByPosition;
+	private final Map<String, ColumnHeader> headersByName;
 
 	private final Map<Integer, WebElement> rows = new TreeMap<>();
 	private final Map<Integer, List<Pair<String, WebElement>>> cells = new TreeMap<>();
@@ -373,8 +388,8 @@ public class AngularTable {
 		WebElement headerBox = root.findElement(AngularTable.GRID_HEADER);
 
 		// Find all the row header cells
-		Map<String, Pair<Integer, WebElement>> headersByName = new LinkedHashMap<>();
-		Map<Integer, Pair<String, WebElement>> headersByPosition = new LinkedHashMap<>();
+		Map<String, ColumnHeader> headersByName = new LinkedHashMap<>();
+		Map<Integer, ColumnHeader> headersByPosition = new LinkedHashMap<>();
 		int pos = 0;
 		for (WebElement headerCell : headerBox.findElements(AngularTable.GRID_HEADER_CELLS)) {
 			pos++;
@@ -391,15 +406,23 @@ public class AngularTable {
 				// Column can't be sorted on
 				sorter = null;
 			}
-			if ((title == null) && (sorter == null)) {
+			WebElement filter = null;
+			try {
+				filter = headerCell.findElement(AngularTable.GRID_HEADER_FILTER);
+			} catch (NoSuchElementException e) {
+				// Column can't be filtered
+				filter = null;
+			}
+			if ((title == null) && (sorter == null) && (filter == null)) {
 				continue;
 			}
 			String columnName = StringUtils.strip(title.getText()).replaceAll("\\s+", " ");
 			if (StringUtils.isBlank(columnName)) {
 				continue;
 			}
-			headersByName.put(columnName, Pair.of(pos, sorter));
-			headersByPosition.put(pos, Pair.of(columnName, sorter));
+			ColumnHeader ch = new ColumnHeader(pos, columnName, sorter, filter);
+			headersByName.put(columnName, ch);
+			headersByPosition.put(pos, ch);
 		}
 		this.headersByName = Collections.unmodifiableMap(headersByName);
 		this.headersByPosition = Collections.unmodifiableMap(headersByPosition);
@@ -414,15 +437,15 @@ public class AngularTable {
 	}
 
 	private int getHeaderPosition(String name) {
-		Pair<Integer, WebElement> p = this.headersByName.get(name);
-		if (p == null) { throw new NoSuchElementException("No header named [" + name + "]"); }
-		return p.getLeft();
+		ColumnHeader header = this.headersByName.get(name);
+		if (header == null) { throw new NoSuchElementException("No header named [" + name + "]"); }
+		return header.position;
 	}
 
 	private String getHeaderName(int pos) {
-		Pair<String, WebElement> p = this.headersByPosition.get(pos);
-		if (p == null) { throw new NoSuchElementException("No header in position [" + pos + "]"); }
-		return p.getLeft();
+		ColumnHeader header = this.headersByPosition.get(pos);
+		if (header == null) { throw new NoSuchElementException("No header in position [" + pos + "]"); }
+		return header.title;
 	}
 
 	private Map<String, String> constructRow(List<Pair<String, WebElement>> row) {
@@ -503,9 +526,58 @@ public class AngularTable {
 		element.click();
 	}
 
+	public boolean supportsFilter(String columnName) {
+		ColumnHeader header = this.headersByName.get(columnName);
+		if (header == null) {
+			throw new NoSuchElementException(
+				String.format("No header named [%s] was found (possibles = %s)", this.headersByName.keySet()));
+		}
+		return (header.filter != null);
+	}
+
+	public void applyFilter(String columnName, String value) {
+		// If sort == null, we remove any sorting
+		ColumnHeader header = this.headersByName.get(columnName);
+		if (header == null) {
+			throw new NoSuchElementException(
+				String.format("No header named [%s] was found (possibles = %s)", this.headersByName.keySet()));
+		}
+
+		if (header.filter == null) {
+			throw new NoSuchElementException(
+				String.format("The [%s] header does not support filtering", this.headersByName.keySet()));
+		}
+
+		this.waitHelper.scrollTo(header.filter);
+		String currentFilter = header.filter.getAttribute("value");
+
+		if (Objects.equals(value, currentFilter)) { return; }
+		if (StringUtils.isEmpty(currentFilter) == StringUtils.isEmpty(value)) { return; }
+
+		this.waitHelper.waitForElement(header.filter, WaitType.ENABLED);
+		header.filter.clear();
+		if (StringUtils.isNotEmpty(value)) {
+			header.filter.sendKeys(value);
+		}
+		this.pager.updateStatus();
+	}
+
+	public void clearFilter(String columnName) {
+		applyFilter(columnName, null);
+	}
+
+	public boolean supportsSort(String columnName) {
+		ColumnHeader header = this.headersByName.get(columnName);
+		if (header == null) {
+			throw new NoSuchElementException(
+				String.format("No header named [%s] was found (possibles = %s)", this.headersByName.keySet()));
+		}
+		return (header.sorter != null);
+	}
+
 	public void sortByColumn(String name, Boolean ascending) {
 		// If sort == null, we remove any sorting
-		Pair<Integer, WebElement> header = this.headersByName.get(name);
+		ColumnHeader header = this.headersByName.get(name);
 		if (header == null) {
 			throw new NoSuchElementException(
 				String.format("No header named [%s] was found (possibles = %s)", this.headersByName.keySet()));
@@ -521,7 +593,7 @@ public class AngularTable {
 		}
 
 		// First, show the menu...
-		WebElement sortMenuButton = header.getRight();
+		WebElement sortMenuButton = header.sorter;
 		if (sortMenuButton == null) {
 			throw new UnsupportedOperationException(String.format("The [%s] column doesn't support sorting", name));
 		}
