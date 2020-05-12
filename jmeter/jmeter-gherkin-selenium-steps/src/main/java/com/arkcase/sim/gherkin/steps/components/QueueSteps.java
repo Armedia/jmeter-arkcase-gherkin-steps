@@ -26,8 +26,7 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
@@ -40,104 +39,110 @@ import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ByChained;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
+import com.arkcase.sim.tools.CssClassMatcher;
 
 public class QueueSteps extends ComponentSteps {
 
-	private static final By ACTIVE_QUEUE = By
-		.cssSelector("div.module-content div.left-sidebar-sm ul.nav-pills li.active a");
-	private static final By QUEUE_ENTRY_CONTAINER = By.xpath("./ancestor::li");
-	private static final By QUEUE_LIST = By.cssSelector("div.module-content div.left-sidebar-sm ul.nav-pills");
+	private static final By QUEUE_LIST = By.cssSelector(
+		"div.module-content div.left-sidebar-sm div[ng-controller=\"Queues.QueuesListController\"] ul.nav-pills");
+	private static final By QUEUE_ENTRIES = By.tagName("li");
+	private static final By QUEUE_ENTRY_LINK = By.tagName("a");
+	private static final CssClassMatcher QUEUE_ACTIVE = new CssClassMatcher("active");
+
 	private static final By QUEUE_CONTENTS = By.cssSelector(
 		"div.module-content div.content-body div[ng-controller=\"Queues.OrdersListController\"] div.panel-body");
-	private static final Map<String, By> QUEUES;
-	static {
-		String[] queueNames = {
-			"Transcribe", "Fulfill", "Quality Control", "Billing", "Review", "Pending Resolution"
-		};
 
-		Map<String, By> queues = new HashMap<>();
-		for (String queue : queueNames) {
-			By link = new ByChained(QueueSteps.QUEUE_LIST, By.cssSelector(String.format("a[tooltip=\"%s\"]", queue)));
-			queues.put(StringUtils.lowerCase(queue), link);
+	private class RequestQueue {
+		private final String name;
+		private final WebElement entry;
+		private final WebElement link;
+
+		public RequestQueue(WebElement entry, WebElement link) {
+			this.entry = entry;
+			this.link = link;
+			this.name = link.getAttribute("tooltip");
 		}
-		QUEUES = Collections.unmodifiableMap(queues);
-	}
 
-	private By getQueueLocator(String name) {
-		By by = QueueSteps.QUEUES.get(StringUtils.lowerCase(name));
-		if (by == null) {
-			throw new IllegalArgumentException(
-				String.format("No navigation choice with the alias [%s] was found", name));
+		public boolean isActive() {
+			return QueueSteps.QUEUE_ACTIVE.test(this.entry);
 		}
-		return by;
-	}
 
-	private WebElement getQueueContainer(String name) {
-		return getQueueContainer(name, true);
-	}
-
-	private WebElement getQueueContainer(String name, boolean required) {
-		try {
-			return getQueueLink(name).findElement(QueueSteps.QUEUE_ENTRY_CONTAINER);
-		} catch (NoSuchElementException e) {
-			if (required) { throw e; }
-			return null;
+		public void click() {
+			getWaitHelper().scrollTo(this.link);
+			this.link.click();
 		}
 	}
 
-	private WebElement getQueueLink(String name) {
-		return getQueueLink(name, true);
-	}
-
-	private WebElement getQueueLink(String name, boolean required) {
-		By by = getQueueLocator(name);
-		try {
-			return getWaitHelper().waitForElement(by, WaitType.CLICKABLE);
-		} catch (final NoSuchElementException e) {
-			if (required) { throw e; }
-			return null;
-		}
-	}
-
+	private WebElement queueList = null;
+	private Map<String, RequestQueue> queues = null;
 	private AngularTable table = null;
 
 	@BeforeStory
 	protected void beforeStory() {
+		this.queues = null;
 		this.table = null;
 	}
 
-	@Given("the queue list is ready")
-	@When("the queue list is ready")
-	public void queueListIsReady() {
-		getWaitHelper().waitForElement(QueueSteps.QUEUE_LIST, WaitType.VISIBLE);
+	private WebElement queueList() {
+		return queueList(null);
 	}
 
-	private String getActiveQueueName() {
-		WebElement activeQueue = getWaitHelper().waitForElement(QueueSteps.ACTIVE_QUEUE, WaitType.VISIBLE);
-		return activeQueue.getAttribute("tooltip");
+	private WebElement queueList(WaitType wait) {
+		if (this.queueList == null) {
+			WaitHelper wh = getWaitHelper();
+			if (wait != null) {
+				this.queueList = wh.waitForElement(QueueSteps.QUEUE_LIST, wait);
+			} else {
+				this.queueList = wh.findElement(QueueSteps.QUEUE_LIST);
+			}
+		}
+		return this.queueList;
+	}
+
+	private RequestQueue queue(String name) {
+		return queue(name, null);
+	}
+
+	private RequestQueue queue(String name, WaitType wait) {
+		if (this.queues == null) {
+			Map<String, RequestQueue> queues = new LinkedHashMap<>();
+			for (WebElement entry : queueList(wait).findElements(QueueSteps.QUEUE_ENTRIES)) {
+				WebElement link = entry.findElement(QueueSteps.QUEUE_ENTRY_LINK);
+				RequestQueue queue = new RequestQueue(entry, link);
+				queues.put(queue.name, queue);
+			}
+			this.queues = queues;
+		}
+		RequestQueue queue = this.queues.get(name);
+		if (queue == null) {
+			throw new NoSuchElementException(
+				"No queue named [" + queue + "] was found (valid = " + this.queues.keySet() + ")");
+		}
+		return queue;
+	}
+
+	@Given("the queue list is ready")
+	public void queueListIsReady() {
+		if (!queueList().isDisplayed()) { throw new IllegalStateException("The queue list is not ready"); }
 	}
 
 	@Then("select the $queue queue")
 	@When("selecting the $queue queue")
 	public void selectQueue(@Named("queue") String queue) {
+		RequestQueue q = queue(queue);
 		// If it's already the queue we want, we simply move on
-		if (StringUtils.equals(queue, getActiveQueueName())) { return; }
+		if (q.isActive()) { return; }
 		// Not the right queue, click the right one...
-		getQueueLink(queue).click();
-	}
-
-	private boolean isQueueActive(@Named("queue") String queue) {
-		return getCssClasses(getQueueContainer(queue)).contains("active");
+		q.click();
 	}
 
 	@Given("the $queue queue is active")
 	@Alias("the $queue queue is selected")
 	public void givenQueueIsActive(@Named("queue") String queue) {
-		if (!isQueueActive(queue)) {
+		if (!queue(queue).isActive()) {
 			throw new IllegalStateException(String.format("The [%s] queue is not selected when it should be", queue));
 		}
 	}
@@ -145,7 +150,7 @@ public class QueueSteps extends ComponentSteps {
 	@Given("the $queue queue is not active")
 	@Alias("the $queue queue is not selected")
 	public void givenQueueIsNotActive(@Named("queue") String queue) {
-		if (isQueueActive(queue)) {
+		if (queue(queue).isActive()) {
 			throw new IllegalStateException(String.format("The [%s] queue is selected when it shouldn't be", queue));
 		}
 	}

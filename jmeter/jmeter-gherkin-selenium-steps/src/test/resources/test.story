@@ -6,12 +6,12 @@ Given the nav list is ready
 Then select the Queues area
 
 Given the queue list is ready
-Then select the Fulfill queue
+Then select the Data Capture queue
 And wait for the queue to be ready
 And sort by Request in descending order
 And wait for the page to be ready
 
-Given the Fulfill queue is selected
+Given the Data Capture queue is selected
 Then click on the Start Working button, switch to the new window
 And wait for the page to be ready
 And wait for PDFTron
@@ -20,9 +20,8 @@ Given the page is ready
 When activating the Shipping & Billing tab
 Then expand the Requester Specifics section
 And click on the Search Existing Requesters button
-
-When the search dialog is active
-Then search for TEST-3
+And wait for the search dialog
+And search for TEST-3
 
 Given the search returned results
 Then select row 1

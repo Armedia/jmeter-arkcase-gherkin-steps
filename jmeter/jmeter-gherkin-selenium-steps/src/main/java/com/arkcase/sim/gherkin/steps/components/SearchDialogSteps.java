@@ -83,15 +83,14 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 		root(WaitType.VISIBLE);
 	}
 
-	@Then("wait for the search dialog to be active")
-	@Alias("wait for the search dialog to be visible")
+	@Then("wait for the search dialog")
 	public void waitForSearch2(@Named("tab") String tab) {
 		root(WaitType.VISIBLE);
 	}
 
 	@Then("search for [$value]")
 	@Alias("search for $value")
-	public void activateTab2(@Named("value") String value) {
+	public void searchForValue(@Named("value") String value) {
 		if (StringUtils.isEmpty(value)) {
 			throw new IllegalArgumentException("Must provide a non-empty, non-null search string");
 		}
@@ -136,8 +135,33 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 	}
 
 	@Then("select row $row")
+	@Alias("check row $row")
 	public void selectRow(@Named("row") int row) {
 		if (this.results == null) { throw new NoSuchElementException("No search results are available"); }
-		this.results.selectRow(row);
+		this.results.select(row);
+	}
+
+	@Then("unselect row $row")
+	@Alias("uncheck row $row")
+	public void unselectRow(@Named("row") int row) {
+		if (this.results == null) { throw new NoSuchElementException("No search results are available"); }
+		this.results.unselect(row);
+	}
+
+	@Then("select all rows")
+	@Alias("check all rows")
+	public void selectAll() {
+		if (this.results == null) { throw new NoSuchElementException("No search results are available"); }
+		this.results.selectAll();
+	}
+
+	@Then("unselect all rows")
+	@Aliases(values = {
+		"select no rows", //
+		"uncheck all rows", //
+	})
+	public void unselectAll() {
+		if (this.results == null) { throw new NoSuchElementException("No search results are available"); }
+		this.results.selectNone();
 	}
 }

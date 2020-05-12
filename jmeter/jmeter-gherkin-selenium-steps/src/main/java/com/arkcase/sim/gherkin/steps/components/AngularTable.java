@@ -38,6 +38,7 @@ import java.util.Set;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
@@ -137,7 +138,10 @@ public class AngularTable {
 	private static final By GRID_DATA = By.cssSelector("div.ui-grid-contents-wrapper div.ui-grid-viewport");
 	private static final By GRID_ROW = By.cssSelector("div.ui-grid-row");
 	private static final By GRID_ROW_CELL = By.cssSelector("div.ui-grid-cell-contents");
+	private static final By GRID_ROW_SELECTOR = By.cssSelector("div.ui-grid-selection-row-header-buttons");
+
 	private static final CssClassMatcher GRID_ROW_SELECTED = new CssClassMatcher("ui-grid-row-selected");
+	private static final CssClassMatcher GRID_ALL_SELECTED = new CssClassMatcher("ui-grid-all-selected");
 
 	private static final By SORT_MENU = By.cssSelector("div.ui-grid-column-menu ul.ui-grid-menu-items");
 	private static final By SORT_MENU_ASC = By.cssSelector("li#menuitem-0 button");
@@ -258,6 +262,10 @@ public class AngularTable {
 			return this.currentPage;
 		}
 
+		public int rowsInPage() {
+			return ((this.currentLastRow - this.currentFirstRow) + 1);
+		}
+
 		public int totalPages() {
 			return this.totalPages;
 		}
@@ -282,7 +290,6 @@ public class AngularTable {
 			this.pageSizeSelect.selectByVisibleText(String.valueOf(size));
 			updateStatus();
 			AngularTable.this.rows.clear();
-			AngularTable.this.cells.clear();
 		}
 
 		public Pair<Integer, Integer> currentRange() {
@@ -338,6 +345,66 @@ public class AngularTable {
 		}
 	}
 
+	private class Row {
+		private final int number;
+		private final WebElement element;
+		private final Map<Integer, Pair<String, WebElement>> contents;
+
+		private Row(int number, WebElement element) {
+			this.number = number;
+			this.element = element;
+
+			List<WebElement> cells = element.findElements(AngularTable.GRID_ROW_CELL);
+			if (cells.size() != AngularTable.this.headersByPosition.size()) {
+				throw new RuntimeException(String.format(
+					"Wrong number of cells (%d) found for row # %d on page %d - expected %d", cells.size(), number,
+					AngularTable.this.pager.currentPage(), AngularTable.this.headersByPosition.size()));
+			}
+
+			// All is well, mine the data...
+			Map<Integer, Pair<String, WebElement>> contents = new LinkedHashMap<>();
+			int pos = 0;
+			for (WebElement cell : cells) {
+				pos++;
+				contents.put(pos, Pair.of(AngularTable.this.columnHeaders.get(pos - 1), cell));
+			}
+			this.contents = Collections.unmodifiableMap(contents);
+		}
+
+		private WebElement getCellElement(int pos) {
+			Pair<String, WebElement> p = this.contents.get(pos);
+			if (p == null) {
+				throw new NoSuchElementException(
+					"Bad column number: " + pos + " (allowed numbers: " + this.contents.keySet() + ")");
+			}
+			return p.getRight();
+		}
+
+		public List<String> getValues() {
+			List<String> ret = new ArrayList<>(this.contents.size());
+			this.contents.values().stream() //
+				.map(Pair::getRight) //
+				.map(WebElement::getText) //
+				.forEach(ret::add) //
+			;
+			return ret;
+		}
+
+		public Map<String, String> getNamedValues() {
+			final Map<String, String> ret = new LinkedHashMap<>();
+			this.contents.values().forEach((v) -> {
+				String header = v.getKey();
+				if (StringUtils.isBlank(header)) { return; }
+				ret.put(header, v.getValue().getText());
+			});
+			return ret;
+		}
+
+		private Stream<WebElement> cells() {
+			return this.contents.values().stream().map(Pair::getRight);
+		}
+	}
+
 	private final WaitHelper waitHelper;
 
 	private final LazyWebElement root;
@@ -353,8 +420,12 @@ public class AngularTable {
 	private final Map<Integer, ColumnHeader> headersByPosition;
 	private final Map<String, ColumnHeader> headersByName;
 
-	private final Map<Integer, WebElement> rows = new TreeMap<>();
-	private final Map<Integer, List<Pair<String, WebElement>>> cells = new TreeMap<>();
+	private final WebElement selectAll;
+	private final int selectorColumn;
+
+	private final List<String> columnHeaders;
+
+	private final Map<Integer, Row> rows = new TreeMap<>();
 
 	private final Pager pager;
 
@@ -388,17 +459,31 @@ public class AngularTable {
 		WebElement headerBox = root.findElement(AngularTable.GRID_HEADER);
 
 		// Find all the row header cells
+		List<String> columnHeaders = new ArrayList<>();
 		Map<String, ColumnHeader> headersByName = new LinkedHashMap<>();
 		Map<Integer, ColumnHeader> headersByPosition = new LinkedHashMap<>();
 		int pos = 0;
+		WebElement selectAll = null;
+		int selectorColumn = 0;
 		for (WebElement headerCell : headerBox.findElements(AngularTable.GRID_HEADER_CELLS)) {
 			pos++;
+
+			if (selectAll == null) {
+				try {
+					selectAll = headerCell.findElement(AngularTable.GRID_ROW_SELECTOR);
+					selectorColumn = pos;
+				} catch (NoSuchElementException e) {
+					selectAll = null;
+				}
+			}
+
 			WebElement title = null;
 			try {
 				title = headerCell.findElement(AngularTable.GRID_HEADER_CELL_TITLE);
 			} catch (NoSuchElementException e) {
 				title = null;
 			}
+
 			WebElement sorter = null;
 			try {
 				sorter = headerCell.findElement(AngularTable.GRID_HEADER_CELL_SORTER);
@@ -406,6 +491,7 @@ public class AngularTable {
 				// Column can't be sorted on
 				sorter = null;
 			}
+
 			WebElement filter = null;
 			try {
 				filter = headerCell.findElement(AngularTable.GRID_HEADER_FILTER);
@@ -413,19 +499,27 @@ public class AngularTable {
 				// Column can't be filtered
 				filter = null;
 			}
-			if ((title == null) && (sorter == null) && (filter == null)) {
-				continue;
+
+			String columnName = StringUtils.EMPTY;
+			if (title != null) {
+				columnName = StringUtils.strip(title.getText()).replaceAll("\\s+", " ");
+				if (StringUtils.isBlank(columnName)) {
+					columnName = StringUtils.EMPTY;
+				}
 			}
-			String columnName = StringUtils.strip(title.getText()).replaceAll("\\s+", " ");
-			if (StringUtils.isBlank(columnName)) {
-				continue;
-			}
+
 			ColumnHeader ch = new ColumnHeader(pos, columnName, sorter, filter);
-			headersByName.put(columnName, ch);
+			if (StringUtils.isNotEmpty(columnName)) {
+				headersByName.put(columnName, ch);
+			}
+			columnHeaders.add(columnName);
 			headersByPosition.put(pos, ch);
 		}
+		this.selectAll = selectAll;
+		this.selectorColumn = selectorColumn;
 		this.headersByName = Collections.unmodifiableMap(headersByName);
 		this.headersByPosition = Collections.unmodifiableMap(headersByPosition);
+		this.columnHeaders = Collections.unmodifiableList(columnHeaders);
 	}
 
 	public void waitUntilVisible() {
@@ -436,27 +530,19 @@ public class AngularTable {
 		this.waitHelper.waitForElement(this.root, WaitType.HIDDEN);
 	}
 
-	private int getHeaderPosition(String name) {
+	public int getHeaderPosition(String name) {
 		ColumnHeader header = this.headersByName.get(name);
 		if (header == null) { throw new NoSuchElementException("No header named [" + name + "]"); }
 		return header.position;
 	}
 
-	private String getHeaderName(int pos) {
+	public String getHeaderName(int pos) {
 		ColumnHeader header = this.headersByPosition.get(pos);
 		if (header == null) { throw new NoSuchElementException("No header in position [" + pos + "]"); }
 		return header.title;
 	}
 
-	private Map<String, String> constructRow(List<Pair<String, WebElement>> row) {
-		Map<String, String> m = new LinkedHashMap<>();
-		for (Pair<String, WebElement> p : row) {
-			m.put(p.getKey(), p.getValue().getText());
-		}
-		return m;
-	}
-
-	private WebElement getRow(int rowInPage) {
+	private Row getRow(int rowInPage) {
 		return this.rows.computeIfAbsent(this.pager.sanitizeRowInPage(rowInPage), (n) -> {
 			// First, find the row within the grid data
 			List<WebElement> elements = this.gridData.findElements(AngularTable.GRID_ROW);
@@ -469,61 +555,142 @@ public class AngularTable {
 			}
 
 			// Remember: the number parameter is 1-based...
-			return elements.get(n - 1);
+			return new Row(n, elements.get(n - 1));
 		});
 	}
 
-	private List<Pair<String, WebElement>> getRowCells(int rowInPage) {
-		return this.cells.computeIfAbsent(this.pager.sanitizeRowInPage(rowInPage), (n) -> {
-			// Find the row element
-			WebElement rowElement = getRow(n);
-
-			// Now, find its cells...
-			List<WebElement> cells = rowElement.findElements(AngularTable.GRID_ROW_CELL);
-			if (cells.size() != this.headersByName.size()) {
-				throw new RuntimeException(
-					String.format("Wrong number of cells (%d) found for row # %d on page %d - expected %d",
-						cells.size(), n, this.pager.currentPage(), this.headersByName.size()));
-			}
-
-			// All is well, mine the data...
-			List<Pair<String, WebElement>> ret = new ArrayList<>(this.headersByName.size());
-			for (WebElement cell : cells) {
-				ret.add(Pair.of(getHeaderName(ret.size() + 1), cell));
-			}
-			return ret;
-		});
+	public void update() {
+		this.pager.updateStatus();
 	}
 
-	private WebElement unwrap(WebElement element) {
-		if (LazyWebElement.class.isInstance(element)) {
-			element = LazyWebElement.class.cast(element).get();
+	public void selectAll() {
+		if (this.selectAll != null) {
+			if (AngularTable.GRID_ALL_SELECTED.test(this.selectAll)) { return; }
+			// Not all selected, so we select all
+			this.waitHelper.scrollTo(this.selectAll);
+			this.selectAll.click();
+			return;
 		}
-		return element;
+
+		// Have to select them one at a time...
+		for (int i = 1; i <= this.pager.rowsInPage(); i++) {
+			select(i);
+		}
 	}
 
-	public void selectRow(int rowInPage) {
+	public void selectNone() {
+		if (this.selectAll != null) {
+			if (!AngularTable.GRID_ALL_SELECTED.test(this.selectAll)) {
+				selectAll();
+			}
+			// We togle back the selection
+			this.selectAll.click();
+			return;
+		}
+
+		// Have to select them one at a time...
+		for (int i = 1; i <= this.pager.rowsInPage(); i++) {
+			unselect(i);
+		}
+	}
+
+	public void select(int rowInPage) {
 		// click on any of the row's cells
 		// TODO: This is only for the cells that support direct selection. When checkmarks
 		// are in use, the procedure is different.
 		rowInPage = this.pager.sanitizeRowInPage(rowInPage);
-		List<Pair<String, WebElement>> cells = getRowCells(rowInPage);
-		Optional<WebElement> e = cells.stream() //
-			.map(Pair::getRight) //
-			.filter(WebElement::isDisplayed) //
-			.findFirst() //
-		;
+		Row row = getRow(rowInPage);
 
-		if (!e.isPresent()) {
-			throw new ElementNotVisibleException(
-				String.format("Unable to find a visible cell to click on for row %d on page %d", rowInPage,
-					this.pager.currentPage()));
+		// If the row is already selected, we skip this
+		if (AngularTable.GRID_ROW_SELECTED.test(row.element)) { return; }
+
+		WebElement selector = null;
+		if (this.selectorColumn > 0) {
+			// Show that column, and select it if not selected
+			selector = row.getCellElement(this.selectorColumn);
+		} else {
+			// Find the first cell that's visible
+			Optional<WebElement> e = row.cells() //
+				.filter(WebElement::isDisplayed) //
+				.findFirst() //
+			;
+			if (!e.isPresent()) {
+				throw new ElementNotVisibleException(
+					String.format("Unable to find a visible cell to click on for row %d on page %d", rowInPage,
+						this.pager.currentPage()));
+			}
+			selector = e.get();
 		}
 
 		// Ok...so click on it!
-		WebElement element = e.get();
-		this.waitHelper.scrollTo(element);
-		element.click();
+		this.waitHelper.scrollTo(selector);
+		selector.click();
+	}
+
+	public void unselect(int rowInPage) {
+		// click on any of the row's cells
+		// TODO: This is only for the cells that support direct selection. When checkmarks
+		// are in use, the procedure is different.
+		rowInPage = this.pager.sanitizeRowInPage(rowInPage);
+		Row row = getRow(rowInPage);
+
+		// If the row is already unselected, we skip this
+		if (!AngularTable.GRID_ROW_SELECTED.test(row.element)) { return; }
+
+		WebElement selector = null;
+		if (this.selectorColumn > 0) {
+			// Show that column, and select it if not selected
+			selector = row.getCellElement(this.selectorColumn);
+		} else {
+			// Find the first cell that's visible
+			Optional<WebElement> e = row.cells() //
+				.filter(WebElement::isDisplayed) //
+				.findFirst() //
+			;
+			if (!e.isPresent()) {
+				throw new ElementNotVisibleException(
+					String.format("Unable to find a visible cell to click on for row %d on page %d", rowInPage,
+						this.pager.currentPage()));
+			}
+			selector = e.get();
+		}
+
+		// Ok...so click on it!
+		this.waitHelper.scrollTo(selector);
+		selector.click();
+	}
+
+	public void toggleSelect(int rowInPage) {
+		// click on any of the row's cells
+		// TODO: This is only for the cells that support direct selection. When checkmarks
+		// are in use, the procedure is different.
+		rowInPage = this.pager.sanitizeRowInPage(rowInPage);
+		Row row = getRow(rowInPage);
+
+		// If the row is already unselected, we skip this
+		if (!AngularTable.GRID_ROW_SELECTED.test(row.element)) { return; }
+
+		WebElement selector = null;
+		if (this.selectorColumn > 0) {
+			// Show that column, and select it if not selected
+			selector = row.getCellElement(this.selectorColumn);
+		} else {
+			// Find the first cell that's visible
+			Optional<WebElement> e = row.cells() //
+				.filter(WebElement::isDisplayed) //
+				.findFirst() //
+			;
+			if (!e.isPresent()) {
+				throw new ElementNotVisibleException(
+					String.format("Unable to find a visible cell to click on for row %d on page %d", rowInPage,
+						this.pager.currentPage()));
+			}
+			selector = e.get();
+		}
+
+		// Ok...so click on it!
+		this.waitHelper.scrollTo(selector);
+		selector.click();
 	}
 
 	public boolean supportsFilter(String columnName) {
@@ -612,11 +779,15 @@ public class AngularTable {
 	}
 
 	public boolean isRowSelected(int rowInPage) {
-		return AngularTable.GRID_ROW_SELECTED.test(getRow(rowInPage));
+		return AngularTable.GRID_ROW_SELECTED.test(getRow(rowInPage).element);
 	}
 
-	public Map<String, String> getRowData(int rowInPage) {
-		return constructRow(getRowCells(rowInPage));
+	public Map<String, String> getNamedValues(int rowInPage) {
+		return getRow(rowInPage).getNamedValues();
+	}
+
+	public List<String> getValues(int rowInPage) {
+		return getRow(rowInPage).getValues();
 	}
 
 	public Pager getPager() {
