@@ -191,11 +191,11 @@ public class ButtonSteps extends ComponentSteps {
 
 		// First, find by title
 		List<WebElement> elements = browser
-			.findElements(By.xpath("//button[lower-case(normalize-space(@title)) = \"" + label + "\"]"));
+			.findElements(By.xpath("//button[normalize-space(@title) = \"" + label + "\"]"));
 		if ((elements != null) && !elements.isEmpty()) { return elements; }
 
 		// No luck by title? Try the text
-		elements = browser.findElements(By.xpath("//button[lower-case(normalize-space(.)) = \"" + label + "\"]"));
+		elements = browser.findElements(By.xpath("//button[normalize-space(.) = \"" + label + "\"]"));
 		if ((elements != null) && !elements.isEmpty()) { return elements; }
 
 		// No winners? Return null...
