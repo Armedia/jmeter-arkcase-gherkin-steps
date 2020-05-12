@@ -134,7 +134,7 @@ public class ButtonSteps extends ComponentSteps {
 		for (Object[] o : buttons) {
 			By by = By.class.cast(o[0]);
 			for (int i = 1; i < o.length; i++) {
-				String key = o[i].toString();
+				String key = ButtonSteps.normalize(o[i].toString());
 				By existing = buttonLocators.put(key, by);
 				if (existing != null) {
 					throw new RuntimeException(
@@ -145,17 +145,20 @@ public class ButtonSteps extends ComponentSteps {
 		BUTTONS = Collections.unmodifiableMap(buttonLocators);
 	}
 
+	private static String normalize(String name) {
+		if (name == null) { return name; }
+		name = name.trim().replaceAll("\\s+", " ");
+		// name = StringUtils.lowerCase(name);
+		return name;
+	}
+
 	private WebElement getButton(String name) {
 		return getButton(name, true);
 	}
 
 	private WebElement getButton(String name, boolean required) {
-
 		// First, sanitize the name
-		String normalizedName = name;
-		// TODO: can't normalize to lowercase yet StringUtils.lowerCase(name);
-		// And normalize spaces
-		normalizedName = normalizedName.trim().replaceAll("\\s+", " ");
+		final String normalizedName = ButtonSteps.normalize(name);
 
 		WebDriver browser = getBrowser();
 
