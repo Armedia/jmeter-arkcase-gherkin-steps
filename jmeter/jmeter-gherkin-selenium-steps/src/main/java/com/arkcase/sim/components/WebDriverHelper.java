@@ -51,6 +51,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.arkcase.sim.tools.WebElementWrapper;
+
 public class WebDriverHelper implements SearchContext {
 
 	private static final String SCROLL_SCRIPT = "arguments[0].scrollIntoView(true);";
@@ -622,9 +624,19 @@ public class WebDriverHelper implements SearchContext {
 		return new Actions(this.browser);
 	}
 
+	private WebElement unwrap(WebElement element) {
+		// Keep unwrapping until we get to the root element
+		while (WebElementWrapper.class.isInstance(element)) {
+			element = WebElementWrapper.class.cast(element).get();
+		}
+		return element;
+	}
+
 	public final void scrollTo(WebElement element) {
+		Objects.requireNonNull(element, "Must provide a non-null WebElement to scroll to");
+
 		try {
-			newActions().moveToElement(element).perform();
+			newActions().moveToElement(unwrap(element)).perform();
 		} catch (MoveTargetOutOfBoundsException e) {
 			runJavaScript(WebDriverHelper.SCROLL_SCRIPT, element);
 		}
