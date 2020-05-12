@@ -39,6 +39,7 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
@@ -47,6 +48,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
+import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.tools.CssClassMatcher;
 import com.arkcase.sim.tools.LazyWebElement;
@@ -122,7 +124,7 @@ import com.arkcase.sim.tools.LazyWebElement;
 			${grid} div[ng-if="showNoData"]
  */
 
-public class AngularTable extends WaitHelper {
+public class AngularTable {
 
 	private static final By GRID_ROOT = By.cssSelector("div.grid.ui-grid");
 
@@ -146,7 +148,7 @@ public class AngularTable extends WaitHelper {
 	private static final By PAGER_FIRST_PAGE = By.cssSelector("button.ui-grid-pager-first");
 	private static final By PAGER_PREV_PAGE = By.cssSelector("button.ui-grid-pager-previous");
 	private static final By PAGER_CURR_PAGE = By.cssSelector("input.ui-grid-pager-control-input");
-	private static final By PAGER_TOTAL_PAGES = By.cssSelector("div.ui-grid-pager-max-pages-number");
+	private static final By PAGER_TOTAL_PAGES = By.cssSelector("span.ui-grid-pager-max-pages-number");
 	private static final By PAGER_NEXT_PAGE = By.cssSelector("button.ui-grid-pager-next");
 	private static final By PAGER_LAST_PAGE = By.cssSelector("button.ui-grid-pager-last");
 	private static final By PAGER_PAGE_SIZE = By.cssSelector("div.ui-grid-pager-row-count-picker select");
@@ -198,7 +200,7 @@ public class AngularTable extends WaitHelper {
 		}
 
 		public void updateStatus() {
-			waitForAngular();
+			AngularTable.this.waitHelper.waitForAngular();
 			String status = this.status.getText();
 			Matcher m = AngularTable.PAGER_STATUS_PARSER.matcher(status);
 			if (!m.matches()) {
@@ -209,17 +211,19 @@ public class AngularTable extends WaitHelper {
 			this.currentLastRow = Integer.parseInt(m.group(2));
 			this.totalRows = Integer.parseInt(m.group(3));
 
-			this.currentPage = Integer.valueOf(this.currentPageElement.getText());
+			this.currentPage = Integer.valueOf(this.currentPageElement.getAttribute("value"));
 			String pages = this.totalPagesElement.getText();
 			this.totalPages = Integer.valueOf(pages.replaceAll("[^\\d]", ""));
 			this.pageSize = Integer.valueOf(this.pageSizeSelect.getFirstSelectedOption().getText());
 		}
 
 		private int movePage(WebElement button) {
-			if (button.isEnabled()) {
-				button.click();
-				updateStatus();
+			if (!button.isDisplayed() || !button.isEnabled()) {
+				AngularTable.this.waitHelper.scrollTo(button);
+				AngularTable.this.waitHelper.waitForElement(button, WaitType.CLICKABLE);
 			}
+			button.click();
+			updateStatus();
 			return this.currentPage;
 		}
 
@@ -319,6 +323,8 @@ public class AngularTable extends WaitHelper {
 		}
 	}
 
+	private final WaitHelper waitHelper;
+
 	private final LazyWebElement root;
 
 	private final LazyWebElement sortMenu;
@@ -342,7 +348,15 @@ public class AngularTable extends WaitHelper {
 	}
 
 	public AngularTable(WebDriver driver, WebElement root) {
-		super(driver);
+		this(new WaitHelper(driver), root);
+	}
+
+	public AngularTable(WaitHelper helper, By root) {
+		this(helper, helper.findElement(root));
+	}
+
+	public AngularTable(WaitHelper helper, WebElement root) {
+		this.waitHelper = Objects.requireNonNull(helper, "Must provide a non-null WaitHelper instance");
 		Objects.requireNonNull(root, "Must provide the root element that houses the grid");
 		this.root = new LazyWebElement(root, AngularTable.GRID_ROOT);
 
@@ -364,13 +378,39 @@ public class AngularTable extends WaitHelper {
 		int pos = 0;
 		for (WebElement headerCell : headerBox.findElements(AngularTable.GRID_HEADER_CELLS)) {
 			pos++;
-			WebElement title = headerCell.findElement(AngularTable.GRID_HEADER_CELL_TITLE);
-			WebElement sorter = headerCell.findElement(AngularTable.GRID_HEADER_CELL_SORTER);
-			headersByName.put(title.getText(), Pair.of(pos, sorter));
-			headersByPosition.put(pos, Pair.of(title.getText(), sorter));
+			WebElement title = null;
+			try {
+				title = headerCell.findElement(AngularTable.GRID_HEADER_CELL_TITLE);
+			} catch (NoSuchElementException e) {
+				title = null;
+			}
+			WebElement sorter = null;
+			try {
+				sorter = headerCell.findElement(AngularTable.GRID_HEADER_CELL_SORTER);
+			} catch (NoSuchElementException e) {
+				// Column can't be sorted on
+				sorter = null;
+			}
+			if ((title == null) && (sorter == null)) {
+				continue;
+			}
+			String columnName = StringUtils.strip(title.getText()).replaceAll("\\s+", " ");
+			if (StringUtils.isBlank(columnName)) {
+				continue;
+			}
+			headersByName.put(columnName, Pair.of(pos, sorter));
+			headersByPosition.put(pos, Pair.of(columnName, sorter));
 		}
 		this.headersByName = Collections.unmodifiableMap(headersByName);
 		this.headersByPosition = Collections.unmodifiableMap(headersByPosition);
+	}
+
+	public void waitUntilVisible() {
+		this.waitHelper.waitForElement(this.root, WaitType.VISIBLE);
+	}
+
+	public void waitUntilHidden() {
+		this.waitHelper.waitForElement(this.root, WaitType.HIDDEN);
 	}
 
 	private int getHeaderPosition(String name) {
@@ -432,6 +472,13 @@ public class AngularTable extends WaitHelper {
 		});
 	}
 
+	private WebElement unwrap(WebElement element) {
+		if (LazyWebElement.class.isInstance(element)) {
+			element = LazyWebElement.class.cast(element).get();
+		}
+		return element;
+	}
+
 	public void selectRow(int rowInPage) {
 		// click on any of the row's cells
 		// TODO: This is only for the cells that support direct selection. When checkmarks
@@ -451,7 +498,9 @@ public class AngularTable extends WaitHelper {
 		}
 
 		// Ok...so click on it!
-		e.get().click();
+		WebElement element = e.get();
+		this.waitHelper.scrollTo(element);
+		element.click();
 	}
 
 	public void sortByColumn(String name, Boolean ascending) {
@@ -473,9 +522,15 @@ public class AngularTable extends WaitHelper {
 
 		// First, show the menu...
 		WebElement sortMenuButton = header.getRight();
-		waitForElement(sortMenuButton, WaitType.CLICKABLE);
+		if (sortMenuButton == null) {
+			throw new UnsupportedOperationException(String.format("The [%s] column doesn't support sorting", name));
+		}
+
+		this.waitHelper.scrollTo(sortMenuButton);
+		this.waitHelper.waitForElement(sortMenuButton, WaitType.CLICKABLE);
 		sortMenuButton.click();
-		waitForElement(button, WaitType.CLICKABLE);
+		this.waitHelper.scrollTo(button);
+		this.waitHelper.waitForElement(button, WaitType.CLICKABLE);
 		button.click();
 		this.pager.updateStatus();
 	}
