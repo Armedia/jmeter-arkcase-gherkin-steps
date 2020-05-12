@@ -181,8 +181,8 @@ public class QueueSteps extends ComponentSteps {
 				o = Boolean.FALSE;
 			} else {
 				// BAD VALUE!
-				throw new IllegalArgumentException(
-					String.format("Unknown sort order [%s] - only ASC and DESC (case-insensitive) are allowed", order));
+				throw new IllegalArgumentException(String.format(
+					"Unknown sort order [%s] - only ASCENDING and DESCENDING (case-insensitive) are allowed", order));
 			}
 		}
 
