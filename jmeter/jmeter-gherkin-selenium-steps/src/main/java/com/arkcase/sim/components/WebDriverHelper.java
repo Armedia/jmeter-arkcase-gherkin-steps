@@ -37,6 +37,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -50,7 +51,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class WebDriverHelper {
+public class WebDriverHelper implements SearchContext {
 
 	private static final String SCROLL_SCRIPT = "arguments[0].scrollIntoView(true);";
 
@@ -474,10 +475,12 @@ public class WebDriverHelper {
 		return s.replaceAll(exp, rep);
 	}
 
+	@Override
 	public final List<WebElement> findElements(By by) {
 		return this.browser.findElements(by);
 	}
 
+	@Override
 	public final WebElement findElement(By by) {
 		return this.browser.findElement(by);
 	}
