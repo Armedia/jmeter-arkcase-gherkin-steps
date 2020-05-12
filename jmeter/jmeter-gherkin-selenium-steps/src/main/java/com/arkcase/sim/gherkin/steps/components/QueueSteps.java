@@ -119,7 +119,7 @@ public class QueueSteps extends ComponentSteps {
 		RequestQueue queue = this.queues.get(name);
 		if (queue == null) {
 			throw new NoSuchElementException(
-				"No queue named [" + queue + "] was found (valid = " + this.queues.keySet() + ")");
+				"No queue named [" + name + "] was found (valid = " + this.queues.keySet() + ")");
 		}
 		return queue;
 	}
@@ -127,6 +127,11 @@ public class QueueSteps extends ComponentSteps {
 	@Given("the queue list is ready")
 	public void queueListIsReady() {
 		if (!queueList().isDisplayed()) { throw new IllegalStateException("The queue list is not ready"); }
+	}
+
+	@Then("wait for the queue list")
+	public void waitForQueueList() {
+		queueList(WaitType.VISIBLE);
 	}
 
 	@Then("select the $queue queue")
