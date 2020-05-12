@@ -153,7 +153,8 @@ public class ButtonSteps extends ComponentSteps {
 	private WebElement getButton(String name, boolean required) {
 
 		// First, sanitize the name
-		String normalizedName = StringUtils.lowerCase(name);
+		String normalizedName = name;
+		// TODO: can't normalize to lowercase yet StringUtils.lowerCase(name);
 		// And normalize spaces
 		normalizedName = normalizedName.trim().replaceAll("\\s+", " ");
 
@@ -173,7 +174,7 @@ public class ButtonSteps extends ComponentSteps {
 		}
 
 		// No matches...
-		if (matches.isEmpty()) {
+		if ((matches == null) || matches.isEmpty()) {
 			if (!required) { return null; }
 			throw new NoSuchElementException(String.format("Failed to find a button named [%s]", name));
 		}
