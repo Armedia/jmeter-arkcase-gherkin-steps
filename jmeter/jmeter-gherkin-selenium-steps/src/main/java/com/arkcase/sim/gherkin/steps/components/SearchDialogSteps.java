@@ -79,13 +79,13 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 
 	@When("the search dialog is active")
 	@Alias("the search dialog is visible")
-	public void waitForSearch(@Named("tab") String tab) {
+	public void waitForSearch() {
 		root(WaitType.VISIBLE);
 	}
 
 	@Then("wait for the search dialog")
-	public void waitForSearch2(@Named("tab") String tab) {
-		root(WaitType.VISIBLE);
+	public void waitForSearch2() {
+		waitForSearch();
 	}
 
 	@Then("search for [$value]")
