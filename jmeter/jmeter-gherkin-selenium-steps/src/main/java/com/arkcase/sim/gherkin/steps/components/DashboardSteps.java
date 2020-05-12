@@ -26,12 +26,12 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
-import java.util.Collections;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jbehave.core.annotations.Alias;
+import org.jbehave.core.annotations.BeforeStory;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
@@ -39,65 +39,112 @@ import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ByChained;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
+import com.arkcase.sim.tools.CssClassMatcher;
 
 public class DashboardSteps extends ComponentSteps {
 
-	private static final By NAVIGATION_LIST = By.cssSelector("nav.nav-primary ul.nav-main");
-	private static final Map<String, By> NAVIGATION;
-	static {
-		String[] titles = {
-			"Dashboard", "Queues", "Search", "Tasks", "Documents", "My Documents", "Notifications", "Subscriptions"
-		};
+	private static final By NAV_ROOT = By.cssSelector("nav.nav-primary ul.nav-main");
+	private static final By NAV_ENTRIES = By.tagName("li");
+	private static final By NAV_LINK = By.tagName("a");
+	private static final CssClassMatcher NAV_ACTIVE = new CssClassMatcher("active");
 
-		Map<String, By> navigation = new HashMap<>();
-		for (String title : titles) {
-			navigation.put(StringUtils.lowerCase(title),
-				new ByChained(DashboardSteps.NAVIGATION_LIST, By.cssSelector(String.format("a[title=\"%s\"]", title))));
+	private class NavEntry {
+		private final String name;
+		private final WebElement element;
+		private final WebElement link;
+
+		private NavEntry(WebElement element) {
+			this.element = element;
+			this.link = element.findElement(DashboardSteps.NAV_LINK);
+			this.name = DashboardSteps.normalize(this.link.getAttribute("title"));
 		}
-		NAVIGATION = Collections.unmodifiableMap(navigation);
+
+		private void click() {
+			getWaitHelper().waitForElement(this.link, WaitType.CLICKABLE);
+			this.link.click();
+		}
+
+		private boolean isActive() {
+			getWaitHelper().waitForElement(this.element, WaitType.VISIBLE);
+			return DashboardSteps.NAV_ACTIVE.test(this.element);
+		}
 	}
 
 	private static final By USER_MENU = By.cssSelector("div.user-menu.dropdown a.dropdown-toggle");
 	private static final By LOGOUT_LINK = By
 		.cssSelector("div.user-menu.dropdown ul.dropdown-menu a[ng-click=\"onClickLogout()\"]");
 
-	private By getAreaLocator(String name) {
-		By by = DashboardSteps.NAVIGATION.get(StringUtils.lowerCase(name));
-		if (by == null) {
-			throw new IllegalArgumentException(
-				String.format("No navigation choice with the alias [%s] was found", name));
-		}
-		return by;
+	private WebElement root = null;
+	private Map<String, NavEntry> nav = null;
+
+	@BeforeStory
+	protected void beforeStory() {
+		this.root = null;
+		this.nav = null;
 	}
 
-	private WebElement getAreaSelector(String name) {
-		return getAreaSelector(name, true);
+	private static String normalize(String name) {
+		if (name == null) { return null; }
+		name = StringUtils.lowerCase(StringUtils.strip(name));
+		name = name.replaceAll("\\s+", " ");
+		return name;
 	}
 
-	private WebElement getAreaSelector(String name, boolean required) {
-		By by = getAreaLocator(name);
-		try {
-			return getWaitHelper().waitForElement(by, WaitType.CLICKABLE);
-		} catch (final NoSuchElementException e) {
-			if (!required) { return null; }
-			throw e;
+	private WebElement root(WaitType wait) {
+		if (this.root == null) {
+			WaitHelper wh = getWaitHelper();
+			this.root = (wait != null ? wh.waitForElement(DashboardSteps.NAV_ROOT, wait)
+				: wh.findElement(DashboardSteps.NAV_ROOT));
 		}
+		return this.root;
+	}
+
+	private NavEntry nav(String name) {
+		return nav(name, null);
+	}
+
+	private NavEntry nav(String name, WaitType wait) {
+		if (this.nav == null) {
+			Map<String, NavEntry> m = new LinkedHashMap<>();
+			for (WebElement e : root(wait).findElements(DashboardSteps.NAV_ENTRIES)) {
+				NavEntry n = new NavEntry(e);
+				m.put(n.name, n);
+			}
+		}
+		NavEntry nav = this.nav.get(DashboardSteps.normalize(name));
+		if (nav == null) {
+			throw new NoSuchElementException(
+				String.format("Invalid navigation option [%s] (valid values = %s)", name, this.nav.keySet()));
+		}
+		return nav;
 	}
 
 	@When("the navigation list is ready")
 	@Alias("the nav list is ready")
 	public void waitForNavList() {
-		getWaitHelper().waitForElement(DashboardSteps.NAVIGATION_LIST, WaitType.VISIBLE);
+		root(WaitType.VISIBLE);
 	}
 
 	@Given("the navigation list is ready")
 	@Alias("the nav list is ready")
 	public void givenWaitForNavList2() {
 		waitForNavList();
+	}
+
+	@Given("the navigation is set to $nav")
+	public void givenCurrentNavIs(@Named("nav") String nav) {
+		if (!nav(nav).isActive()) {
+			throw new IllegalStateException(String.format("The navigation choice [%s] is not active", nav));
+		}
+	}
+
+	@When("selecting the $area area")
+	@Then("select the $area area")
+	public void selectTab(@Named("area") String area) {
+		nav(area).click();
 	}
 
 	@Then("close the session")
@@ -112,11 +159,5 @@ public class DashboardSteps extends ComponentSteps {
 		WaitHelper wh = getWaitHelper();
 		wh.waitForElement(DashboardSteps.USER_MENU, WaitType.CLICKABLE).click();
 		wh.waitForElement(DashboardSteps.LOGOUT_LINK, WaitType.CLICKABLE).click();
-	}
-
-	@When("selecting the $area area")
-	@Then("select the $area area")
-	public void selectTab(@Named("area") String area) {
-		getAreaSelector(area).click();
 	}
 }
