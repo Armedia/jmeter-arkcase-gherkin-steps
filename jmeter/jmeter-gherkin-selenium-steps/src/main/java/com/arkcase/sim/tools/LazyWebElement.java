@@ -37,7 +37,7 @@ import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 
-public class LazyWebElement extends LazyReference<WebElement> implements WebElement {
+public class LazyWebElement extends LazyReference<WebElement> implements WebElement, WebElementWrapper {
 
 	public LazyWebElement(SearchContext ctx, By locator) {
 		super(() -> ctx.findElement(locator));
