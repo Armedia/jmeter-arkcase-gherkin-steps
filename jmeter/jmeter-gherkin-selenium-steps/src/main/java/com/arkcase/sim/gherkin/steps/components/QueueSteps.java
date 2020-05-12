@@ -4,22 +4,22 @@
  * %%
  * Copyright (C) 2020 Armedia, LLC
  * %%
- * This file is part of the ArkCase software. 
- * 
- * If the software was purchased under a paid ArkCase license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the ArkCase software.
+ *
+ * If the software was purchased under a paid ArkCase license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
- * 
+ *
  * ArkCase is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * ArkCase is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -28,13 +28,11 @@ package com.arkcase.sim.gherkin.steps.components;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Objects;
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jbehave.core.annotations.Alias;
+import org.jbehave.core.annotations.BeforeStory;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
@@ -45,14 +43,15 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
-import com.arkcase.sim.components.html.WaitHelper;
 
 public class QueueSteps extends ComponentSteps {
 
 	private static final By ACTIVE_QUEUE = By
 		.cssSelector("div.module-content div.left-sidebar-sm ul.nav-pills li.active a");
-	private static final By QUEUE_CONTAINER = By.xpath("./ancestor::li");
+	private static final By QUEUE_ENTRY_CONTAINER = By.xpath("./ancestor::li");
 	private static final By QUEUE_LIST = By.cssSelector("div.module-content div.left-sidebar-sm ul.nav-pills");
+	private static final By QUEUE_CONTENTS = By.cssSelector(
+		"div.module-content div.content-body div[ng-controller=\"Queues.OrdersListController\"] div.panel-body");
 	private static final Map<String, By> QUEUES;
 	static {
 		String[] queueNames = {
@@ -82,7 +81,7 @@ public class QueueSteps extends ComponentSteps {
 
 	private WebElement getQueueContainer(String name, boolean required) {
 		try {
-			return getQueueLink(name).findElement(QueueSteps.QUEUE_CONTAINER);
+			return getQueueLink(name).findElement(QueueSteps.QUEUE_ENTRY_CONTAINER);
 		} catch (NoSuchElementException e) {
 			if (required) { throw e; }
 			return null;
@@ -103,52 +102,11 @@ public class QueueSteps extends ComponentSteps {
 		}
 	}
 
-	private static final By SORT_MENU = By
-		.cssSelector("div.ui-grid-menu ul.ui-grid-menu-items button.ui-grid-menu-item");
+	private AngularTable table = null;
 
-	private enum Order {
-		//
-		DESCENDING("desc", "down"), //
-		ASCENDING("asc", "up"), //
-		//
-		;
-
-		private final String alias;
-		private final By locator;
-
-		private Order(String alias, String s) {
-			this.alias = alias;
-			this.locator = new ByChained(QueueSteps.SORT_MENU,
-				By.cssSelector(String.format("i.ui-grid-icon-sort-alt-%s", s)));
-		}
-
-		private static final Map<String, Order> DECODER;
-		static {
-			Map<String, Order> m = new TreeMap<>();
-			for (Order o : Order.values()) {
-				Order o2 = m.put(o.name().toLowerCase(), o);
-				if (o2 != null) {
-					throw new RuntimeException(String.format("Duplicate order mapping for %s: %s and %s matched",
-						o.name(), o.name(), o2.name()));
-				}
-				if (o.alias != null) {
-					o2 = m.put(o.alias.toLowerCase(), o);
-					if (o2 != null) {
-						throw new RuntimeException(
-							String.format("Duplicate order alias mapping for %s: %s and %s (%s) matched", o.name(),
-								o.alias, o2.name()));
-					}
-				}
-			}
-			DECODER = Collections.unmodifiableMap(new LinkedHashMap<>(m));
-		}
-
-		public static Order decode(String order) {
-			Objects.requireNonNull(order, "Must provide an order string to decode");
-			Order o = Order.DECODER.get(order.toLowerCase());
-			if (o != null) { return o; }
-			throw new IllegalArgumentException(String.format("Unsupported order spec [%s]", order));
-		}
+	@BeforeStory
+	protected void beforeStory() {
+		this.table = null;
 	}
 
 	@Given("the queue list is ready")
@@ -191,17 +149,38 @@ public class QueueSteps extends ComponentSteps {
 		}
 	}
 
-	private static final By getSortColumnSelector(String columnName) {
-		String format = "div.ui-grid-header div.ui-grid-header-cell div[role=\"button\"][title=\"%s\"] + div[role=\"button\"] i.ui-grid-icon-angle-down";
-		return By.cssSelector(String.format(format, columnName.replaceAll("\"", "\\\"")));
+	@Then("wait for the queue to be ready")
+	@Alias("wait for the queue to load")
+	public void waitForQueue() {
+		if (this.table == null) {
+			this.table = new AngularTable(getBrowser(),
+				getWaitHelper().waitForElement(QueueSteps.QUEUE_CONTENTS, WaitType.VISIBLE));
+		}
+		this.table.waitUntilVisible();
 	}
 
 	@Then("sort by $title in $order order")
 	public void sortTable(@Named("title") String title, @Named("order") String order) {
-		Order o = Order.decode(order);
-		By headerSelector = QueueSteps.getSortColumnSelector(title);
-		WaitHelper wh = getWaitHelper();
-		wh.waitForElement(headerSelector, WaitType.CLICKABLE).click();
-		wh.waitForElement(o.locator, WaitType.CLICKABLE).click();
+		Boolean o = null;
+		order = StringUtils.lowerCase(StringUtils.strip(order));
+		if (order != null) {
+			if ("ascending".startsWith(order)) {
+				o = Boolean.TRUE;
+			} else if ("descending".startsWith(order)) {
+				o = Boolean.FALSE;
+			} else {
+				// BAD VALUE!
+				throw new IllegalArgumentException(
+					String.format("Unknown sort order [%s] - only ASC and DESC (case-insensitive) are allowed", order));
+			}
+		}
+
+		this.table.sortByColumn(title, o);
+	}
+
+	@Then("remove the sort by $title")
+	@Alias("clear the sort by $title")
+	public void clearTableSort(@Named("title") String title) {
+		sortTable(title, null);
 	}
 }
