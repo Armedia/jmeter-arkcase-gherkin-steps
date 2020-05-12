@@ -177,6 +177,8 @@ public class WebDriverHelper implements SearchContext {
 
 	public static ExpectedCondition<Boolean> renderCondition(WebElement element, WaitType waitType) {
 		Objects.requireNonNull(element, "Must provide a non-null target");
+		element = WebElementWrapper.unwrap(element);
+		Objects.requireNonNull(element, "The element was unwrapped into a null value");
 		ExpectedCondition<Boolean> condition = null;
 		switch (WebDriverHelper.getOrDefault(waitType, WaitType.PRESENT)) {
 			case PRESENT:
@@ -624,19 +626,11 @@ public class WebDriverHelper implements SearchContext {
 		return new Actions(this.browser);
 	}
 
-	private WebElement unwrap(WebElement element) {
-		// Keep unwrapping until we get to the root element
-		while (WebElementWrapper.class.isInstance(element)) {
-			element = WebElementWrapper.class.cast(element).get();
-		}
-		return element;
-	}
-
 	public final void scrollTo(WebElement element) {
 		Objects.requireNonNull(element, "Must provide a non-null WebElement to scroll to");
 
 		try {
-			newActions().moveToElement(unwrap(element)).perform();
+			newActions().moveToElement(WebElementWrapper.unwrap(element)).perform();
 		} catch (MoveTargetOutOfBoundsException e) {
 			runJavaScript(WebDriverHelper.SCROLL_SCRIPT, element);
 		}
