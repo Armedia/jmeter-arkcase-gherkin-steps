@@ -26,7 +26,22 @@
  */
 package com.arkcase.sim.tools;
 
-import org.openqa.selenium.WebElement;
+import java.util.function.Supplier;
 
-public interface WebElementWrapper extends Wrapper<WebElement> {
+public interface Wrapper<T> extends Supplier<T> {
+
+	public default T unwrap() {
+		return Wrapper.unwrap(get());
+	}
+
+	public static <T> T unwrap(T element) {
+		// Keep unwrapping until we get to the root element
+		while (Wrapper.class.isInstance(element)) {
+			@SuppressWarnings("unchecked")
+			Wrapper<T> wrapper = (Wrapper<T>) element;
+			element = wrapper.get();
+		}
+		return element;
+	}
+
 }

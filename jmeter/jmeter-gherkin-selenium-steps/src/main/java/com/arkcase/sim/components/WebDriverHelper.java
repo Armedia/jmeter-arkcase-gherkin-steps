@@ -51,7 +51,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.arkcase.sim.tools.WebElementWrapper;
+import com.arkcase.sim.tools.Wrapper;
 
 public class WebDriverHelper implements SearchContext {
 
@@ -177,7 +177,7 @@ public class WebDriverHelper implements SearchContext {
 
 	public static ExpectedCondition<Boolean> renderCondition(WebElement element, WaitType waitType) {
 		Objects.requireNonNull(element, "Must provide a non-null target");
-		element = WebElementWrapper.unwrap(element);
+		element = Wrapper.unwrap(element);
 		Objects.requireNonNull(element, "The element was unwrapped into a null value");
 		ExpectedCondition<Boolean> condition = null;
 		switch (WebDriverHelper.getOrDefault(waitType, WaitType.PRESENT)) {
@@ -630,7 +630,7 @@ public class WebDriverHelper implements SearchContext {
 		Objects.requireNonNull(element, "Must provide a non-null WebElement to scroll to");
 
 		try {
-			newActions().moveToElement(WebElementWrapper.unwrap(element)).perform();
+			newActions().moveToElement(Wrapper.unwrap(element)).perform();
 		} catch (MoveTargetOutOfBoundsException e) {
 			runJavaScript(WebDriverHelper.SCROLL_SCRIPT, element);
 		}
