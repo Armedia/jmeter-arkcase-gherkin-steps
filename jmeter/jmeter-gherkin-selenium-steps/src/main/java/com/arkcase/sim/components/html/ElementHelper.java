@@ -36,8 +36,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.arkcase.sim.tools.ByTools;
-import com.arkcase.sim.tools.CssClassMatcher;
-import com.arkcase.sim.tools.CssClassRegexMatcher;
+import com.arkcase.sim.tools.CssMatcher;
 
 public class ElementHelper extends WaitHelper {
 
@@ -156,12 +155,12 @@ public class ElementHelper extends WaitHelper {
 	}
 
 	public final ExpectedCondition<Boolean> hasClasses(By element, String... klasses) {
-		final CssClassMatcher matcher = new CssClassMatcher(klasses);
+		final CssMatcher matcher = new CssMatcher.ClassName(klasses);
 		return (d) -> matcher.test(d.findElement(element));
 	}
 
 	public final ExpectedCondition<Boolean> hasClassRegex(By element, String regex) {
-		final CssClassRegexMatcher matcher = new CssClassRegexMatcher(regex);
+		final CssMatcher matcher = new CssMatcher.Regex(regex);
 		return (d) -> matcher.test(d.findElement(element));
 	}
 

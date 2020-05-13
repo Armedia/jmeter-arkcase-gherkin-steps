@@ -42,7 +42,7 @@ import org.openqa.selenium.WebElement;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
-import com.arkcase.sim.tools.CssClassMatcher;
+import com.arkcase.sim.tools.CssMatcher;
 
 public class QueueSteps extends ComponentSteps {
 
@@ -50,7 +50,7 @@ public class QueueSteps extends ComponentSteps {
 		"div.module-content div.left-sidebar-sm div[ng-controller=\"Queues.QueuesListController\"] ul.nav-pills");
 	private static final By QUEUE_ENTRIES = By.tagName("li");
 	private static final By QUEUE_ENTRY_LINK = By.tagName("a");
-	private static final CssClassMatcher QUEUE_ACTIVE = new CssClassMatcher("active");
+	private static final CssMatcher QUEUE_ACTIVE = new CssMatcher.ClassName("active");
 
 	private static final By QUEUE_CONTENTS = By.cssSelector(
 		"div.module-content div.content-body div[ng-controller=\"Queues.OrdersListController\"] div.panel-body");

@@ -51,7 +51,7 @@ import org.openqa.selenium.support.ui.Select;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
-import com.arkcase.sim.tools.CssClassMatcher;
+import com.arkcase.sim.tools.CssMatcher;
 import com.arkcase.sim.tools.LazyWebElement;
 
 // TODO: Two filters instead of one
@@ -71,8 +71,8 @@ public class AngularTable {
 	private static final By GRID_ROW_CELL = By.cssSelector("div.ui-grid-cell-contents");
 	private static final By GRID_ROW_SELECTOR = By.cssSelector("div.ui-grid-selection-row-header-buttons");
 
-	private static final CssClassMatcher GRID_ROW_SELECTED = new CssClassMatcher("ui-grid-row-selected");
-	private static final CssClassMatcher GRID_ALL_SELECTED = new CssClassMatcher("ui-grid-all-selected");
+	private static final CssMatcher GRID_ROW_SELECTED = new CssMatcher.ClassName("ui-grid-row-selected");
+	private static final CssMatcher GRID_ALL_SELECTED = new CssMatcher.ClassName("ui-grid-all-selected");
 
 	private static final By SORT_MENU = By.cssSelector("div.ui-grid-column-menu ul.ui-grid-menu-items");
 	private static final By SORT_MENU_ASC = By.cssSelector("li#menuitem-0 button");

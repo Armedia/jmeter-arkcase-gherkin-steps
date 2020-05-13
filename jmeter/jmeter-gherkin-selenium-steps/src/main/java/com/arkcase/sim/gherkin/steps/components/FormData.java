@@ -52,7 +52,7 @@ import org.openqa.selenium.support.ui.Select;
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.gherkin.steps.components.FormData.Persistent.Tab;
-import com.arkcase.sim.tools.CssClassMatcher;
+import com.arkcase.sim.tools.CssMatcher;
 import com.arkcase.sim.tools.JSON;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -385,7 +385,7 @@ public class FormData implements Closeable {
 		}
 
 		public static final class Field extends Element {
-			private static CssClassMatcher INVALID_CLASS = new CssClassMatcher("ng-invalid-required");
+			private static CssMatcher INVALID_CLASS = new CssMatcher.ClassName("ng-invalid-required");
 
 			private final Section section;
 			private final Persistent.Field field;
@@ -448,8 +448,8 @@ public class FormData implements Closeable {
 		}
 
 		public static final class Section extends Element implements Closeable {
-			private static final CssClassMatcher COLLAPSED = new CssClassMatcher("collapse");
-			private static final CssClassMatcher MISSING_DATA = new CssClassMatcher("bactes-panel-warning");
+			private static final CssMatcher COLLAPSED = new CssMatcher.ClassName("collapse");
+			private static final CssMatcher MISSING_DATA = new CssMatcher.ClassName("bactes-panel-warning");
 			private static final By PANEL_VIEW = By.xpath("ancestor::panel-view");
 
 			private final Tab tab;
@@ -572,8 +572,8 @@ public class FormData implements Closeable {
 		}
 
 		public static final class Tab extends Element implements Closeable {
-			private static final CssClassMatcher SELECTED = new CssClassMatcher("active");
-			private static final CssClassMatcher MISSING_DATA = new CssClassMatcher("text-danger");
+			private static final CssMatcher SELECTED = new CssMatcher.ClassName("active");
+			private static final CssMatcher MISSING_DATA = new CssMatcher.ClassName("text-danger");
 			private static final By TAB_LABEL = By.cssSelector("a.ng-binding tab-heading.ng-scope span.ng-binding");
 			private static final By PRECEDING_SIBLING = By.xpath("preceding-sibling::div");
 			private static final By BTN_EXPAND = new ByChained( //

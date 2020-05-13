@@ -42,14 +42,14 @@ import org.openqa.selenium.WebElement;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
-import com.arkcase.sim.tools.CssClassMatcher;
+import com.arkcase.sim.tools.CssMatcher;
 
 public class DashboardSteps extends ComponentSteps {
 
 	private static final By NAV_ROOT = By.cssSelector("nav.nav-primary ul.nav-main");
 	private static final By NAV_ENTRIES = By.tagName("li");
 	private static final By NAV_LINK = By.tagName("a");
-	private static final CssClassMatcher NAV_ACTIVE = new CssClassMatcher("active");
+	private static final CssMatcher NAV_ACTIVE = new CssMatcher.ClassName("active");
 
 	private class NavEntry {
 		private final String name;
