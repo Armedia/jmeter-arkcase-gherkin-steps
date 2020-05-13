@@ -54,6 +54,8 @@ import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.tools.CssClassMatcher;
 import com.arkcase.sim.tools.LazyWebElement;
 
+// TODO: Two filters instead of one
+// TODO: Drop-down filters (only ever one)
 public class AngularTable {
 
 	private static final By GRID_ROOT = By.cssSelector("div.grid.ui-grid");
