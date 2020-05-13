@@ -32,6 +32,10 @@ import org.openqa.selenium.WebElement;
 
 public interface WebElementWrapper extends Supplier<WebElement> {
 
+	public default WebElement unwrap() {
+		return WebElementWrapper.unwrap(get());
+	}
+
 	/**
 	 * <p>
 	 * If the given {@link WebElement} instance is an instance of {@link WebElementWrapper}, it will
