@@ -42,6 +42,7 @@ import org.openqa.selenium.WebElement;
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
+import com.arkcase.sim.tools.ByTools;
 
 // TODO: There are multiple search dialogs, support them all as one? or separately?
 public class SearchDialogSteps extends BasicWebDriverSteps {
@@ -49,8 +50,8 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 	private static final By ROOT_LOCATOR = By.cssSelector("div.modal-dialog div.modal-content div.modal-search");
 	private static final By SEARCH_FIELD = By.cssSelector("div.input-group input[ng-model=\"searchQuery\"]");
 	private static final By SEARCH_BUTTON = By.cssSelector("div.input-group button.btn-primary");
-	private static final By NO_RESULTS = By.cssSelector("div[ng-if=\"showNoData\"]");
-	// TODO: Also support showNoDataResult, which seems to appear in one dialog instance
+	private static final By NO_RESULTS = ByTools.firstOf(By.cssSelector("div[ng-if=\"showNoData\"]"),
+		By.cssSelector("div[ng-if=\"showNoDataResult\"]"));
 
 	private WebElement root = null;
 	private AngularTable results = null;
@@ -88,6 +89,11 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 	@Then("wait for the search dialog")
 	public void waitForSearch2() {
 		waitForSearch();
+	}
+
+	@Then("wait for the search results")
+	public void waitForSearchResults() {
+		getWaitHelper().waitForAngular();
 	}
 
 	@Then("search for [$value]")
@@ -131,9 +137,12 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 		"there are search results", //
 	})
 	public void searchWasNotEmpty() {
-		// TODO: There are other search screens that work differently and still have
-		// the table visible even when there are no results
-		this.results = new AngularTable(getWaitHelper(), root());
+		try {
+			searchWasEmpty();
+			throw new NoSuchElementException("The search didn't return any results");
+		} catch (NoSuchElementException e) {
+			this.results = new AngularTable(getWaitHelper(), root());
+		}
 	}
 
 	@Then("select row $row")
