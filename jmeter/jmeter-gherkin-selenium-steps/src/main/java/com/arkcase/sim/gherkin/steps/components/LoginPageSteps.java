@@ -4,22 +4,22 @@
  * %%
  * Copyright (C) 2020 Armedia, LLC
  * %%
- * This file is part of the ArkCase software. 
- * 
- * If the software was purchased under a paid ArkCase license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the ArkCase software.
+ *
+ * If the software was purchased under a paid ArkCase license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
- * 
+ *
  * ArkCase is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * ArkCase is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -27,7 +27,9 @@
 package com.arkcase.sim.gherkin.steps.components;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jbehave.core.annotations.Alias;
+import org.apache.commons.lang3.tuple.Pair;
+import org.jbehave.core.annotations.Aliases;
+import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
@@ -51,7 +53,13 @@ public class LoginPageSteps extends ComponentSteps {
 	private static final By ARMEDIA_PASSWORD = By
 		.cssSelector("form#MainForm input#ContentPlaceHolder1_PasswordTextBox");
 
-	@When("the login page is ready")
+	@When("the sign in page is ready")
+	@Aliases(values = { //
+		"the signin page is ready", //
+		"the authentication page is ready", //
+		"the log in page is ready", //
+		"the login page is ready", //
+	})
 	public void waitForLogin() {
 		getWaitHelper().waitUntil( //
 			ExpectedConditionTools.firstOf( //
@@ -62,20 +70,42 @@ public class LoginPageSteps extends ComponentSteps {
 	}
 
 	@Then("sign in")
-	@Alias("authenticate")
-	public void signin() {
-		login();
+	@Aliases(values = { //
+		"signin", //
+		"authenticate", //
+		"log in", //
+		"login" //
+	})
+	public void login() {
+		login(null);
 	}
 
-	@Then("log in")
-	@Alias("login")
-	public void login() {
+	@Then("sign in as [$user]/[$pass]")
+	@Aliases(values = { //
+		"signin as [$user]/[$pass]", //
+		"authenticate as [$user]/[$pass]", //
+		"log in as [$user]/[$pass]", //
+		"login as [$user]/[$pass]" //
+	})
+	public void login(@Named("user") String user, @Named("pass") String pass) {
+		login(Pair.of(user, pass));
+	}
+
+	private void login(Pair<String, String> creds) {
 
 		// Get the username
 		GherkinContext ctx = GherkinContext.get();
 
-		String userName = ctx.getVars().get("userName");
-		String password = ctx.getVars().get("password");
+		final String userName;
+		final String password;
+
+		if (creds != null) {
+			userName = (creds.getKey() != null ? creds.getKey() : StringUtils.EMPTY);
+			password = (creds.getValue() != null ? creds.getValue() : StringUtils.EMPTY);
+		} else {
+			userName = ctx.getVars().get("userName");
+			password = ctx.getVars().get("password");
+		}
 
 		// Here we cheat a little so we don't expose the authentication credentials
 		TextBoxHelper helper = new TextBoxHelper(getBrowser());
