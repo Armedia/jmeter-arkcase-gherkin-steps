@@ -266,6 +266,11 @@ public class ButtonSteps extends ComponentSteps {
 		return button;
 	}
 
+	@Then("wait for the $name button to be clickable, and click it")
+	public void waitForButtonToBeClickableAndClickIt(@Named("name") String name) {
+		waitForButtonToBeClickable(name).click();
+	}
+
 	@Then("wait for the $name button to be hidden")
 	@When("the $name button is not visible")
 	public void waitForButtonToBeHidden(@Named("name") String name) {
