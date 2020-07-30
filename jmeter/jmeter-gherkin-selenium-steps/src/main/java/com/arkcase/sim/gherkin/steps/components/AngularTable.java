@@ -277,6 +277,7 @@ public class AngularTable {
 	}
 
 	private class Row {
+		@SuppressWarnings("unused")
 		private final int number;
 		private final WebElement element;
 		private final Map<Integer, Pair<String, WebElement>> contents;
@@ -344,6 +345,7 @@ public class AngularTable {
 	private final LazyWebElement sortMenuAsc;
 	private final LazyWebElement sortMenuDesc;
 	private final LazyWebElement sortMenuNone;
+	@SuppressWarnings("unused")
 	private final LazyWebElement sortMenuHide;
 
 	private final LazyWebElement gridData;
