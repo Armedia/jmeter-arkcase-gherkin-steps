@@ -103,10 +103,10 @@ public class ByTools {
 	}
 
 	public static By cssMatching(String cssSelector, Predicate<WebElement> predicate) {
-		return ByTools.withPredicate(By.cssSelector(cssSelector), predicate);
+		return ByTools.addPredicate(By.cssSelector(cssSelector), predicate);
 	}
 
-	public static By withPredicate(By selector, Predicate<WebElement> predicate) {
+	public static By addPredicate(By selector, Predicate<WebElement> predicate) {
 		Objects.requireNonNull(selector, "Must provide a By selector");
 		Objects.requireNonNull(predicate, "Must provide a Predicate");
 		return new By() {
@@ -123,7 +123,7 @@ public class ByTools {
 	}
 
 	public static By matching(Predicate<WebElement> predicate) {
-		return ByTools.withPredicate(By.cssSelector("*"), predicate);
+		return ByTools.addPredicate(By.cssSelector("*"), predicate);
 	}
 
 	public static By textMatches(Predicate<String> matcher) {
