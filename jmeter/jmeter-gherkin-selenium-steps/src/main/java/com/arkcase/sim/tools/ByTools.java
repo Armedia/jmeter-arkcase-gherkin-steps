@@ -41,28 +41,36 @@ import org.apache.commons.lang3.StringUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.pagefactory.ByChained;
 
 public class ByTools {
 
-	// TODO: The method in TypeScript supports both a string and a regex...
-	public static By cssContainingText(String cssMatcher, String text) {
-		return new ByChained(By.cssSelector(cssMatcher), ByTools.matchesRegex(text));
+	public static By cssMatching(String cssSelector, Predicate<WebElement> predicate) {
+		return ByTools.withPredicate(By.cssSelector(cssSelector), predicate);
 	}
 
-	public static By textMatches(Predicate<String> matcher) {
-		Objects.requireNonNull(matcher, "Must provide a non-empty string to search for");
+	public static By withPredicate(By selector, Predicate<WebElement> predicate) {
+		Objects.requireNonNull(selector, "Must provide a By selector");
+		Objects.requireNonNull(predicate, "Must provide a Predicate");
 		return new By() {
 			@Override
 			public List<WebElement> findElements(SearchContext context) {
 				List<WebElement> matches = new LinkedList<>();
-				context.findElements(By.cssSelector("*")).stream() //
-					.filter((e) -> matcher.test(e.getText())) //
+				context.findElements(selector).stream() //
+					.filter(predicate) //
 					.forEach(matches::add) //
 				;
 				return matches;
 			}
 		};
+	}
+
+	public static By withPredicate(Predicate<WebElement> predicate) {
+		return ByTools.withPredicate(By.cssSelector("*"), predicate);
+	}
+
+	public static By textMatches(Predicate<String> matcher) {
+		Objects.requireNonNull(matcher, "Must provide a non-null predicate to apply");
+		return ByTools.withPredicate((webElement) -> matcher.test(webElement.getText()));
 	}
 
 	public static By containsText(final String text) {
