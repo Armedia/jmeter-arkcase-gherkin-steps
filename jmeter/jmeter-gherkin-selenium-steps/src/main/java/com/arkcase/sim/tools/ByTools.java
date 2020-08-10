@@ -44,6 +44,64 @@ import org.openqa.selenium.WebElement;
 
 public class ByTools {
 
+	public static class Pred {
+		public static Predicate<WebElement> textMatches(Predicate<String> matcher) {
+			Objects.requireNonNull(matcher, "Must provide a non-null predicate to apply");
+			return (webElement) -> matcher.test(webElement.getText());
+		}
+
+		public static Predicate<WebElement> textEquals(String text) {
+			return Pred.textEquals(text, false);
+		}
+
+		public static Predicate<WebElement> textEquals(String text, boolean ignoreCase) {
+			if (text == null) { throw new IllegalArgumentException("Must provide a non-null string"); }
+			final String expected = (StringUtils.isNotEmpty(text) ? text : StringUtils.EMPTY);
+			final BiPredicate<String, String> equals = (ignoreCase ? StringUtils::equalsIgnoreCase
+				: StringUtils::equals);
+			return (webElement) -> equals.test(webElement.getText(), expected);
+		}
+
+		public static Predicate<WebElement> textStartsWith(String text) {
+			return Pred.textStartsWith(text, false);
+		}
+
+		public static Predicate<WebElement> textStartsWith(String text, boolean ignoreCase) {
+			if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
+			final BiPredicate<String, String> startsWith = (ignoreCase ? StringUtils::startsWithIgnoreCase
+				: StringUtils::startsWith);
+			return (webElement) -> startsWith.test(webElement.getText(), text);
+		}
+
+		public static Predicate<WebElement> textEndsWith(String text) {
+			return Pred.textEndsWith(text, false);
+		}
+
+		public static Predicate<WebElement> textEndsWith(String text, boolean ignoreCase) {
+			if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
+			final BiPredicate<String, String> endsWith = (ignoreCase ? StringUtils::endsWithIgnoreCase
+				: StringUtils::endsWith);
+			return (webElement) -> endsWith.test(webElement.getText(), text);
+		}
+
+		public static Predicate<WebElement> textContains(String text) {
+			return Pred.textContains(text, false);
+		}
+
+		public static Predicate<WebElement> textContains(String text, boolean ignoreCase) {
+			if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
+			final ToIntBiFunction<String, String> indexOf = (ignoreCase ? StringUtils::indexOfIgnoreCase
+				: StringUtils::indexOf);
+			return (webElement) -> indexOf.applyAsInt(webElement.getText(), text) >= 0;
+		}
+
+		public static Predicate<WebElement> textMatches(String regEx) {
+			Objects.requireNonNull(regEx, "Must provide a valid regular expression");
+			final Pattern p = Pattern.compile(regEx);
+			return (webElement) -> p.matcher(webElement.getText()).matches();
+		}
+	}
+
 	public static By cssMatching(String cssSelector, Predicate<WebElement> predicate) {
 		return ByTools.withPredicate(By.cssSelector(cssSelector), predicate);
 	}
@@ -64,63 +122,48 @@ public class ByTools {
 		};
 	}
 
-	public static By withPredicate(Predicate<WebElement> predicate) {
+	public static By matching(Predicate<WebElement> predicate) {
 		return ByTools.withPredicate(By.cssSelector("*"), predicate);
 	}
 
 	public static By textMatches(Predicate<String> matcher) {
-		Objects.requireNonNull(matcher, "Must provide a non-null predicate to apply");
-		return ByTools.withPredicate((webElement) -> matcher.test(webElement.getText()));
+		return ByTools.matching(ByTools.Pred.textMatches(matcher));
 	}
 
-	public static By containsText(final String text) {
-		return ByTools.containsText(text, false);
+	public static By textContains(final String text) {
+		return ByTools.matching(Pred.textContains(text));
 	}
 
-	public static By containsText(final String text, boolean ignoreCase) {
-		if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
-		final ToIntBiFunction<String, String> indexOf = (ignoreCase ? StringUtils::indexOfIgnoreCase
-			: StringUtils::indexOf);
-		return ByTools.textMatches((elementText) -> indexOf.applyAsInt(elementText, text) >= 0);
+	public static By textContains(final String text, boolean ignoreCase) {
+		return ByTools.matching(Pred.textContains(text, ignoreCase));
 	}
 
-	public static By isText(final String text) {
-		return ByTools.isText(text, false);
+	public static By textEquals(final String text) {
+		return ByTools.matching(Pred.textEquals(text));
 	}
 
-	public static By isText(final String text, boolean ignoreCase) {
-		if (text == null) { throw new IllegalArgumentException("Must provide a non-null string"); }
-		final String expected = (StringUtils.isNotEmpty(text) ? text : StringUtils.EMPTY);
-		final BiPredicate<String, String> equals = (ignoreCase ? StringUtils::equalsIgnoreCase : StringUtils::equals);
-		return ByTools.textMatches((elementText) -> equals.test(elementText, expected));
+	public static By textEquals(final String text, boolean ignoreCase) {
+		return ByTools.matching(Pred.textEquals(text, ignoreCase));
 	}
 
-	public static By startsWith(final String text) {
-		return ByTools.startsWith(text, false);
+	public static By textStartsWith(final String text) {
+		return ByTools.matching(Pred.textStartsWith(text));
 	}
 
-	public static By startsWith(final String text, boolean ignoreCase) {
-		if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
-		final BiPredicate<String, String> startsWith = (ignoreCase ? StringUtils::startsWithIgnoreCase
-			: StringUtils::startsWith);
-		return ByTools.textMatches((elementText) -> startsWith.test(elementText, text));
+	public static By textStartsWith(final String text, boolean ignoreCase) {
+		return ByTools.matching(Pred.textStartsWith(text, ignoreCase));
 	}
 
-	public static By endsWith(final String text) {
-		return ByTools.endsWith(text, false);
+	public static By textEndsWith(final String text) {
+		return ByTools.matching(Pred.textEndsWith(text));
 	}
 
-	public static By endsWith(final String text, boolean ignoreCase) {
-		if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
-		final BiPredicate<String, String> endsWith = (ignoreCase ? StringUtils::endsWithIgnoreCase
-			: StringUtils::endsWith);
-		return ByTools.textMatches((elementText) -> endsWith.test(elementText, text));
+	public static By textEndsWith(final String text, boolean ignoreCase) {
+		return ByTools.matching(Pred.textEndsWith(text, ignoreCase));
 	}
 
-	public static By matchesRegex(final String regEx) {
-		Objects.requireNonNull(regEx, "Must provide a valid regular expression");
-		final Pattern p = Pattern.compile(regEx);
-		return ByTools.textMatches((elementText) -> p.matcher(elementText).matches());
+	public static By textMatches(final String regEx) {
+		return ByTools.matching(Pred.textMatches(regEx));
 	}
 
 	private static final String[] NG_PREFIXES = {
