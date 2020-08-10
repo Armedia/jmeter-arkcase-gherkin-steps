@@ -32,6 +32,9 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.function.BiPredicate;
+import java.util.function.Predicate;
+import java.util.function.ToIntBiFunction;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
@@ -44,43 +47,72 @@ public class ByTools {
 
 	// TODO: The method in TypeScript supports both a string and a regex...
 	public static By cssContainingText(String cssMatcher, String text) {
-		return new ByChained(By.cssSelector(cssMatcher), ByTools.containsText(text));
+		return new ByChained(By.cssSelector(cssMatcher), ByTools.matchesRegex(text));
 	}
 
-	public static By containsText(final String text) {
-		if (StringUtils.isEmpty(text)) {
-			throw new IllegalArgumentException("Must provide a non-empty string to search for");
-		}
+	public static By textMatches(Predicate<String> matcher) {
+		Objects.requireNonNull(matcher, "Must provide a non-empty string to search for");
 		return new By() {
 			@Override
 			public List<WebElement> findElements(SearchContext context) {
 				List<WebElement> matches = new LinkedList<>();
 				context.findElements(By.cssSelector("*")).stream() //
-					.filter((e) -> (e.getText().indexOf(text) >= 0)) //
+					.filter((e) -> matcher.test(e.getText())) //
 					.forEach(matches::add) //
 				;
 				return matches;
 			}
-
 		};
 	}
 
-	public static By matchesRegex(final String text) {
-		Objects.requireNonNull(text, "Must provide a valid regular expression");
-		final Pattern p = Pattern.compile(text);
-		return new By() {
+	public static By containsText(final String text) {
+		return ByTools.containsText(text, false);
+	}
 
-			@Override
-			public List<WebElement> findElements(SearchContext context) {
-				List<WebElement> matches = new LinkedList<>();
-				context.findElements(By.cssSelector("*")).stream()//
-					.filter((e) -> p.matcher(e.getText()).matches()) //
-					.forEach(matches::add) //
-				;
-				return matches;
-			}
+	public static By containsText(final String text, boolean ignoreCase) {
+		if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
+		final ToIntBiFunction<String, String> indexOf = (ignoreCase ? StringUtils::indexOfIgnoreCase
+			: StringUtils::indexOf);
+		return ByTools.textMatches((elementText) -> indexOf.applyAsInt(elementText, text) >= 0);
+	}
 
-		};
+	public static By isText(final String text) {
+		return ByTools.isText(text, false);
+	}
+
+	public static By isText(final String text, boolean ignoreCase) {
+		if (text == null) { throw new IllegalArgumentException("Must provide a non-null string"); }
+		final String expected = (StringUtils.isNotEmpty(text) ? text : StringUtils.EMPTY);
+		final BiPredicate<String, String> equals = (ignoreCase ? StringUtils::equalsIgnoreCase : StringUtils::equals);
+		return ByTools.textMatches((elementText) -> equals.test(elementText, expected));
+	}
+
+	public static By startsWith(final String text) {
+		return ByTools.startsWith(text, false);
+	}
+
+	public static By startsWith(final String text, boolean ignoreCase) {
+		if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
+		final BiPredicate<String, String> startsWith = (ignoreCase ? StringUtils::startsWithIgnoreCase
+			: StringUtils::startsWith);
+		return ByTools.textMatches((elementText) -> startsWith.test(elementText, text));
+	}
+
+	public static By endsWith(final String text) {
+		return ByTools.endsWith(text, false);
+	}
+
+	public static By endsWith(final String text, boolean ignoreCase) {
+		if (StringUtils.isEmpty(text)) { throw new IllegalArgumentException("Must provide a non-empty string"); }
+		final BiPredicate<String, String> endsWith = (ignoreCase ? StringUtils::endsWithIgnoreCase
+			: StringUtils::endsWith);
+		return ByTools.textMatches((elementText) -> endsWith.test(elementText, text));
+	}
+
+	public static By matchesRegex(final String regEx) {
+		Objects.requireNonNull(regEx, "Must provide a valid regular expression");
+		final Pattern p = Pattern.compile(regEx);
+		return ByTools.textMatches((elementText) -> p.matcher(elementText).matches());
 	}
 
 	private static final String[] NG_PREFIXES = {
