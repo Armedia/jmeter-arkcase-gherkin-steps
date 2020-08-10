@@ -134,6 +134,10 @@ public class ByTools {
 		return ByTools.addPredicate(By.cssSelector(cssSelector), predicate);
 	}
 
+	public static By cssContainingText(String cssSelector, String text) {
+		return ByTools.cssMatching(cssSelector, Pred.textContains(text));
+	}
+
 	public static ByWithPredicate addPredicate(By selector, Predicate<WebElement> predicate) {
 		Objects.requireNonNull(selector, "Must provide a By selector");
 		Objects.requireNonNull(predicate, "Must provide a Predicate");
