@@ -102,24 +102,50 @@ public class ByTools {
 		}
 	}
 
+	public static final class ByWithPredicate extends By {
+		private final Predicate<WebElement> predicate;
+		private final By selector;
+
+		private ByWithPredicate(By selector, Predicate<WebElement> predicate) {
+			this.selector = selector;
+			this.predicate = predicate;
+		}
+
+		public Predicate<WebElement> getPredicate() {
+			return this.predicate;
+		}
+
+		public By getSelector() {
+			return this.selector;
+		}
+
+		@Override
+		public List<WebElement> findElements(SearchContext context) {
+			List<WebElement> matches = new LinkedList<>();
+			context.findElements(this.selector).stream() //
+				.filter(this.predicate) //
+				.forEach(matches::add) //
+			;
+			return matches;
+		}
+	}
+
 	public static By cssMatching(String cssSelector, Predicate<WebElement> predicate) {
 		return ByTools.addPredicate(By.cssSelector(cssSelector), predicate);
 	}
 
-	public static By addPredicate(By selector, Predicate<WebElement> predicate) {
+	public static ByWithPredicate addPredicate(By selector, Predicate<WebElement> predicate) {
 		Objects.requireNonNull(selector, "Must provide a By selector");
 		Objects.requireNonNull(predicate, "Must provide a Predicate");
-		return new By() {
-			@Override
-			public List<WebElement> findElements(SearchContext context) {
-				List<WebElement> matches = new LinkedList<>();
-				context.findElements(selector).stream() //
-					.filter(predicate) //
-					.forEach(matches::add) //
-				;
-				return matches;
-			}
-		};
+
+		if (ByWithPredicate.class.isInstance(selector)) {
+			// This is to add efficiency and avoid multiple lookups
+			ByWithPredicate bwp = ByWithPredicate.class.cast(selector);
+			selector = bwp.selector;
+			predicate = bwp.predicate.and(predicate);
+		}
+
+		return new ByWithPredicate(selector, predicate);
 	}
 
 	public static By matching(Predicate<WebElement> predicate) {
