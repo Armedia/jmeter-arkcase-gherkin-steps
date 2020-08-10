@@ -76,11 +76,14 @@ public class ButtonSteps extends ComponentSteps {
 				new ByChained(footerPanel, By.cssSelector("button.btn-reject[permission=\"reject\"]")), //
 				"Reject"
 			}, {
+				new ByChained(footerPanel, By.cssSelector("button.btn-complete-task[permission=\"reject\"]")), //
+				"Complete Logging Request"
+			}, {
 				new ByChained(footerPanel, By.cssSelector("button.btn-next-queue[permission=\"billOrder\"]")), //
 				"Bill Request", "Bill"
 			}, {
 				new ByChained(footerPanel, By.cssSelector("button.btn-next-queue[permission=\"fulfillOrder\"]")), //
-				"Fulfill Request", "Fulfill"
+				"Data Capture Request", "Fulfill Request", "Fulfill"
 			}, {
 				new ByChained(footerPanel, By.cssSelector("button.btn-next-queue[permission=\"qcOrder\"]")), //
 				"QC Request", "QC"
