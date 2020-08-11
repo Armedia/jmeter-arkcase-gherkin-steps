@@ -39,12 +39,14 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
+import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.tools.ExpectedConditionTools;
 
 public class ButtonSteps extends ComponentSteps {
@@ -159,18 +161,24 @@ public class ButtonSteps extends ComponentSteps {
 		return getButton(name, true);
 	}
 
+	private WebElement getButton(SearchContext ctx, String name) {
+		return getButton(ctx, name, true);
+	}
+
 	private WebElement getButton(String name, boolean required) {
+		return getButton(getBrowser(), name, required);
+	}
+
+	private WebElement getButton(SearchContext ctx, String name, boolean required) {
 		// First, sanitize the name
 		final String normalizedName = ButtonSteps.normalize(name);
-
-		WebDriver browser = getBrowser();
 
 		By by = ButtonSteps.BUTTONS.get(normalizedName);
 		List<WebElement> matches = null;
 
 		// First, try the ones we specifically saved locators for...
 		if ((matches == null) && (by != null)) {
-			matches = browser.findElements(by);
+			matches = ctx.findElements(by);
 		}
 
 		// If we didn't have a locator, or we couldn't find it, we try by name
@@ -190,22 +198,38 @@ public class ButtonSteps extends ComponentSteps {
 	}
 
 	private List<WebElement> getButtonByTitleOrLabel(String label) {
-		WebDriver browser = getBrowser();
+		return getButtonByTitleOrLabel(getBrowser(), label);
+	}
+
+	private List<WebElement> getButtonByTitleOrLabel(SearchContext ctx, String label) {
 
 		// Escape double quotes on the label...
 		label = label.replace("\"", "\\\"");
 
 		// First, find by title
-		List<WebElement> elements = browser
-			.findElements(By.xpath("//button[normalize-space(@title) = \"" + label + "\"]"));
+		List<WebElement> elements = ctx.findElements(By.xpath("//button[normalize-space(@title) = \"" + label + "\"]"));
 		if ((elements != null) && !elements.isEmpty()) { return elements; }
 
 		// No luck by title? Try the text
-		elements = browser.findElements(By.xpath("//button[normalize-space(.) = \"" + label + "\"]"));
+		elements = ctx.findElements(By.xpath("//button[normalize-space(.) = \"" + label + "\"]"));
 		if ((elements != null) && !elements.isEmpty()) { return elements; }
 
 		// No winners? Return null...
 		return null;
+	}
+
+	@Given("the $name button is present")
+	public void buttonIsPresent(@Named("name") String name) {
+		if (getButton(name, false) == null) {
+			throw new IllegalStateException(String.format("The [%s] button is not present", name));
+		}
+	}
+
+	@Given("the $name button is not present")
+	public void buttonIsNotPresent(@Named("name") String name) {
+		if (getButton(name, false) != null) {
+			throw new IllegalStateException(String.format("The [%s] button is present", name));
+		}
 	}
 
 	@Given("the $name button is visible")
@@ -236,10 +260,14 @@ public class ButtonSteps extends ComponentSteps {
 		}
 	}
 
+	private void clickButton(SearchContext ctx, String name) {
+		waitForButtonToBeClickable(ctx, name).click();
+	}
+
 	@Then("click on the $name button")
 	@When("clicking on the $name button")
 	public void clickButton(@Named("name") String name) {
-		waitForButtonToBeClickable(name).click();
+		clickButton(getBrowser(), name);
 	}
 
 	@Then("click on the $name button, switch to the new window")
@@ -253,12 +281,27 @@ public class ButtonSteps extends ComponentSteps {
 	}
 
 	@Then("click on the $name button, wait for the window to close")
-	@When("clicking on the $name button, witing for the window to close")
+	@When("clicking on the $name button, waiting for the window to close")
 	public void clickButtonAndWaitForWindowToClose(@Named("name") String name) {
 		WebDriver browser = getBrowser();
 		String window = browser.getWindowHandle();
 		clickButton(name);
 		getWaitHelper().waitUntil(ExpectedConditionTools.windowIsClosed(window));
+	}
+
+	@Then("click on the $name button, wait for the $dialog dialog to close")
+	@When("clicking on the $name button, waiting for the $dialog to close")
+	public void clickButtonAndWaitForDialogToClose(@Named("name") String name, @Named("dialog") String dialog) {
+		WaitHelper helper = getWaitHelper();
+		WebElement d = DialogSteps.findDialog(helper, dialog, null);
+		clickButton(d, name);
+		getWaitHelper().waitUntil(ExpectedConditions.invisibilityOf(d));
+	}
+
+	@Then("click on the $name button, wait for the dialog to close")
+	@When("clicking on the $name button, waiting for the dialog to close")
+	public void clickButtonAndWaitForDialogToClose(@Named("name") String name) {
+		clickButtonAndWaitForDialogToClose(name, null);
 	}
 
 	@Then("wait for the $name button to be visible")
@@ -279,6 +322,12 @@ public class ButtonSteps extends ComponentSteps {
 	public void waitForButtonToBeHidden(@Named("name") String name) {
 		WebElement button = getButton(name);
 		getWaitHelper().waitForElement(button, WaitType.VISIBLE);
+	}
+
+	public WebElement waitForButtonToBeClickable(SearchContext ctx, String name) {
+		WebElement button = getButton(ctx, name);
+		getWaitHelper().waitForElement(button, WaitType.VISIBLE);
+		return button;
 	}
 
 	@Then("wait for the $name button to be clickable")
