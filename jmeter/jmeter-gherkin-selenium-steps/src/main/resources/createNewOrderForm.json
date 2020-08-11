@@ -6,7 +6,7 @@
         "sections": {
             "Patient Specifics": {
                 "source": "modules/orders/views/components/patient-info.client.view.html",
-                "body": "panel-view[header=\"Patient Specifics\"] div.panel-body",
+                "body": "panel-view[header=\"Patient Specifics\"] div.panel-body form",
                 "title": "panel-view[header=\"Patient Specifics\"] div.panel-heading",
                 "name": "Patient Specifics",
                 "fields": {
@@ -213,8 +213,8 @@
                 }
             },
             "Request Specifics": {
-                "source": "modules/orders/views/components/order-details.client.view.html",
-                "body": "panel-view[header=\"Request Specifics\"] div.panel-body",
+                "source": "modules/order-info/views/components/order-details.client.view.html",
+                "body": "panel-view[header=\"Request Specifics\"] div.panel-body form",
                 "title": "panel-view[header=\"Request Specifics\"] div.panel-heading",
                 "name": "Request Specifics",
                 "fields": {
@@ -333,7 +333,7 @@
             },
             "Deposit Information": {
                 "source": "modules/orders/views/components/order-payment.client.view.html",
-                "body": "panel-view[header=\"Deposit Information\"] div.panel-body",
+                "body": "panel-view[header=\"Deposit Information\"] div.panel-body form",
                 "title": "panel-view[header=\"Deposit Information\"] div.panel-heading",
                 "name": "Deposit Information",
                 "fields": {
@@ -367,7 +367,7 @@
             },
             "Request Activity": {
                 "source": "modules/orders/views/components/order-activity.client.view.html",
-                "body": "panel-view[header=\"Request Activity\"] div.panel-body",
+                "body": "panel-view[header=\"Request Activity\"] div.panel-body form",
                 "title": "panel-view[header=\"Request Activity\"] div.panel-heading",
                 "name": "Request Activity",
                 "fields": {
@@ -414,7 +414,7 @@
                             "Request for Contact Information",
                             "Request for Custodian Certification",
                             "Request for Dictation/Chart Completion",
-                            "Request for EMR documents",
+                            "Request for EMR Documents",
                             "Request for Future DOS",
                             "Request for Management Approval: Compliance",
                             "Request for Management Approval: HIM Management",
@@ -429,7 +429,8 @@
                             "Request for Pending Patient Discharge",
                             "Request for Radiology",
                             "Request for Records-Other",
-                            "Separated Document"
+                            "Separated Document",
+                            "PrePROD User Simulation"
                         ]
                     }
                 }
@@ -443,7 +444,7 @@
         "sections": {
             "Requester Specifics": {
                 "source": "modules/orders/views/components/requester-info.client.view.html",
-                "body": "panel-view[header=\"Requester Specifics\"] div.panel-body",
+                "body": "panel-view[header=\"Requester Specifics\"] div.panel-body form",
                 "title": "panel-view[header=\"Requester Specifics\"] div.panel-heading",
                 "name": "Requester Specifics",
                 "fields": {
@@ -468,6 +469,16 @@
                         "locatorType": "css",
                         "value": "asPatient"
                     },
+                    "FIXME::selectedRecentRequester": {
+                        "name": "FIXME::selectedRecentRequester",
+                        "type": "select",
+                        "locator": "select[ng-model=\"selectedRecentRequester\"]",
+                        "locatorType": "css",
+                        "options": [
+                            "Previous Requester",
+                            "TEST-3: TEST- Provider Account"
+                        ]
+                    },
                     "Payment Terms": {
                         "type": "select",
                         "locator": "select[ng-model=\"orderInfo.paymentTerms\"]",
@@ -485,7 +496,7 @@
             },
             "Billing Contact Specifics": {
                 "source": "modules/orders/views/components/billing-info.client.view.html",
-                "body": "panel-view[header=\"Billing Contact Specifics\"] div.panel-body",
+                "body": "panel-view[header=\"Billing Contact Specifics\"] div.panel-body form",
                 "title": "panel-view[header=\"Billing Contact Specifics\"] div.panel-heading",
                 "name": "Billing Contact Specifics",
                 "fields": {
@@ -518,7 +529,7 @@
             },
             "Email Notifications": {
                 "source": "modules/orders/views/components/order-notifications.client.view.html",
-                "body": "panel-view[header=\"Email Notifications\"] div.panel-body",
+                "body": "panel-view[header=\"Email Notifications\"] div.panel-body form",
                 "title": "panel-view[header=\"Email Notifications\"] div.panel-heading",
                 "name": "Email Notifications",
                 "fields": {
@@ -565,7 +576,7 @@
             },
             "Shipping Specifics": {
                 "source": "modules/orders/views/components/shipping-info.client.view.html",
-                "body": "panel-view[header=\"Shipping Specifics\"] div.panel-body",
+                "body": "panel-view[header=\"Shipping Specifics\"] div.panel-body form",
                 "title": "panel-view[header=\"Shipping Specifics\"] div.panel-heading",
                 "name": "Shipping Specifics",
                 "fields": {
@@ -801,7 +812,7 @@
         "sections": {
             "Authorization Specifics": {
                 "source": "modules/orders/views/components/order-authorization.client.view.html",
-                "body": "panel-view[header=\"Authorization Specifics\"] div.panel-body",
+                "body": "panel-view[header=\"Authorization Specifics\"] div.panel-body form",
                 "title": "panel-view[header=\"Authorization Specifics\"] div.panel-heading",
                 "name": "Authorization Specifics",
                 "fields": {
@@ -869,7 +880,7 @@
             },
             "Validation": {
                 "source": "modules/orders/views/components/order-validation.client.view.html",
-                "body": "panel-view[header=\"Validation\"] div.panel-body",
+                "body": "panel-view[header=\"Validation\"] div.panel-body form",
                 "title": "panel-view[header=\"Validation\"] div.panel-heading",
                 "name": "Validation",
                 "fields": {
@@ -895,7 +906,7 @@
             },
             "QC Validation": {
                 "source": "modules/orders/views/components/order-qc-validation.client.view.html",
-                "body": "panel-view[header=\"QC Validation\"] div.panel-body",
+                "body": "panel-view[header=\"QC Validation\"] div.panel-body form",
                 "title": "panel-view[header=\"QC Validation\"] div.panel-heading",
                 "name": "QC Validation",
                 "fields": {
@@ -913,10 +924,10 @@
         "name": "Information",
         "body": "ng-form[name=\"orderInfoForm\"]",
         "title": "li[active=\"tabs.informationTabActive\"]",
-        "sections": {
+        "sections": {	
             "Legacy": {
                 "source": "modules/orders/views/components/order-legacy.client.view.html",
-                "body": "panel-view[header=\"Legacy\"] div.panel-body",
+                "body": "panel-view[header=\"Legacy\"] div.panel-body form",
                 "title": "panel-view[header=\"Legacy\"] div.panel-heading",
                 "name": "Legacy",
                 "fields": {
@@ -942,7 +953,7 @@
             },
             "Project Specifics": {
                 "source": "modules/orders/views/components/order-project-specifics.client.view.html",
-                "body": "panel-view[header=\"Project Specifics\"] div.panel-body",
+                "body": "panel-view[header=\"Project Specifics\"] div.panel-body form",
                 "title": "panel-view[header=\"Project Specifics\"] div.panel-heading",
                 "name": "Project Specifics",
                 "fields": {
@@ -974,7 +985,7 @@
             },
             "Disclosures": {
                 "source": "modules/orders/views/components/order-disclosures.client.view.html",
-                "body": "panel-view[header=\"Disclosures\"] div.panel-body",
+                "body": "panel-view[header=\"Disclosures\"] div.panel-body form",
                 "title": "panel-view[header=\"Disclosures\"] div.panel-heading",
                 "name": "Disclosures",
                 "fields": {
@@ -988,10 +999,12 @@
                             "Choose Dates of Service",
                             "Entire Chart",
                             "Last 12 Months",
+                            "DOS TEST",
                             "Last 2 Years",
                             "Last 5 Years",
-                            "Last 100 years",
-                            "Last 2 Years"
+                            "Last 6 Months",
+                            "Last 6 Months",
+                            "TEST 11"
                         ]
                     },
                     "Any and all": {
@@ -1024,12 +1037,6 @@
                         "locator": ".//label[normalize-space(text())='Diagnostic Imaging Reports']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "Rennick Left Test EDIT": {
-                        "name": "Rennick Left Test EDIT",
-                        "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='Rennick Left Test EDIT']/input[@type='checkbox']",
-                        "locatorType": "xpath"
-                    },
                     "Disclosure Summary": {
                         "name": "Disclosure Summary",
                         "type": "checkbox",
@@ -1040,6 +1047,12 @@
                         "name": "Discharge Summary",
                         "type": "checkbox",
                         "locator": ".//label[normalize-space(text())='Discharge Summary']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Rennick Left Test": {
+                        "name": "Rennick Left Test",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Rennick Left Test']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
                     "Discharge Instructions": {
@@ -1072,22 +1085,34 @@
                         "locator": ".//label[normalize-space(text())='Facesheet']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "Sanija TEST": {
-                        "name": "Sanija TEST",
+                    "MRI Scan": {
+                        "name": "MRI Scan",
                         "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='Sanija TEST']/input[@type='checkbox']",
+                        "locator": ".//label[normalize-space(text())='MRI Scan']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "CAT scannn": {
-                        "name": "CAT scannn",
+                    "TEST 22": {
+                        "name": "TEST 22",
                         "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='CAT scannn']/input[@type='checkbox']",
+                        "locator": ".//label[normalize-space(text())='TEST 22']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "MJE Right Disclosure": {
-                        "name": "MJE Right Disclosure",
+                    "TEST 10": {
+                        "name": "TEST 10",
                         "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='MJE Right Disclosure']/input[@type='checkbox']",
+                        "locator": ".//label[normalize-space(text())='TEST 10']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "test": {
+                        "name": "test",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='test']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "Hard-Copy Offsite": {
+                        "name": "Hard-Copy Offsite",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Hard-Copy Offsite']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
                     "Itemized Bill": {
@@ -1096,16 +1121,10 @@
                         "locator": ".//label[normalize-space(text())='Itemized Bill']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "Matt Disclosure": {
-                        "name": "Matt Disclosure",
+                    "Rennick Right Test EDIT": {
+                        "name": "Rennick Right Test EDIT",
                         "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='Matt Disclosure']/input[@type='checkbox']",
-                        "locatorType": "xpath"
-                    },
-                    "Hard-Copy Offsite": {
-                        "name": "Hard-Copy Offsite",
-                        "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='Hard-Copy Offsite']/input[@type='checkbox']",
+                        "locator": ".//label[normalize-space(text())='Rennick Right Test EDIT']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
                     "Lab Reports": {
@@ -1124,12 +1143,6 @@
                         "name": "Nurse Notes",
                         "type": "checkbox",
                         "locator": ".//label[normalize-space(text())='Nurse Notes']/input[@type='checkbox']",
-                        "locatorType": "xpath"
-                    },
-                    "Rennick Right Test EDIT": {
-                        "name": "Rennick Right Test EDIT",
-                        "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='Rennick Right Test EDIT']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
                     "Operative Report": {
@@ -1156,16 +1169,28 @@
                         "locator": ".//label[normalize-space(text())='Therapy Notes']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "Sanija DEMO": {
-                        "name": "Sanija DEMO",
+                    "CAT Scan": {
+                        "name": "CAT Scan",
                         "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='Sanija DEMO']/input[@type='checkbox']",
+                        "locator": ".//label[normalize-space(text())='CAT Scan']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "None": {
-                        "name": "None",
+                    "TEST 33": {
+                        "name": "TEST 33",
                         "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='None']/input[@type='checkbox']",
+                        "locator": ".//label[normalize-space(text())='TEST 33']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "test 12": {
+                        "name": "test 12",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='test 12']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "none": {
+                        "name": "none",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='none']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
                     "HIV/AIDS": {
@@ -1174,16 +1199,40 @@
                         "locator": ".//label[normalize-space(text())='HIV/AIDS']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
+                    "Rennick Left Test EDIT": {
+                        "name": "Rennick Left Test EDIT",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='Rennick Left Test EDIT']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
                     "Mental Health": {
                         "name": "Mental Health",
                         "type": "checkbox",
                         "locator": ".//label[normalize-space(text())='Mental Health']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "MJE MM": {
-                        "name": "MJE MM",
+                    "Health": {
+                        "name": "Health",
                         "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='MJE MM']/input[@type='checkbox']",
+                        "locator": ".//label[normalize-space(text())='Health']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "TEST 44": {
+                        "name": "TEST 44",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='TEST 44']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "TEST 5": {
+                        "name": "TEST 5",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='TEST 5']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "TEST 87": {
+                        "name": "TEST 87",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='TEST 87']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
                     "Genetic Testing": {
@@ -1198,17 +1247,23 @@
                         "locator": ".//label[normalize-space(text())='Drug Treatment']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     },
-                    "MJE DNA": {
-                        "name": "MJE DNA",
+                    "Blood Test": {
+                        "name": "Blood Test",
                         "type": "checkbox",
-                        "locator": ".//label[normalize-space(text())='MJE DNA']/input[@type='checkbox']",
+                        "locator": ".//label[normalize-space(text())='Blood Test']/input[@type='checkbox']",
+                        "locatorType": "xpath"
+                    },
+                    "TEST 66": {
+                        "name": "TEST 66",
+                        "type": "checkbox",
+                        "locator": ".//label[normalize-space(text())='TEST 66']/input[@type='checkbox']",
                         "locatorType": "xpath"
                     }
                 }
             },
             "EMR Import": {
                 "source": "modules/orders/views/components/order-emr-import.client.view.html",
-                "body": "panel-view[header=\"EMR Import\"] div.panel-body",
+                "body": "panel-view[header=\"EMR Import\"] div.panel-body form",
                 "title": "panel-view[header=\"EMR Import\"] div.panel-heading",
                 "name": "EMR Import",
                 "fields": {
