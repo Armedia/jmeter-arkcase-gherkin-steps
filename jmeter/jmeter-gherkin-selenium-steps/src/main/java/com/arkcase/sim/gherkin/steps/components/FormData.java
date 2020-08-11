@@ -663,7 +663,7 @@ public class FormData implements Closeable {
 
 			public Section getSection(String section) {
 				return this.sections.computeIfAbsent(section, (s) -> {
-					Persistent.Section ps = this.tab.sections.get(section);
+					Persistent.Section ps = this.tab.sections.get(s);
 					if (ps == null) { return null; }
 					return new Section(this, ps);
 				});
@@ -752,7 +752,7 @@ public class FormData implements Closeable {
 
 	public final Live.Tab getTab(String name) {
 		return this.liveTabs.computeIfAbsent(name, (n) -> {
-			Persistent.Tab tab = this.persistentTabs.get(name);
+			Persistent.Tab tab = this.persistentTabs.get(n);
 			if (tab == null) { return null; }
 			return new Live.Tab(this.waitHelper, this.root, tab);
 		});
