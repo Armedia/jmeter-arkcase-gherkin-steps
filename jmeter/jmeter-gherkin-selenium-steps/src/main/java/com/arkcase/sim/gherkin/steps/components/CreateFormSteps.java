@@ -263,27 +263,27 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 		}
 	}
 
-	@When("setting the $section field $field to [$value]")
+	@When("setting the [$section] field [$field] to [$value]")
 	@Alias("setting the $section field $field to $value")
 	public void fillInField(@Named("section") String section, @Named("field") String field,
 		@Named("value") String value) {
 		setFieldValue(section(section), field, value);
 	}
 
-	@When("setting the $field field to [$value]")
+	@When("setting the [$field] field to [$value]")
 	@Alias("setting the $field field to $value")
 	public void fillInField(@Named("field") String field, @Named("value") String value) {
 		fillInField(null, field, value);
 	}
 
-	@Then("set the $section field $field to [$value]")
+	@Then("set the [$section] field [$field] to [$value]")
 	@Alias("set the $section field $field to $value")
-	public void fillInField2(@Named("section") String section, @Named("field") String field,
+	public void fillInSectionField(@Named("section") String section, @Named("field") String field,
 		@Named("value") String value) {
 		fillInField(section, field, value);
 	}
 
-	@Then("set the $field field to [$value]")
+	@Then("set the [$field] field to [$value]")
 	@Alias("set the $field field to $value")
 	public void fillInField2(@Named("field") String field, @Named("value") String value) {
 		fillInField(null, field, value);
@@ -367,5 +367,10 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	@Then("clear all the fields")
 	public void clearAllFields() {
 		clearAllFields(null);
+	}
+
+	@Then("add a note with the content [$note]")
+	public void addNote(@Named("note") String note) {
+
 	}
 }
