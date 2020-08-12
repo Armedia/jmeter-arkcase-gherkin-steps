@@ -368,9 +368,4 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	public void clearAllFields() {
 		clearAllFields(null);
 	}
-
-	@Then("add a note with the content [$note]")
-	public void addNote(@Named("note") String note) {
-
-	}
 }
