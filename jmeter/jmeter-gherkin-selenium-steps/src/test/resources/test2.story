@@ -1,31 +1,39 @@
-Scenario: Move from Data Capture to Archive
+Feature: Move from Origination to Data Capture
 
-!-- Given the page is ready
-!-- When activating the Documents tab
-!-- Then expand the Abstract section
-!-- And upload the following files
-!-- |file|
-!-- |path....|
-!-- Then click on the Upload Files button
+Scenario: Select the Origination Queue
+
+Given the Origination queue is active
+Then click on the Start Working button, switch to the new window
+And wait for the page to be ready
+And wait for PDFTron
 
 Given the page is ready
-When activating the Shipping & Billing tab
-Then expand the Requester Specifics section
-And click on the Search Existing Requesters button
-And wait for the search dialog
-And search for TEST-3
+When activating the Create tab
+Then expand the Patient Specifics section
+And populate the section with:
+|name|value|
+|Address|2000 Riveredge Parkway|
+|City|Atlanta|
+|State|Georgia|
+|ZIP|30328|
+And wait until the [Address Info - Patient Specifics] dialog is shown
+And click on the Accept button, wait for the dialog to close
+And fill in the section with:
+|name|value|
+|Phone Number|111-111-1111|
+|Alt Phone Number|111-111-1111|
+|Email Address|first.last@email.com|
+|Certification Type|Driver's License|
+|Certification Number|GA123456|
+|Expiration Date|07312090|
 
-Given the search returned results
-Then select row 1
-And click on the Add button
+Then expand the Request Specifics section
+And set the Bill to Client field to selected
+And set the Record Type field to Medical
 
-When expanding the Shipping Specifics section
-Then set the Delivery Method field to Electronic
-And set the eDelivery Method field to Secure Email
-And set the Email Address field to myrtle.engram@armedia.com
+Then add a note with [Volume Building]
 
-Then activate the Details tab
-And expand the Authorization Specifics section
-And set the Request Type field to Authorization
-And set the Request Subtype field to Continuing Care
-And click on the Bill Request button
+Then expand the Request Activity section
+And set the Pending State field to Approved by Legal
+And click on the Data Capture Request button
+And wait for the page to be ready
