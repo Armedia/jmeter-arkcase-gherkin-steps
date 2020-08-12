@@ -158,32 +158,36 @@ public class ButtonSteps extends ComponentSteps {
 	}
 
 	private WebElement getButton(String name) {
-		return getButton(name, true);
+		return getButton(null, name);
+	}
+
+	private WebElement getButton(String name, boolean required) {
+		return getButton(null, name, required);
 	}
 
 	private WebElement getButton(SearchContext ctx, String name) {
 		return getButton(ctx, name, true);
 	}
 
-	private WebElement getButton(String name, boolean required) {
-		return getButton(getBrowser(), name, required);
-	}
-
 	private WebElement getButton(SearchContext ctx, String name, boolean required) {
 		// First, sanitize the name
 		final String normalizedName = ButtonSteps.normalize(name);
-
-		By by = ButtonSteps.BUTTONS.get(normalizedName);
-		List<WebElement> matches = null;
-
-		// First, try the ones we specifically saved locators for...
-		if ((matches == null) && (by != null)) {
-			matches = ctx.findElements(by);
+		if (ctx == null) {
+			ctx = getBrowser();
 		}
 
-		// If we didn't have a locator, or we couldn't find it, we try by name
+		List<WebElement> matches = null;
+
+		// First, try to find it by the label
 		if ((matches == null) || matches.isEmpty()) {
-			matches = getButtonByTitleOrLabel(normalizedName);
+			matches = getButtonByTitleOrLabel(ctx, normalizedName);
+		}
+
+		// We didn't find it by the label, maybe it doesn't have one and is instead
+		// a pre-defined name, so try one of the ones we specifically saved locators for...
+		By by = ButtonSteps.BUTTONS.get(normalizedName);
+		if (((matches == null) || matches.isEmpty()) && (by != null)) {
+			matches = ctx.findElements(by);
 		}
 
 		// No matches...
@@ -195,10 +199,6 @@ public class ButtonSteps extends ComponentSteps {
 			throw new RuntimeException(String.format("Found %d buttons named [%s]", matches.size(), name));
 		}
 		return matches.get(0);
-	}
-
-	private List<WebElement> getButtonByTitleOrLabel(String label) {
-		return getButtonByTitleOrLabel(getBrowser(), label);
 	}
 
 	private List<WebElement> getButtonByTitleOrLabel(SearchContext ctx, String label) {
@@ -321,12 +321,12 @@ public class ButtonSteps extends ComponentSteps {
 	@When("the $name button is not visible")
 	public void waitForButtonToBeHidden(@Named("name") String name) {
 		WebElement button = getButton(name);
-		getWaitHelper().waitForElement(button, WaitType.VISIBLE);
+		getWaitHelper().waitForElement(button, WaitType.HIDDEN);
 	}
 
 	public WebElement waitForButtonToBeClickable(SearchContext ctx, String name) {
 		WebElement button = getButton(ctx, name);
-		getWaitHelper().waitForElement(button, WaitType.VISIBLE);
+		getWaitHelper().waitForElement(button, WaitType.CLICKABLE);
 		return button;
 	}
 
@@ -334,7 +334,7 @@ public class ButtonSteps extends ComponentSteps {
 	@When("the $name button is clickable")
 	public WebElement waitForButtonToBeClickable(@Named("name") String name) {
 		WebElement button = getButton(name);
-		getWaitHelper().waitForElement(button, WaitType.VISIBLE);
+		getWaitHelper().waitForElement(button, WaitType.CLICKABLE);
 		return button;
 	}
 
