@@ -48,7 +48,7 @@ Then expand the Request Specifics section
 And set the Bill to Client field to selected
 And set the Record Type field to Medical
 
-Then add a note with the content [Volume Building]
+Then add a note with [Volume Building]
 
 Then expand the Request Activity section
 And set the Pending State field to Approved by Legal

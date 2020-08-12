@@ -39,8 +39,10 @@ import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.openqa.selenium.By;
 import org.openqa.selenium.ElementNotVisibleException;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
@@ -70,6 +72,9 @@ public class CenterContentSteps extends BasicWebDriverSteps {
 		}
 		return Collections.unmodifiableMap(map);
 	});
+
+	private final ButtonSteps buttonSteps = new ButtonSteps();
+	private final DialogSteps dialogSteps = new DialogSteps();
 
 	@BeforeStory
 	protected void resetState() {
@@ -122,6 +127,23 @@ public class CenterContentSteps extends BasicWebDriverSteps {
 	@Alias("select the center $tab tab")
 	public void activateTab2(@Named("tab") String tab) {
 		activateTab(tab);
+	}
+
+	@Then("add a note with [$note]")
+	public void addNote(@Named("note") String note) {
+		activateTab("Notes");
+		this.buttonSteps.clickButton("Add Note");
+		this.dialogSteps.thenWaitUntilNamedDialogIsShown("Add Note");
+		WebElement rootDialog = DialogSteps.findDialog(this.helper, "Add Note", null);
+		// TODO: Set the field to the content
+		WebElement body = rootDialog.findElement(DialogSteps.BODY_LOCATOR);
+		WebElement text = body.findElement(By.tagName("textarea"));
+		text.clear();
+		text.sendKeys(note, Keys.TAB);
+		this.buttonSteps.clickButton("Save");
+		this.dialogSteps.thenWaitUntilNamedDialogIsShown("Unsaved changes");
+		this.buttonSteps.clickButtonAndWaitForDialogToClose("Add Note Without Saving", "Unsaved changes");
+		this.helper.waitUntil(ExpectedConditions.invisibilityOf(rootDialog));
 	}
 
 	/*-

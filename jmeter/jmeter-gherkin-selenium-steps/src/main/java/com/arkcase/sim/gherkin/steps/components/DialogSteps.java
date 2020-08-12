@@ -138,7 +138,6 @@ public class DialogSteps extends BasicWebDriverSteps {
 		"a dialog is active", //
 	})
 	public void aDialogIsShown() {
-		findDialog();
 		if (!findDialog().isDisplayed()) { throw new ElementNotVisibleException("No dialog"); }
 	}
 
@@ -168,13 +167,7 @@ public class DialogSteps extends BasicWebDriverSteps {
 		"wait for the dialog to be opened", //
 		"wait for the dialog to be active", //
 	})
-	public void thenWaitUntilTheDialogIsshown() {
+	public void thenWaitUntilTheDialogIsShown() {
 		whenTheDialogIsShown();
 	}
-
-	// @Then("click the [$button] button on the dialog")
-
-	// TODO: Add dialog close
-	// TODO: Add button support on the bottom?
-
 }

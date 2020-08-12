@@ -1,5 +1,5 @@
-Composite: Then add a note with the content [$content]
-Alias: When adding a note with the content [$content]
+Composite: Then xadd a note with the content [$content]
+Alias: When xadding a note with the content [$content]
 Given the center Notes tab is visible
 Then activate the center Notes tab
 And click on the Add Note button
