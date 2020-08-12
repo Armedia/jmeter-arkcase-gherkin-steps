@@ -206,12 +206,16 @@ public class ButtonSteps extends ComponentSteps {
 		// Escape double quotes on the label...
 		label = label.replace("\"", "\\\"");
 
+		List<WebElement> elements = null;
+
 		// First, find by title
-		List<WebElement> elements = ctx.findElements(By.xpath("//button[normalize-space(@title) = \"" + label + "\"]"));
+		elements = ctx.findElements(By.xpath("//button[normalize-space(@title) = \"" + label + "\"" + //
+			" and (not(@permission-disabled) or @permission-disabled!=\"true\")]"));
 		if ((elements != null) && !elements.isEmpty()) { return elements; }
 
 		// No luck by title? Try the text
-		elements = ctx.findElements(By.xpath("//button[normalize-space(.) = \"" + label + "\"]"));
+		elements = ctx.findElements(By.xpath("//button[normalize-space(.) = \"" + label + "\"" + //
+			" and (not(@permission-disabled) or @permission-disabled!=\"true\")]"));
 		if ((elements != null) && !elements.isEmpty()) { return elements; }
 
 		// No winners? Return null...
