@@ -1,16 +1,14 @@
 Scenario: Move from Data Capture to Archive
 
-Given the nav list is ready
-And the Data Capture queue is not active
-Then wait for the page to be ready
+#Given the page is ready
+#When activating the Documents tab
+#Then expand the Abstract section
+#And upload the following files
+#|file|
+#|path....|
+#Then click on the Upload Files button
 
-When activating the Documents tab
-Then expand the Abstract section
-And upload the following files
-|file|
-|path....|
-Then click on the Upload Files button
-
+Given the page is ready
 When activating the Shipping & Billing tab
 Then expand the Requester Specifics section
 And click on the Search Existing Requesters button
@@ -31,5 +29,3 @@ And expand the Authorization Specifics section
 And set the Request Type field to Authorization
 And set the Request Subtype field to Continuing Care
 And click on the Bill Request button
-
-# TODO: How to confirm it made it into the archive?
