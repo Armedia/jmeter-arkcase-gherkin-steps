@@ -51,9 +51,7 @@ public class DialogSteps extends BasicWebDriverSteps {
 
 	protected static final By HEADER_LOCATOR = By.cssSelector("div.modal-header");
 	protected static final By TITLE_LOCATOR = By.cssSelector("div.modal-title");
-
 	protected static final By BODY_LOCATOR = By.cssSelector("div.modal-body");
-
 	protected static final By FOOTER_LOCATOR = By.cssSelector("div.modal-footer");
 
 	@BeforeStory
@@ -66,7 +64,7 @@ public class DialogSteps extends BasicWebDriverSteps {
 		if (title != null) {
 			locator = new ByChained(locator, //
 				ByTools.addPredicate( //
-					DialogSteps.TITLE_LOCATOR, //
+					DialogSteps.HEADER_LOCATOR, //
 					ByTools.Pred.textEquals(title) //
 				) //
 			);
