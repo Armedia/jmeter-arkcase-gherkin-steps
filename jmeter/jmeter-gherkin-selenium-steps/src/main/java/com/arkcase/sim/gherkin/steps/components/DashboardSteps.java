@@ -26,6 +26,7 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -108,11 +109,12 @@ public class DashboardSteps extends ComponentSteps {
 
 	private NavEntry nav(String name, WaitType wait) {
 		if (this.nav == null) {
-			Map<String, NavEntry> m = new LinkedHashMap<>();
+			Map<String, NavEntry> nav = new LinkedHashMap<>();
 			for (WebElement e : root(wait).findElements(DashboardSteps.NAV_ENTRIES)) {
 				NavEntry n = new NavEntry(e);
-				m.put(n.name, n);
+				nav.put(n.name, n);
 			}
+			this.nav = Collections.unmodifiableMap(nav);
 		}
 		NavEntry nav = this.nav.get(DashboardSteps.normalize(name));
 		if (nav == null) {
