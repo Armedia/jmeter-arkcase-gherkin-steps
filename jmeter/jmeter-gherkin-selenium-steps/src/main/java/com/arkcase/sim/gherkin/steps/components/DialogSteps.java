@@ -49,6 +49,9 @@ public class DialogSteps extends BasicWebDriverSteps {
 	protected static final By ROOT_LOCATOR = By
 		.xpath("/html/body/div[@modal-render='true' and @role='dialog' and @modal-window='modal-window']");
 
+	protected static final By ROOT_PARENT_LOCATOR = By
+		.xpath("ancestor::div[@modal-render='true' and @role='dialog' and @modal-window='modal-window']");
+
 	protected static final By HEADER_LOCATOR = By.cssSelector("div.modal-header");
 	protected static final By TITLE_LOCATOR = By.cssSelector("div.modal-title");
 	protected static final By BODY_LOCATOR = By.cssSelector("div.modal-body");
@@ -69,8 +72,13 @@ public class DialogSteps extends BasicWebDriverSteps {
 				) //
 			);
 		}
-		if (wait != null) { return helper.waitForElement(locator, wait); }
-		return helper.findElement(locator);
+
+		WebElement element = (wait != null ? helper.waitForElement(locator, wait) : helper.findElement(locator));
+		if (title != null) {
+			// find the root locator that's a parent of this one
+			element = element.findElement(DialogSteps.ROOT_PARENT_LOCATOR);
+		}
+		return element;
 	}
 
 	private WebElement findDialog(String title, WaitType wait) {
