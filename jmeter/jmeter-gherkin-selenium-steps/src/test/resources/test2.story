@@ -1,12 +1,12 @@
 Scenario: Move from Data Capture to Archive
 
-#Given the page is ready
-#When activating the Documents tab
-#Then expand the Abstract section
-#And upload the following files
-#|file|
-#|path....|
-#Then click on the Upload Files button
+!-- Given the page is ready
+!-- When activating the Documents tab
+!-- Then expand the Abstract section
+!-- And upload the following files
+!-- |file|
+!-- |path....|
+!-- Then click on the Upload Files button
 
 Given the page is ready
 When activating the Shipping & Billing tab

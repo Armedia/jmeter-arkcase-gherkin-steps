@@ -16,13 +16,13 @@ Then click on the Start Working button, switch to the new window
 And wait for the page to be ready
 And wait for PDFTron
 
-#Given the page is ready
-#When activating the Documents tab
-#Then expand the Authorization section
-#And upload the following files
-#|file|
-#|path....|
-#And click on the Upload files button
+!-- Given the page is ready
+!-- When activating the Documents tab
+!-- Then expand the Authorization section
+!-- And upload the following files
+!-- |file|
+!-- |path....|
+!-- And click on the Upload files button
 
 Given the page is ready
 When activating the Create tab
