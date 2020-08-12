@@ -1,7 +1,7 @@
 Composite: Then add a note with the content [$content]
 Alias: When adding a note with the content [$content]
-Given the Notes center tab is visible
-Then activate the Notes center tab
+Given the center Notes tab is visible
+Then activate the center Notes tab
 And click on the Add Note button
 And set the [NOTE] field to [$content]
 And click on the Save button
