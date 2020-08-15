@@ -7,6 +7,10 @@ Then click on the Start Working button, switch to the new window
 And wait for the page to be ready
 And wait for PDFTron
 
+Given the browser instance is available
+When the Armedia Authentication button is clickable
+Then click on the Armedia Authentication button
+
 Given the page is ready
 When activating the Create tab
 Then expand the Patient Specifics section
