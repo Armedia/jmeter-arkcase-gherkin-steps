@@ -30,10 +30,13 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.time.Instant;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
@@ -50,6 +53,14 @@ import com.armedia.commons.jmeter.gherkin.Gherkin;
 
 @Gherkin.Steps
 public class BasicWebDriverSteps extends WebDriverClient {
+
+	public static final String DEFAULT_SCREENSHOT_DIRECTORY = "screenshots";
+	public static final String DEFAULT_SCREENSHOT_NAME = "screenshot";
+	public static final String DEFAULT_PAGE_SOURCE_DIRECTORY = "pagesources";
+	public static final String DEFAULT_PAGE_SOURCE_NAME = "pagesource.html";
+	public static final String DEFAULT_PAGE_SOURCE_EXTENSION = "html";
+	public static final String DEFAULT_SNAPSHOT_DIRECTORY = "snapshot";
+	public static final String DEFAULT_SNAPSHOT_NAME = "snapshot";
 
 	@When("switching to the main page")
 	@Then("switch to the main page")
@@ -198,21 +209,25 @@ public class BasicWebDriverSteps extends WebDriverClient {
 
 	@Then("take a screenshot")
 	public void takeScreenshot() {
-		takeScreenshot("screenshots", "screenshot");
+		takeScreenshot(BasicWebDriverSteps.DEFAULT_SCREENSHOT_DIRECTORY, BasicWebDriverSteps.DEFAULT_SCREENSHOT_NAME);
 	}
 
 	@Then("take a screenshot named [$name]")
 	public void takeScreenshot(@Named("name") String name) {
-		takeScreenshot("screenshots", name);
+		takeScreenshot(BasicWebDriverSteps.DEFAULT_SCREENSHOT_DIRECTORY, name);
 	}
 
 	@Then("take a screenshot to [$dir]")
 	public void takeScreenshotTo(@Named("dir") String dir) {
-		takeScreenshot(dir, "screenshot");
+		takeScreenshot(dir, BasicWebDriverSteps.DEFAULT_SCREENSHOT_NAME);
 	}
 
 	@Then("take a screenshot to [$dir] named [$name]")
 	public void takeScreenshot(@Named("dir") String dir, @Named("name") String name) {
+		takeScreenshot(dir, name, Instant.now());
+	}
+
+	private void takeScreenshot(String dir, String name, Instant instant) {
 		WebDriver browser = getBrowser();
 		if (!TakesScreenshot.class.isInstance(browser)) {
 			String browserClass = (browser != null ? browser.getClass().getName() : "<null>");
@@ -234,7 +249,7 @@ public class BasicWebDriverSteps extends WebDriverClient {
 		TakesScreenshot ts = TakesScreenshot.class.cast(browser);
 		File screenShot = ts.getScreenshotAs(OutputType.FILE);
 		File target = new File(baseDir, name //
-			+ ".@" + String.format("%08x", System.currentTimeMillis()) //
+			+ ".@" + String.format("%08x", instant.toEpochMilli()) //
 			+ ".t" + String.format("%08x", Thread.currentThread().getId()) //
 			+ "." + FilenameUtils.getExtension(screenShot.getName()) //
 		);
@@ -245,5 +260,80 @@ public class BasicWebDriverSteps extends WebDriverClient {
 			throw new RuntimeException(
 				"Failed to move the screenshot at [" + screenShot.getAbsolutePath() + "] to [" + target + "]", e);
 		}
+	}
+
+	@Then("save the page source")
+	public void savePageSource() {
+		savePageSource(BasicWebDriverSteps.DEFAULT_PAGE_SOURCE_DIRECTORY, BasicWebDriverSteps.DEFAULT_PAGE_SOURCE_NAME);
+	}
+
+	@Then("save the page source as [$name]")
+	public void savePageSource(@Named("name") String name) {
+		savePageSource(BasicWebDriverSteps.DEFAULT_PAGE_SOURCE_DIRECTORY, name);
+	}
+
+	@Then("save the page source to [$dir]")
+	public void savePageSourceTo(@Named("dir") String dir) {
+		savePageSource(dir, BasicWebDriverSteps.DEFAULT_PAGE_SOURCE_NAME);
+	}
+
+	@Then("save the page source to [$dir] as [$name]")
+	public void savePageSource(@Named("dir") String dir, @Named("name") String name) {
+		savePageSource(dir, name, Instant.now());
+	}
+
+	private void savePageSource(String dir, String name, Instant instant) {
+		WebDriver browser = getBrowser();
+
+		// First things first: can we create a "screenshots" directory?
+		File baseDir = new File(dir).getAbsoluteFile();
+		try {
+			baseDir = baseDir.getCanonicalFile();
+		} catch (IOException e) {
+			// Ignore this error...for now...
+		}
+		if (!baseDir.mkdirs() && !baseDir.isDirectory()) {
+			throw new RuntimeException("Failed to find or create the page sources directory at [" + baseDir + "]");
+		}
+
+		String baseName = FilenameUtils.getBaseName(name);
+		String extension = FilenameUtils.getExtension(name);
+		if (StringUtils.isBlank(extension)) {
+			extension = BasicWebDriverSteps.DEFAULT_PAGE_SOURCE_EXTENSION;
+		}
+
+		File target = new File(baseDir, baseName //
+			+ ".@" + String.format("%08x", instant.toEpochMilli()) //
+			+ ".t" + String.format("%08x", Thread.currentThread().getId()) //
+			+ "." + extension //
+		);
+
+		try {
+			FileUtils.write(target, browser.getPageSource(), StandardCharsets.UTF_8);
+		} catch (IOException e) {
+			throw new RuntimeException("Failed to save the page source to [" + target + "]", e);
+		}
+	}
+
+	@Then("take a full snapshot")
+	public void takeSnapshot() {
+		takeSnapshot(BasicWebDriverSteps.DEFAULT_SNAPSHOT_NAME);
+	}
+
+	@Then("take a full snapshot named [$name]")
+	public void takeSnapshot(@Named("name") String name) {
+		takeSnapshot(BasicWebDriverSteps.DEFAULT_SNAPSHOT_DIRECTORY, name);
+	}
+
+	@Then("take a full snapshot to [$dir]")
+	public void takeSnapshotTo(@Named("dir") String dir) {
+		takeSnapshot(dir, BasicWebDriverSteps.DEFAULT_SNAPSHOT_NAME);
+	}
+
+	@Then("take a full snapshot to [$dir] named [$name]")
+	public void takeSnapshot(@Named("dir") String dir, @Named("name") String name) {
+		Instant instant = Instant.now();
+		savePageSource(dir, name, instant);
+		takeScreenshot(dir, name, instant);
 	}
 }
