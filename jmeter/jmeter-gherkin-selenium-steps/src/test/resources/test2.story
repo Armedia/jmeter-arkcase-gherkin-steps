@@ -1,6 +1,6 @@
 Feature: Move from Origination to Data Capture
 
-Scenario: Select the Origination Queue
+Scenario: Fill in the data
 
 Given the Origination queue is active
 Then click on the Start Working button, switch to the new window
@@ -35,5 +35,14 @@ Then add a note with [Volume Building]
 
 Then expand the Request Activity section
 And set the Pending State field to Approved by Legal
-And click on the Data Capture Request button
+
+Scenario: Data is still pending
+
+Given data is missing
+Then fail with the message [More data needs to be entered, skipping this request]
+
+Scenario: Advance to Data Capture
+
+Given the data is complete
+Then click on the Data Capture Request button
 And wait for the page to be ready
