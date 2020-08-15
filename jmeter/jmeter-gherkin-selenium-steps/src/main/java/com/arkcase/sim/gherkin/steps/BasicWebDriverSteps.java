@@ -28,15 +28,21 @@ package com.arkcase.sim.gherkin.steps;
 
 import java.awt.GraphicsEnvironment;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
 import org.jbehave.core.annotations.When;
 import org.openqa.selenium.Dimension;
+import org.openqa.selenium.OutputType;
 import org.openqa.selenium.Point;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebDriver.Window;
 
@@ -188,5 +194,56 @@ public class BasicWebDriverSteps extends WebDriverClient {
 	@Alias("close the window")
 	public void closeWindow() {
 		getBrowser().close();
+	}
+
+	@Then("take a screenshot")
+	public void takeScreenshot() {
+		takeScreenshot("screenshots", "screenshot");
+	}
+
+	@Then("take a screenshot named [$name]")
+	public void takeScreenshot(@Named("name") String name) {
+		takeScreenshot("screenshots", name);
+	}
+
+	@Then("take a screenshot to [$dir]")
+	public void takeScreenshotTo(@Named("dir") String dir) {
+		takeScreenshot(dir, "screenshot");
+	}
+
+	@Then("take a screenshot to [$dir] named [$name]")
+	public void takeScreenshot(@Named("dir") String dir, @Named("name") String name) {
+		WebDriver browser = getBrowser();
+		if (!TakesScreenshot.class.isInstance(browser)) {
+			String browserClass = (browser != null ? browser.getClass().getName() : "<null>");
+			throw new ClassCastException(
+				"The current WebDriver instance " + browserClass + " does not support taking screenshots");
+		}
+
+		// First things first: can we create a "screenshots" directory?
+		File baseDir = new File(dir).getAbsoluteFile();
+		try {
+			baseDir = baseDir.getCanonicalFile();
+		} catch (IOException e) {
+			// Ignore this error...for now...
+		}
+		if (!baseDir.mkdirs() && !baseDir.isDirectory()) {
+			throw new RuntimeException("Failed to find or create the screenshots directory at [" + baseDir + "]");
+		}
+
+		TakesScreenshot ts = TakesScreenshot.class.cast(browser);
+		File screenShot = ts.getScreenshotAs(OutputType.FILE);
+		File target = new File(baseDir, name //
+			+ ".@" + String.format("%08x", System.currentTimeMillis()) //
+			+ ".t" + String.format("%08x", Thread.currentThread().getId()) //
+			+ "." + FilenameUtils.getExtension(screenShot.getName()) //
+		);
+
+		try {
+			FileUtils.moveFile(screenShot, target);
+		} catch (IOException e) {
+			throw new RuntimeException(
+				"Failed to move the screenshot at [" + screenShot.getAbsolutePath() + "] to [" + target + "]", e);
+		}
 	}
 }
