@@ -29,6 +29,7 @@ package com.arkcase.sim.gherkin.steps.components;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Aliases;
@@ -68,6 +69,16 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	private FormData formData = null;
 	private Live.Tab currentTab = null;
 	private Live.Section currentSection = null;
+
+	private Set<String> tabNames() {
+		if (this.formData == null) {
+			WaitHelper wh = getWaitHelper();
+			WebElement root = wh.findElement(CreateFormSteps.ROOT_LOCATOR);
+			this.formData = new FormData(wh, root, CreateFormSteps.TABS);
+		}
+
+		return this.formData.getTabNames();
+	}
 
 	private Live.Tab tab() {
 		return tab(null);
@@ -367,5 +378,29 @@ public class CreateFormSteps extends BasicWebDriverSteps {
 	@Then("clear all the fields")
 	public void clearAllFields() {
 		clearAllFields(null);
+	}
+
+	@Given("the data is complete")
+	@When("the data is complete")
+	public void dataIsComplete() {
+		tabNames().forEach(this::dataIsComplete);
+	}
+
+	@Given("data is missing")
+	@When("data is missing")
+	public void dataIsMissing() {
+		tabNames().forEach(this::dataIsMissing);
+	}
+
+	@Given("the data is complete in tab $tab")
+	@When("the data is complete in tab $tab")
+	public void dataIsComplete(@Named("tab") String tab) {
+		if (tab(tab).hasMissingData()) { throw new IllegalStateException("The [" + tab + "] tab has missing data"); }
+	}
+
+	@Given("data is missing in tab $tab")
+	@When("data is missing in tab $tab")
+	public void dataIsMissing(@Named("tab") String tab) {
+		if (!tab(tab).hasMissingData()) { throw new IllegalStateException("The data for [" + tab + "] is complete"); }
 	}
 }
