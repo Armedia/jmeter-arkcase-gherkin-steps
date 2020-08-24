@@ -137,8 +137,5 @@ public class LoginPageSteps extends ComponentSteps {
 			helper.sendKeys(passwordField, password);
 		}
 		button.click();
-
-		// We wait until the application is loaded
-		helper.waitForAngular();
 	}
 }
