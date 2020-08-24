@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.jbehave.core.annotations.Alias;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
@@ -50,6 +51,9 @@ import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.tools.ExpectedConditionTools;
 
 public class ButtonSteps extends ComponentSteps {
+
+	private static final By SAML_LOGIN = By.cssSelector("form#hrd div#bySelection");
+	private static final By SAML_LOGIN_CHOICES = new ByChained(ButtonSteps.SAML_LOGIN, By.cssSelector("div.idp"));
 
 	private static final Map<String, By> BUTTONS;
 	static {
@@ -347,5 +351,14 @@ public class ButtonSteps extends ComponentSteps {
 	public void waitForButtonToNotBeClickable(@Named("name") String name) {
 		WebElement button = getButton(name);
 		getWaitHelper().waitUntil(ExpectedConditions.not(ExpectedConditions.elementToBeClickable(button)));
+	}
+
+	@When("the authentication choices are shown")
+	@Alias("the SAML choices are shown")
+	public void waitForAuthenticationChoices() {
+		WaitHelper wh = getWaitHelper();
+		List<WebElement> choices = wh
+			.waitUntil(ExpectedConditions.presenceOfAllElementsLocatedBy(ButtonSteps.SAML_LOGIN_CHOICES));
+		choices = wh.waitUntil(ExpectedConditions.visibilityOfAllElements(choices));
 	}
 }
