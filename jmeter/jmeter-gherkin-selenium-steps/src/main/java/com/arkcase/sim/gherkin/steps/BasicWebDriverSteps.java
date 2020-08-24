@@ -38,6 +38,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.jbehave.core.annotations.Alias;
+import org.jbehave.core.annotations.Aliases;
 import org.jbehave.core.annotations.Given;
 import org.jbehave.core.annotations.Named;
 import org.jbehave.core.annotations.Then;
@@ -338,13 +339,21 @@ public class BasicWebDriverSteps extends WebDriverClient {
 	}
 
 	@Then("delete all the cookies")
-	@Alias("clear all the cookies")
+	@Aliases(values = {
+		"clear all the cookies", //
+		"delete all cookies", //
+		"clear all cookies", //
+	})
 	public void clearAllCookies() {
 		getBrowser().manage().deleteAllCookies();
 	}
 
 	@Then("delete the cookie named [$cookie]")
-	@Alias("clear the cookie named [$cookie]")
+	@Aliases(values = {
+		"clear the cookie named [$cookie]", //
+		"delete the [$cookie] cookie", //
+		"clear the [$cookie] cookie", //
+	})
 	public void clearAllCookies(@Named("cookie") String cookie) {
 		getBrowser().manage().deleteCookieNamed(cookie);
 	}
