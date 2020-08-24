@@ -37,10 +37,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
-import com.arkcase.sim.components.AngularHelper;
 import com.arkcase.sim.components.WebDriverHelper;
 
-public class WaitHelper extends AngularHelper {
+public class WaitHelper extends WebDriverHelper {
 
 	private static final String DEFAULT_WAIT_FOR_ELEMENT_HAVE_TEXT_MESSAGE = "Element should have text";
 

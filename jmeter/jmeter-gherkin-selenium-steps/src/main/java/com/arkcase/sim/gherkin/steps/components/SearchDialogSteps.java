@@ -39,8 +39,8 @@ import org.openqa.selenium.ElementNotVisibleException;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import com.arkcase.sim.components.AngularHelper;
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
-import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
 import com.arkcase.sim.tools.ByTools;
 
@@ -93,7 +93,7 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 
 	@Then("wait for the search results")
 	public void waitForSearchResults() {
-		getWaitHelper().waitForAngular();
+		getAngularHelper().waitForAngular();
 	}
 
 	@Then("search for [$value]")
@@ -105,10 +105,10 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 		WebElement searchField = clearSearchField();
 		searchField.sendKeys(value);
 		WebElement searchButton = root().findElement(SearchDialogSteps.SEARCH_BUTTON);
-		WaitHelper wh = getWaitHelper();
-		wh.waitForElement(searchButton, WaitType.CLICKABLE);
+		AngularHelper ah = getAngularHelper();
+		ah.waitForElement(searchButton, WaitType.CLICKABLE);
 		searchButton.click();
-		wh.waitForAngular();
+		ah.waitForAngular();
 		this.results = null;
 	}
 
@@ -141,7 +141,7 @@ public class SearchDialogSteps extends BasicWebDriverSteps {
 			searchWasEmpty();
 			throw new NoSuchElementException("The search didn't return any results");
 		} catch (NoSuchElementException e) {
-			this.results = new AngularTable(getWaitHelper(), root());
+			this.results = new AngularTable(getAngularHelper(), root());
 		}
 	}
 

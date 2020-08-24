@@ -40,6 +40,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebElement;
 
+import com.arkcase.sim.components.AngularHelper;
 import com.arkcase.sim.components.WebDriverHelper.WaitType;
 import com.arkcase.sim.components.html.WaitHelper;
 import com.arkcase.sim.tools.CssMatcher;
@@ -171,7 +172,7 @@ public class QueueSteps extends ComponentSteps {
 	@Alias("wait for the queue to load")
 	public void waitForQueue() {
 		if (this.table == null) {
-			WaitHelper wh = getWaitHelper();
+			AngularHelper wh = getAngularHelper();
 			this.table = new AngularTable(wh, wh.waitForElement(QueueSteps.QUEUE_CONTENTS, WaitType.VISIBLE));
 		}
 		this.table.waitUntilVisible();

@@ -4,22 +4,22 @@
  * %%
  * Copyright (C) 2020 Armedia, LLC
  * %%
- * This file is part of the ArkCase software. 
- * 
- * If the software was purchased under a paid ArkCase license, the terms of 
- * the paid license agreement will prevail.  Otherwise, the software is 
+ * This file is part of the ArkCase software.
+ *
+ * If the software was purchased under a paid ArkCase license, the terms of
+ * the paid license agreement will prevail.  Otherwise, the software is
  * provided under the following open source license terms:
- * 
+ *
  * ArkCase is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- *  
+ *
  * ArkCase is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Lesser General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU Lesser General Public License
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
@@ -37,7 +37,7 @@ public class AngularSteps extends BasicWebDriverSteps {
 	@Given("the page is ready")
 	@Alias("the page is loaded")
 	public void givenAngularIsReady() {
-		Boolean result = getWaitHelper().isAngularStable();
+		Boolean result = getAngularHelper().isAngularStable();
 		if (result == null) { throw new IllegalStateException("Angular is not present"); }
 		if (result != Boolean.TRUE) { throw new IllegalStateException("Angular is not stable"); }
 	}
@@ -45,7 +45,7 @@ public class AngularSteps extends BasicWebDriverSteps {
 	@Given("the page is not ready")
 	@Alias("the page is not loaded")
 	public void givenAngularIsNotReady() {
-		Boolean result = getWaitHelper().isAngularStable();
+		Boolean result = getAngularHelper().isAngularStable();
 		if (result == null) { throw new IllegalStateException("Angular is not present"); }
 		if (result != Boolean.FALSE) { throw new IllegalStateException("Angular is already stable"); }
 	}
@@ -53,7 +53,7 @@ public class AngularSteps extends BasicWebDriverSteps {
 	@When("the page is ready")
 	@Alias("the page is loaded")
 	public void waitForAngular() {
-		getWaitHelper().waitForAngular();
+		getAngularHelper().waitForAngular();
 	}
 
 	@Then("wait for the page to be ready")
@@ -77,7 +77,7 @@ public class AngularSteps extends BasicWebDriverSteps {
 		"angularjs is in use", //
 	})
 	public void givenAngularIsPresent() {
-		if (!getWaitHelper().isAngularPresent()) { throw new IllegalStateException("Angular is not present"); }
+		if (!getAngularHelper().isAngularPresent()) { throw new IllegalStateException("Angular is not present"); }
 	}
 
 	@Given("Angular is not present")
@@ -91,6 +91,6 @@ public class AngularSteps extends BasicWebDriverSteps {
 		"angularjs is not in use", //
 	})
 	public void givenAngularIsNotPresent() {
-		if (getWaitHelper().isAngularPresent()) { throw new IllegalStateException("Angular is present"); }
+		if (getAngularHelper().isAngularPresent()) { throw new IllegalStateException("Angular is present"); }
 	}
 }

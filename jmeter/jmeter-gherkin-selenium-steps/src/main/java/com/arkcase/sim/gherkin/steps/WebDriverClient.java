@@ -44,6 +44,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.html5.WebStorage;
 
+import com.arkcase.sim.components.AngularHelper;
 import com.arkcase.sim.components.WebDriverHelper;
 import com.arkcase.sim.components.html.WaitHelper;
 import com.armedia.commons.jmeter.gherkin.GherkinContext;
@@ -160,7 +161,11 @@ public class WebDriverClient {
 	}
 
 	protected final WaitHelper getWaitHelper() {
-		return getHelper(WaitHelper.class);
+		return getAngularHelper();
+	}
+
+	protected final AngularHelper getAngularHelper() {
+		return getHelper(AngularHelper.class);
 	}
 
 	protected final <T extends WebDriverHelper> T getHelper(Class<T> clazz) {

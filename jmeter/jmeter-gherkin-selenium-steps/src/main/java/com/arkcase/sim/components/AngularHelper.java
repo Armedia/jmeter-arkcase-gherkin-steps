@@ -31,7 +31,9 @@ import java.time.Duration;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedCondition;
 
-public class AngularHelper extends WebDriverHelper {
+import com.arkcase.sim.components.html.WaitHelper;
+
+public class AngularHelper extends WaitHelper {
 
 	private static final ThreadLocal<Boolean> ENABLED = ThreadLocal.withInitial(() -> Boolean.TRUE);
 
