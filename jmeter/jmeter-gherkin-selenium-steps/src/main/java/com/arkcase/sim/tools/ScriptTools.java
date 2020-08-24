@@ -24,33 +24,39 @@
  * along with ArkCase. If not, see <http://www.gnu.org/licenses/>.
  * #L%
  *******************************************************************************/
-package com.arkcase.sim.gherkin.steps.components;
+package com.arkcase.sim.tools;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
-import org.jbehave.core.annotations.Then;
+import org.apache.commons.io.IOUtils;
 
-import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
-import com.arkcase.sim.tools.ScriptTools;
+public class ScriptTools {
 
-public class CommonSteps extends BasicWebDriverSteps {
+	public static final Charset DEFAULT_CHARSET = StandardCharsets.UTF_8;
 
-	private static final String JS_DISABLE_LOCKING_BEHAVIOR_SCRIPT = "removeUnloadListener.js";
-	private static final String JS_CODE;
+	public static String loadScript(String scriptName) throws IOException {
+		return ScriptTools.loadScript(scriptName, null);
+	}
 
-	static {
-		try {
-			JS_CODE = ScriptTools.loadScript(CommonSteps.JS_DISABLE_LOCKING_BEHAVIOR_SCRIPT);
-		} catch (IOException e) {
-			throw new UncheckedIOException(
-				"Failed to load the JS script at " + CommonSteps.JS_DISABLE_LOCKING_BEHAVIOR_SCRIPT, e);
+	public static String loadScript(String scriptName, Charset charset) throws IOException {
+		ClassLoader cl = Thread.currentThread().getContextClassLoader();
+		URL url = cl.getResource(scriptName);
+		if (url == null) { throw new FileNotFoundException(scriptName); }
+		return ScriptTools.loadScript(url, charset);
+	}
+
+	public static String loadScript(URL url, Charset charset) throws IOException {
+		if (charset == null) {
+			charset = ScriptTools.DEFAULT_CHARSET;
+		}
+		try (InputStream in = Objects.requireNonNull(url, "Must provide a URL to fetch").openStream()) {
+			return IOUtils.toString(in, charset);
 		}
 	}
-
-	@Then("keep the request locked")
-	public void keepRequestLocked() {
-		getAngularHelper().runJavaScript(CommonSteps.JS_CODE);
-	}
-
 }
