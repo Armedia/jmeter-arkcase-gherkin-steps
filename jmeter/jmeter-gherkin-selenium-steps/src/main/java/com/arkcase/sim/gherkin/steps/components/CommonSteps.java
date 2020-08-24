@@ -26,31 +26,17 @@
  *******************************************************************************/
 package com.arkcase.sim.gherkin.steps.components;
 
-import java.io.IOException;
-import java.io.UncheckedIOException;
-
 import org.jbehave.core.annotations.Then;
 
 import com.arkcase.sim.gherkin.steps.BasicWebDriverSteps;
-import com.arkcase.sim.tools.ScriptTools;
 
 public class CommonSteps extends BasicWebDriverSteps {
 
-	private static final String JS_DISABLE_LOCKING_BEHAVIOR_SCRIPT = "removeUnloadListener.js";
-	private static final String JS_CODE;
-
-	static {
-		try {
-			JS_CODE = ScriptTools.loadScript(CommonSteps.JS_DISABLE_LOCKING_BEHAVIOR_SCRIPT);
-		} catch (IOException e) {
-			throw new UncheckedIOException(
-				"Failed to load the JS script at " + CommonSteps.JS_DISABLE_LOCKING_BEHAVIOR_SCRIPT, e);
-		}
-	}
+	private static final String JS_DISABLE_BEFOREUNLOAD_EVENTS = "window.__disable_beforeunload_events__ = true;";
 
 	@Then("keep the request locked")
 	public void keepRequestLocked() {
-		getAngularHelper().runJavaScript(CommonSteps.JS_CODE);
+		getAngularHelper().runJavaScript(CommonSteps.JS_DISABLE_BEFOREUNLOAD_EVENTS);
 	}
 
 }
