@@ -336,4 +336,16 @@ public class BasicWebDriverSteps extends WebDriverClient {
 		savePageSource(dir, name, instant);
 		takeScreenshot(dir, name, instant);
 	}
+
+	@Then("delete all the cookies")
+	@Alias("clear all the cookies")
+	public void clearAllCookies() {
+		getBrowser().manage().deleteAllCookies();
+	}
+
+	@Then("delete the cookie named [$cookie]")
+	@Alias("clear the cookie named [$cookie]")
+	public void clearAllCookies(@Named("cookie") String cookie) {
+		getBrowser().manage().deleteCookieNamed(cookie);
+	}
 }
