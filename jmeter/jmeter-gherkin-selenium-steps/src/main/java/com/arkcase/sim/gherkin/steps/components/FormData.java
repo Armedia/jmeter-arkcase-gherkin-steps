@@ -45,6 +45,7 @@ import java.util.stream.Stream;
 
 import org.codehaus.plexus.util.StringUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriverException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.pagefactory.ByChained;
 import org.openqa.selenium.support.ui.Select;
@@ -186,11 +187,19 @@ public class FormData implements Closeable {
 			Objects.requireNonNull(element, "Must provide a WebElement to apply the value to");
 			Objects.requireNonNull(field, "Must provide the Field definition");
 			if (this.setter == null) {
-				throw new UnsupportedOperationException(String
-					.format("Can't apply the value [%s] to an element of fieldType %s (%s)", value, name(), element));
+				throw new UnsupportedOperationException(
+					String.format("Can't apply the value [%s] to the %s field [%s] (%s)", value, field.fieldType.name(),
+						field.label, element));
 			}
 			if (!element.isEnabled()) { return false; }
-			return this.setter.set(element, field, value);
+			try {
+				return this.setter.set(element, field, value);
+			} catch (final WebDriverException e) {
+				throw new WebDriverException(
+					String.format("The %s field [%s] (element = [%s]) could not be set to [%s] at this time",
+						field.fieldType.name(), field.label, element, value),
+					e);
+			}
 		}
 
 		public static final FieldType parse(String type) {
