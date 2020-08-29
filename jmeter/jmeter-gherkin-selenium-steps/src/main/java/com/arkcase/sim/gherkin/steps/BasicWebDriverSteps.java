@@ -32,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.Objects;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -140,37 +141,80 @@ public class BasicWebDriverSteps extends WebDriverClient {
 		getBrowser().manage().window().fullscreen();
 	}
 
-	@Given("the browser size is $width x $height")
-	@When("setting the browser size to $width x $height")
-	@Then("set the browser size to $width x $height")
-	public void setBrowserResolution(@Named("width") int width, @Named("height") int height) {
+	private void checkOrSetBrowserSize(int width, int height, boolean set) {
 		if (width <= 0) { throw new IllegalArgumentException("The width may not be <= 0 (" + width + ")"); }
 		if (height <= 0) { throw new IllegalArgumentException("The height may not be <= 0 (" + height + ")"); }
-		getBrowser().manage().window().setSize(new Dimension(width, height));
+		Window window = getBrowser().manage().window();
+		Dimension actual = window.getSize();
+		Dimension requested = new Dimension(width, height);
+		if (set) {
+			window.setSize(requested);
+			actual = window.getSize();
+		}
+		if (!Objects.equals(requested, actual)) {
+			throw new RuntimeException(String.format("Requested dimensions of %s but got %s", requested, actual));
+		}
+	}
+
+	@Given("the browser size is $width x $height")
+	public void checkBrowserSize(@Named("width") int width, @Named("height") int height) {
+		checkOrSetBrowserSize(width, height, false);
+	}
+
+	@Then("set the browser size to $width x $height")
+	public void setBrowserSize(@Named("width") int width, @Named("height") int height) {
+		checkOrSetBrowserSize(width, height, true);
+	}
+
+	private void checkOrSetBrowserWidth(int width, boolean set) {
+		if (width <= 0) { throw new IllegalArgumentException("The width may not be <= 0 (" + width + ")"); }
+		Window window = getBrowser().manage().window();
+		Dimension actual = window.getSize();
+		Dimension requested = new Dimension(width, actual.getHeight());
+		if (set) {
+			window.setSize(requested);
+			actual = window.getSize();
+		}
+		if (!Objects.equals(requested, actual)) {
+			throw new RuntimeException(String.format("Requested a width of %d but got %d", width, actual.getWidth()));
+		}
 	}
 
 	@Given("the browser width is $width")
-	@When("setting the browser width to $width")
+	public void checkBrowserWidth(@Named("width") int width) {
+		checkOrSetBrowserWidth(width, false);
+	}
+
 	@Then("set the browser width to $width")
 	public void setBrowserWidth(@Named("width") int width) {
-		if (width <= 0) { throw new IllegalArgumentException("The width may not be <= 0 (" + width + ")"); }
-		Window w = getBrowser().manage().window();
-		Dimension d = w.getSize();
-		w.setSize(new Dimension(width, d.getHeight()));
+		checkOrSetBrowserWidth(width, true);
+	}
+
+	private void checkOrSetBrowserHeight(int height, boolean set) {
+		if (height <= 0) { throw new IllegalArgumentException("The height may not be <= 0 (" + height + ")"); }
+		Window window = getBrowser().manage().window();
+		Dimension actual = window.getSize();
+		Dimension requested = new Dimension(actual.getWidth(), height);
+		if (set) {
+			window.setSize(requested);
+			actual = window.getSize();
+		}
+		if (!Objects.equals(requested, actual)) {
+			throw new RuntimeException(
+				String.format("Requested a height of %d but got %d", height, actual.getHeight()));
+		}
 	}
 
 	@Given("the browser height is $height")
-	@When("setting the browser height to $height")
-	@Then("set the browser height to $height")
-	public void setBrowserHeight(@Named("height") int height) {
-		if (height <= 0) { throw new IllegalArgumentException("The height may not be <= 0 (" + height + ")"); }
-		Window w = getBrowser().manage().window();
-		Dimension d = w.getSize();
-		w.setSize(new Dimension(d.getWidth(), height));
+	public void checkBrowserHeight(@Named("height") int height) {
+		checkOrSetBrowserHeight(height, false);
 	}
 
-	@Given("the browser position is ($x, $y)")
-	@When("setting the browser position to ($x, $y)")
+	@Then("set the browser height to $height")
+	public void setBrowserHeight(@Named("height") int height) {
+		checkOrSetBrowserHeight(height, true);
+	}
+
 	@Then("set the browser position to ($x, $y)")
 	public void setBrowserPosition(@Named("x") int x, @Named("y") int y) {
 		Window w = getBrowser().manage().window();
