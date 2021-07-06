@@ -6,7 +6,7 @@
 	<name>Armedia ArkCase JMeter Gherkin+Selenium Step Implementations</name>
 	<description>A set of utility classes that will provide Gherkin step implementations for use in JMeter</description>
 	<groupId>com.armedia.arkcase</groupId>
-	<artifactId>jmeter-gherkin-arkcase-steps</artifactId>
+	<artifactId>jmeter-plugins-gherkin-steps-arkcase</artifactId>
 	<version>1.0.0</version>
 	<packaging>jar</packaging>
 	<inceptionYear>2020</inceptionYear>
